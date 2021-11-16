@@ -20,7 +20,7 @@
     <div class="download-wrap">
       <template v-for="item in downloadList">
         <div v-if="showDownloadItem(item)" :key="`download-btn-${item.type}`" class="download-container">
-          <button :id="item.type" class="download-btn" @click="handleDownload(item)">
+          <button :id="item.type" class="download-btn" @click="handleClick(item)">
             {{ item.text }}
           </button>
         </div>
@@ -47,6 +47,8 @@ import { Options, Vue } from 'vue-class-component';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { SwiperOptions } from 'swiper';
 import { ICommonConfig } from '../../../lib/interface';
+import { isMobile } from '../../../lib/isMobile';
+
 interface DownloadItem {
   show: boolean;
   text: string;
@@ -116,7 +118,13 @@ export default class HomePorn1 extends Vue {
   isDownloading = false;
 
   created() {
-    // console.log('home');
+    console.log('isMobile:', isMobile());
+
+    if (isMobile()) {
+      this.$router.push('/download');
+    } else {
+      this.$router.push('/pc');
+    }
   }
 
   mounted() {
@@ -139,7 +147,22 @@ export default class HomePorn1 extends Vue {
     }
   }
 
+  handleClick(target: DownloadItem) {
+    switch (target.platform) {
+      case 'ios':
+      case 'android':
+      case 'pwa':
+      case 'hide':
+        this.handleDownload(target);
+        return;
+      case 'h5':
+        this.linkTo(target.type);
+        return;
+    }
+  }
+
   handleDownload(target: DownloadItem): void {
+    console.log(this.downloadConfig);
     const bundleID = this.downloadConfig[target.platform as keyof IDownloadConfig].bundleID;
     let platform = '';
     switch (target.platform) {
@@ -233,7 +256,7 @@ export default class HomePorn1 extends Vue {
   position: relative;
   text-align: center;
   justify-content: center;
-  width: 90%;
+  width: 100%;
 }
 
 .download-btn {

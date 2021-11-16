@@ -32,10 +32,10 @@ export const actions = {
             dispatch('getHostnames');
 
             // gtag
-            const gtm = document.createElement('script');
-            gtm.setAttribute('async', 'true');
-            gtm.setAttribute('src', `https://www.googletagmanager.com/gtag/js?id=UA-132265281-13`);
-            document.body.append(gtm);
+            // const gtm = document.createElement('script');
+            // gtm.setAttribute('async', 'true');
+            // gtm.setAttribute('src', `https://www.googletagmanager.com/gtag/js?id=UA-132265281-13`);
+            // document.body.append(gtm);
           }
 
           return;
@@ -68,6 +68,7 @@ export const actions = {
           const result = res.data.data;
           commit(Types.SET_MEM_INFO, result);
         }
+        return res;
       })
       .catch(err => {
         const response = err && err.response;
@@ -232,18 +233,26 @@ export const actions = {
   },
 
   actionLinkTo({ state }: { state: State }, target = ''): any {
-    console.log(target);
     switch (target) {
+      // 客端靜態客服頁面
       case 'clientService':
-        console.log(state);
         if (state.hostnames && state.hostnames[0]) {
           window.location.href = `https://${state.hostnames[0]}/custom/service`;
         }
         break;
 
+      // 客端客服連結
       case 'serviceUrl':
         if (state.commonList && state.commonList.on_service_url) {
           window.location.href = state.commonList.on_service_url;
+        }
+        break;
+
+      // 客端去逛逛
+      case 'visit':
+        if (state.hostnames && state.hostnames[0]) {
+          const agentCode = ''; // 推廣代碼
+          window.location.href = `https://${state.hostnames[0]}${agentCode ? `/a/${agentCode}` : ''}`;
         }
         break;
     }

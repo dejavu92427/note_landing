@@ -1,5 +1,4 @@
 import { RouteRecordRaw } from 'vue-router';
-import { isMobile } from '@/lib/isMobile';
 
 export const Sg1Router: RouteRecordRaw = {
   path: '/',
@@ -17,13 +16,7 @@ export const Sg1Router: RouteRecordRaw = {
       path: 'pc/:type?',
       alias: '',
       name: 'pc',
-      beforeEnter: (to, from, next) => {
-        if (isMobile()) {
-          next('/download');
-        } else {
-          next('/pc');
-        }
-      },
+      beforeEnter: (to, from, next) => {},
       component: () => import('../../views/porn1/pc/index.vue')
     },
     {

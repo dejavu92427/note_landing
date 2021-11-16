@@ -11,29 +11,22 @@ import { Options, Vue } from 'vue-class-component';
   beforeRouteEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) {
     (async () => {
       try {
-        // 取得webserver該廳設定
+        // 取得廳設定
         await store.dispatch('initSiteInfo');
 
-        // 取得廳設定
-        store.dispatch('getCommonList');
-        store.dispatch('getHostnames');
-
-        // 取得下載設定
-        // store.d ispatch('getLCFSystemConfig');
-
         await store.dispatch('getPlayer').then(response => {
-          // 取得廳設定
-          if (response && response.data) {
+          if (response && response.data.status !== '000') {
             switch (response.data.code) {
-              case 'M00001':
-                return;
-              default:
+              case 'M00002':
                 next('/upup');
                 return;
+              default:
+                break;
             }
+          } else {
+            next();
           }
         });
-        next();
       } catch (e) {
         console.log(e);
         next('/upup');
@@ -41,7 +34,9 @@ import { Options, Vue } from 'vue-class-component';
     })();
   }
 })
-export default class RootMobile extends Vue {}
+export default class RootMobile extends Vue {
+  created() {}
+}
 </script>
 <style lang="scss">
 @import url('../assets/css/mobile/index.scss');

@@ -40,28 +40,27 @@ import { store } from '../../store';
   beforeRouteEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) {
     (async () => {
       try {
-        // 取得webserver該廳設定
-        await store.dispatch('initSiteInfo');
-
-        // 取得下載設定
-        // store.d ispatch('getLCFSystemConfig');
-
         await store.dispatch('getPlayer').then(response => {
-          // 取得廳設定
-          if (response && response.data) {
+          if (response && response.data.status !== '000') {
             switch (response.data.code) {
-              case 'M00001':
+              case 'M00002':
+                next();
                 return;
               default:
-                next('/upup');
-                return;
+                // upup/test 測試模式
+                if (to.name === 'upup' && to.params.type && to.params.type === 'test') {
+                  next();
+                  return;
+                }
+                next();
+                break;
             }
+          } else {
+            next('/download');
           }
         });
-        next();
       } catch (e) {
-        console.log(e);
-        next('/upup');
+        next();
       }
     })();
   }
@@ -75,9 +74,11 @@ export default class HomePorn1 extends Vue {
   maintainTime = '00:00 - 00:00';
 
   created() {
-    console.log(this.$route.params);
+    console.log('upup ', this.siteConfig);
     if (this.$route.params && this.$route.params.type !== 'test') {
-      this.getPlayer();
+      // this.getPlayer().then(response => {
+      //   console.log(response);
+      // });
     }
   }
 

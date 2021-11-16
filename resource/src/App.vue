@@ -3,28 +3,27 @@
 </template>
 
 <script lang="ts">
-import { IMemInfo } from './lib/interface';
 import { Vue } from 'vue-class-component';
-import { Getter, Action } from 'vuex-class';
+import { Action } from 'vuex-class';
 
 export default class App extends Vue {
   @Action('getPlayer') getPlayer!: Function;
-  @Getter('getPlayer') memInfo!: IMemInfo;
-  time: Date | undefined;
 
-  data() {
-    return {
-      time: new Date()
-    };
-  }
+  // time: Date | undefined;
 
-  // computed
+  // data() {
+  //   return {
+  //     time: new Date()
+  //   };
+  // }
+
+  // computed;
   get dateTime() {
-    return this.time?.toDateString();
+    return new Date().toUTCString();
   }
 
   created() {
-    console.log(this.dateTime);
+    console.log('APP:', this.dateTime);
   }
 }
 </script>
@@ -39,3 +38,5 @@ body {
   margin: 0 auto !important;
 }
 </style>
+
+function isMobile() { throw new Error('Function not implemented.'); } function isMobile() { throw new Error('Function not implemented.'); }

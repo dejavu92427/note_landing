@@ -7,6 +7,13 @@
     "GOLANG_API_DOMAIN": "https://yaboapi.bbin-asia.com/api-v2"
   },
   {
+    "DOMAIN": "500023",
+    "ROUTER_TPL": "porn1",
+    "THEME_TPL": "porn1",
+    "SITE_NAME": "币发BIFA",
+    "GOLANG_API_DOMAIN": "https://yaboapi.bbin-asia.com/api-v2"
+  },
+  {
     "DOMAIN": "500035",
     "ROUTER_TPL": "sg1",
     "THEME_TPL": "sg1",
