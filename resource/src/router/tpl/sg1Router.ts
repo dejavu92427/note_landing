@@ -16,7 +16,6 @@ export const Sg1Router: RouteRecordRaw = {
       path: 'pc/:type?',
       alias: '',
       name: 'pc',
-      beforeEnter: (to, from, next) => {},
       component: () => import('../../views/porn1/pc/index.vue')
     },
     {

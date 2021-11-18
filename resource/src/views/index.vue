@@ -35,7 +35,7 @@ import { Options, Vue } from 'vue-class-component';
   }
 })
 export default class RootMobile extends Vue {
-  created() {}
+  // created() {}
 }
 </script>
 <style lang="scss">

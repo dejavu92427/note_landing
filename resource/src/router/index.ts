@@ -20,7 +20,11 @@ const routes: Array<RouteRecordRaw> = [
         localStorage.setItem('code', code);
       }
 
-      next('/download');
+      if (to.name === 'Home') {
+        next('download');
+      } else {
+        next();
+      }
     },
     children: [
       {

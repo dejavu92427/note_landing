@@ -41,18 +41,19 @@ import { store } from '../../store';
     (async () => {
       try {
         await store.dispatch('getPlayer').then(response => {
+          // upup/test 測試模式
+          if (to.name === 'upup' && to.params.type && to.params.type === 'test') {
+            next();
+            return;
+          }
+
           if (response && response.data.status !== '000') {
             switch (response.data.code) {
               case 'M00002':
                 next();
                 return;
               default:
-                // upup/test 測試模式
-                if (to.name === 'upup' && to.params.type && to.params.type === 'test') {
-                  next();
-                  return;
-                }
-                next();
+                next('/');
                 break;
             }
           } else {

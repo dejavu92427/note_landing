@@ -5,10 +5,9 @@ export const Porn1Router: RouteRecordRaw = {
   component: () => import('../../views/index.vue'),
   children: [
     {
-      // home
       path: 'download/:type?',
       alias: '',
-      name: 'home',
+      name: 'download',
       component: () => import('../../views/porn1/download/index.vue')
     },
     {
