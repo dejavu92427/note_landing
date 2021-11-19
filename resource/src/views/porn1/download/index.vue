@@ -222,6 +222,8 @@ export default class HomePorn1 extends Vue {
 </script>
 
 <style lang="scss">
+@import url('~@/assets/css/mobile/index.scss');
+
 .container {
   position: relative;
   font-size: 14px;

@@ -32,10 +32,12 @@ export const actions = {
             dispatch('getHostnames');
 
             // gtag
-            // const gtm = document.createElement('script');
-            // gtm.setAttribute('async', 'true');
-            // gtm.setAttribute('src', `https://www.googletagmanager.com/gtag/js?id=UA-132265281-13`);
-            // document.body.append(gtm);
+            if (process.env.NODE_ENV === 'production' && targetSite.PROD) {
+              const gtm = document.createElement('script');
+              gtm.setAttribute('async', 'true');
+              gtm.setAttribute('src', `https://www.googletagmanager.com/gtag/js?id=UA-132265281-13`);
+              document.body.append(gtm);
+            }
           }
 
           return;

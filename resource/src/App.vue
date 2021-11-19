@@ -28,15 +28,5 @@ export default class App extends Vue {
 }
 </script>
 <style lang="scss">
-body {
-  max-width: 420px;
-  min-width: 0;
-  height: 100%;
-  width: 100%;
-  padding: 0;
-  border: none;
-  margin: 0 auto !important;
-}
+@import url('~@/assets/css/index.scss');
 </style>
-
-function isMobile() { throw new Error('Function not implemented.'); } function isMobile() { throw new Error('Function not implemented.'); }

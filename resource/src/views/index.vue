@@ -38,6 +38,4 @@ export default class RootMobile extends Vue {
   // created() {}
 }
 </script>
-<style lang="scss">
-@import url('../assets/css/mobile/index.scss');
-</style>
+<style lang="scss"></style>

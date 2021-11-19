@@ -20,7 +20,8 @@ export const state: State = {
     routerTpl: '',
     themtTpl: '',
     siteName: '',
-    golangApiDomain: ''
+    golangApiDomain: '',
+    pord: false
   },
   commonList: {
     on_service_url: ''
