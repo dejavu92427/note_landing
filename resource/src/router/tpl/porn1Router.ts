@@ -12,16 +12,22 @@ export const Porn1Router: RouteRecordRaw = {
     },
     {
       // pc
-      path: 'pc/:type?',
+      path: 'pc/:code?',
       alias: '',
       name: 'pc',
-      // beforeEnter: (to, from, next) => {
-      //   if (isMobile()) {
-      //     next('/download');
-      //   } else {
-      //     next('/pc');
-      //   }
-      // },
+      beforeEnter: (to, from, next) => {
+        if (to.query && to.query.code) {
+          const code = to.query.code.toString();
+          localStorage.setItem('code', code);
+        }
+
+        if (to.query && to.query.a) {
+          const code = to.query.a.toString();
+          localStorage.setItem('code', code);
+        }
+
+        next();
+      },
       component: () => import('../../views/porn1/pc/index.vue')
     },
     {

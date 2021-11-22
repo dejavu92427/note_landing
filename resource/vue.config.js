@@ -1,4 +1,6 @@
 /* global __webpack_public_path__:writable */
+/* eslint-disable */
+
 const proxy = require('./config/proxy.index');
 const pwaConfig = require('./config/pwa.config');
 const path = require('path');
@@ -156,15 +158,15 @@ module.exports = {
     //     disable: process.env.NODE_ENV === 'production' ? false : true,
     //   });
     // // 更改路徑名為 img/(各資料夾名稱)/(資料夾底下圖片)
-    config.module
-      .rule('images')
-      .use('url-loader')
-      .loader('url-loader')
-      .tap(options => {
-        // options.fallback.options.name = 'img/[name]/[hash:8].[ext]';
-        // 'https://ya.jingliangjiu.cn/static/image/porn1/common/logo.png?v=36612412.1';
-        // options.publicPath = process.env.NODE_ENV === 'production' ? __webpack_public_path__ : '';
-        return options;
-      });
+    // config.module
+    //   .rule('images')
+    //   .use('url-loader')
+    //   .loader('url-loader')
+    //   .tap(options => {
+    // options.fallback.options.name = 'img/[name]/[hash:8].[ext]';
+    // 'https://ya.jingliangjiu.cn/static/image/porn1/common/logo.png?v=36612412.1';
+    // options.publicPath = process.env.NODE_ENV === 'production' ? __webpack_public_path__ : '';
+    //   return options;
+    // });
   }
 };

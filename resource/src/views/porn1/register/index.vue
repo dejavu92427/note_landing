@@ -9,10 +9,6 @@ import RegisterTpl from '../../common/register.vue';
 @Options({
   components: {
     register: RegisterTpl
-  },
-  computed: {},
-  created() {
-    console.log('RegisterTpl');
   }
 })
 export default class RegisterPorn1 extends Vue {}

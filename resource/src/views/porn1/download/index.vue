@@ -162,7 +162,6 @@ export default class HomePorn1 extends Vue {
   }
 
   handleDownload(target: DownloadItem): void {
-    console.log(this.downloadConfig);
     const bundleID = this.downloadConfig[target.platform as keyof IDownloadConfig].bundleID;
     let platform = '';
     switch (target.platform) {

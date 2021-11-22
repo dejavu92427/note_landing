@@ -21,8 +21,7 @@ function getCDNHost() {
       window.SITE_DOMAIN = data.domain;
       window.CDN = '';
 
-      const path = cdnHost ? `https://${cdnHost}/` : '/';
-      // const path = '';
+      const path = cdnHost ? `https://${cdnHost}/` : '';
 
       if (!isDev) {
         window.CDN = path;

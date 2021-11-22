@@ -17,8 +17,8 @@ Vue.registerHooks(['beforeRouteEnter', 'beforeRouteLeave', 'beforeRouteUpdate'])
 //     $getCDNPath: any;
 //   }
 // }
-// Vue.prototype.$getCDNPath = function() {};
 
+// Vue.prototype.$getCDNPath = function() {};
 createApp(App)
   .use(store)
   .use(router)
