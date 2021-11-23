@@ -1,4 +1,4 @@
-import { ICommonConfig, IDownloadConfig, IMemInfo, ISiteConfig } from '../lib/interface'; // --> OFF
+import { ICommonConfig, IDownloadConfig, IMemInfo, ISiteConfig } from '../lib/interface';
 
 /* eslint-disable */
 
@@ -23,10 +23,17 @@ export const state: State = {
     golangApiDomain: '',
     pord: false
   },
+  // 前端網站配置客服連結
   commonList: {
     on_service_url: ''
   },
+  // 下載開關
   downloadConfig: {
+    h5: {
+      show: false,
+      uri: '',
+      bundleID: ''
+    },
     pwa: {
       show: false,
       uri: '',
@@ -48,6 +55,7 @@ export const state: State = {
       bundleID: ''
     }
   },
+  // 客端網址
   hostnames: [],
   version: {}
 };

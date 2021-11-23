@@ -167,6 +167,11 @@ export const actions = {
           const result: any[] = res.data.data;
 
           let downloadConfig: IDownloadConfig = {
+            h5: {
+              show: false,
+              uri: '',
+              bundleID: ''
+            },
             pwa: {
               show: false,
               uri: '',
@@ -206,6 +211,11 @@ export const actions = {
           downloadConfig.pwa.bundleID = result.find(item => {
             return item.name === 'bbosApiPWABundleID';
           }).value;
+
+          downloadConfig.h5.show =
+            result.find(item => {
+              return item.name === 'showVisit';
+            }).value === 'true';
 
           downloadConfig.android.show =
             result.find(item => {

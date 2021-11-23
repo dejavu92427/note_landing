@@ -19,10 +19,22 @@
 
     <div class="download-wrap">
       <template v-for="item in downloadList">
-        <div v-if="showDownloadItem(item)" :key="`download-btn-${item.type}`" class="download-container">
-          <button :id="item.type" class="download-btn" @click="handleClick(item)">
+        <div
+          v-if="showDownloadItem(item) && (item.type === 'visit' || !isDownloading || (item.platform === 'ios' && isDownloading))"
+          :key="`download-btn-${item.type}`"
+          :class="`download-container ${item.platform === 'ios' && isDownloading ? 'downloading' : ''}`"
+        >
+          <button v-if="item.type === 'visit' || !isDownloading" :id="item.type" :class="`download-btn`" @click="handleClick(item)">
             {{ item.text }}
           </button>
+
+          <template v-if="item.platform === 'ios' && isDownloading">
+            <div id="circle-progess" :class="`progress`" />
+
+            <div id="trust-btn" :class="`download-btn ${isDownloading ? 'downloading' : ''}`" @click="handleClick(item)">
+              {{ downloadText }}
+            </div>
+          </template>
         </div>
       </template>
     </div>
@@ -42,12 +54,13 @@
 
 <script lang="ts">
 import { Getter, Action } from 'vuex-class';
+import { ICommonConfig } from '../../../lib/interface';
 import { IDownloadConfig, ISiteConfig } from '../../../lib/interface';
+import { isMobile } from '../../../lib/isMobile';
 import { Options, Vue } from 'vue-class-component';
+import ProgressBar from 'progressbar.js';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { SwiperOptions } from 'swiper';
-import { ICommonConfig } from '../../../lib/interface';
-import { isMobile } from '../../../lib/isMobile';
 
 interface DownloadItem {
   show: boolean;
@@ -115,7 +128,15 @@ export default class HomePorn1 extends Vue {
   swiperOpts: SwiperOptions = {
     loop: true
   };
+
+  isDownloadPub = false;
   isDownloading = false;
+  progessDone = false;
+  downloadText = '正在下载...'; // 一键信任
+
+  beforeUnmount() {
+    // window.removeEventListener('focus');
+  }
 
   created() {
     console.log('isMobile:', isMobile());
@@ -140,16 +161,18 @@ export default class HomePorn1 extends Vue {
   }
 
   showDownloadItem(target: DownloadItem): boolean {
-    if (target.type === 'visit') {
-      return true;
-    } else {
-      return this.downloadConfig[target.platform as keyof IDownloadConfig].show;
-    }
+    return this.downloadConfig[target.platform as keyof IDownloadConfig].show;
   }
 
   handleClick(target: DownloadItem) {
+    console.log(target, this.progessDone);
+
     switch (target.platform) {
       case 'ios':
+        if (this.progessDone) {
+          this.downloadPubMobile();
+          return;
+        }
       case 'android':
       case 'pwa':
       case 'hide':
@@ -162,11 +185,40 @@ export default class HomePorn1 extends Vue {
   }
 
   handleDownload(target: DownloadItem): void {
+    if (this.isDownloading) {
+      return;
+    }
+
+    this.isDownloading = true;
     const bundleID = this.downloadConfig[target.platform as keyof IDownloadConfig].bundleID;
     let platform = '';
     switch (target.platform) {
       case 'ios':
-        platform = '1';
+        {
+          platform = '1';
+          const _this = this;
+          this.$nextTick(() => {
+            const circle = new ProgressBar.Circle('#circle-progess', {
+              strokeWidth: 3,
+              easing: 'linear',
+              duration: 1500,
+              color: '#3354ad',
+              trailColor: '#e6e1dc',
+              trailWidth: 3,
+              svgStyle: null,
+              step: function(e, t) {
+                const r = Math.round(100 * t.value());
+                t.setText(r + '%');
+                if (r === 100) {
+                  document.getElementById('trust-btn')?.setAttribute('style', 'opacity:1');
+                  _this.progessDone = true;
+                  _this.downloadText = '一键信任';
+                }
+              }
+            });
+            circle.animate(1);
+          });
+        }
         break;
       case 'pwa':
         platform = '2';
@@ -200,21 +252,30 @@ export default class HomePorn1 extends Vue {
     a.href = href;
     document.body.appendChild(a);
     a.click();
-    document.body.removeChild(a);
 
     // 強制二次下載跳轉描述檔確認頁
     switch (platform) {
-      case 'ios':
       case 'pwa': {
-        const focusHandler = () => {
-          if (this.isDownloading) return;
-          this.isDownloading = true;
-          window.location.href = './pub.mobileprovision';
-        };
-
-        window.addEventListener('focus', focusHandler);
+        this.isDownloading = false;
+        this.downloadPubMobile(false);
         return;
       }
+    }
+    document.body.removeChild(a);
+  }
+
+  downloadPubMobile(isIos = true) {
+    if (isIos) {
+      window.location.href = './pub.mobileprovision';
+    } else {
+      const focusHandler = () => {
+        if (this.isDownloadPub) return;
+        this.isDownloadPub = true;
+        window.location.href = './pub.mobileprovision';
+        window.removeEventListener('focus', focusHandler);
+      };
+
+      window.addEventListener('focus', focusHandler);
     }
   }
 }
@@ -258,6 +319,10 @@ export default class HomePorn1 extends Vue {
   text-align: center;
   justify-content: center;
   width: 100%;
+
+  &.downloading {
+    width: 200%;
+  }
 }
 
 .download-btn {
@@ -277,6 +342,35 @@ export default class HomePorn1 extends Vue {
   text-decoration: none;
   text-decoration: none;
   width: 90%;
+}
+
+#trust-btn {
+  opacity: 0.5;
+  color: white;
+  line-height: 36px;
+  width: 100%;
+  margin: 0 12px;
+}
+
+.progress {
+  display: flex;
+  position: relative;
+  text-align: center;
+  justify-content: center;
+  width: 100%;
+  height: 36px;
+}
+
+#circle-progess {
+  width: 36px;
+  height: 36px;
+}
+
+.progressbar-text {
+  width: 100%;
+  text-align: center;
+  font-size: 12px;
+  color: #3354ad !important;
 }
 
 .donwload-tip {
