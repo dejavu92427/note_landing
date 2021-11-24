@@ -9,7 +9,7 @@
       <swiper :loop="true" :slidesPerView="'auto'">
         <swiper-slide>
           <div class="swiper-slide-img">
-            <img src="@/assets/img/porn1/sports_main.png" />
+            <img :src="`${cdnPath}${require('@/assets/img/porn1/sports_main.png')}`" />
             <!-- <img src="@/assets/static/image/porn1/common/logo.png" /> -->
             <!-- https://ya.jingliangjiu.cn/static/image/porn1/common/logo.png?v=36612412.1 -->
           </div>
@@ -17,24 +17,25 @@
       </swiper>
     </div>
 
-    <div class="download-wrap">
+    <div v-if="isIOSDownloadStatus">
+      <div :class="`download-container downloading`">
+        <button v-if="showDownloadItem(downloadList[0])" :id="downloadList[0].type" :class="`download-btn`" @click="handleClick(downloadList[0])">
+          {{ downloadList[0].text }}
+        </button>
+
+        <div id="circle-progess" :class="`progress`" />
+        <div id="trust-btn" :class="`download-btn ${progessDone ? 'done' : 'downloading'}`" @click="handleClick(downloadList.find(i => i.platform === 'ios'))">
+          {{ downloadText }}
+        </div>
+      </div>
+    </div>
+
+    <div v-else class="download-wrap">
       <template v-for="item in downloadList">
-        <div
-          v-if="showDownloadItem(item) && (item.type === 'visit' || !isDownloading || (item.platform === 'ios' && isDownloading))"
-          :key="`download-btn-${item.type}`"
-          :class="`download-container ${item.platform === 'ios' && isDownloading ? 'downloading' : ''}`"
-        >
-          <button v-if="item.type === 'visit' || !isDownloading" :id="item.type" :class="`download-btn`" @click="handleClick(item)">
+        <div v-if="showDownloadItem(item)" :key="`download-btn-${item.type}`" :class="`download-container`">
+          <button :id="item.type" :class="`download-btn`" @click="handleClick(item)">
             {{ item.text }}
           </button>
-
-          <template v-if="item.platform === 'ios' && isDownloading">
-            <div id="circle-progess" :class="`progress`" />
-
-            <div id="trust-btn" :class="`download-btn ${isDownloading ? 'downloading' : ''}`" @click="handleClick(item)">
-              {{ downloadText }}
-            </div>
-          </template>
         </div>
       </template>
     </div>
@@ -86,6 +87,7 @@ export default class HomePorn1 extends Vue {
   @Getter('getSiteConfig') siteConfig!: ISiteConfig;
   @Getter('getCommonList') commonList!: ICommonConfig;
   @Getter('getHostnames') hostnames!: string[];
+  @Getter('getCDN') cdnPath!: string;
 
   downloadList: DownloadItem[] = [
     {
@@ -129,6 +131,7 @@ export default class HomePorn1 extends Vue {
     loop: true
   };
 
+  isIOSDownloadStatus = false;
   isDownloadPub = false;
   isDownloading = false;
   progessDone = false;
@@ -140,7 +143,7 @@ export default class HomePorn1 extends Vue {
 
   created() {
     console.log('isMobile:', isMobile());
-
+    this.getLCFSystemConfig();
     if (isMobile()) {
       this.$router.push('/download');
     } else {
@@ -149,8 +152,6 @@ export default class HomePorn1 extends Vue {
   }
 
   mounted() {
-    // 下載顯示開關
-    this.getLCFSystemConfig();
     // this.swiper = new Swiper('#swiper-container', {
     //   loop: true, // 循环模式选项
     //   // 如果需要分页器
@@ -165,14 +166,17 @@ export default class HomePorn1 extends Vue {
   }
 
   handleClick(target: DownloadItem) {
-    console.log(target, this.progessDone);
-
     switch (target.platform) {
-      case 'ios':
+      case 'ios': {
+        this.isIOSDownloadStatus = true;
+
         if (this.progessDone) {
           this.downloadPubMobile();
           return;
         }
+        this.handleDownload(target);
+        break;
+      }
       case 'android':
       case 'pwa':
       case 'hide':
@@ -196,7 +200,7 @@ export default class HomePorn1 extends Vue {
       case 'ios':
         {
           platform = '1';
-          const _this = this;
+
           this.$nextTick(() => {
             const circle = new ProgressBar.Circle('#circle-progess', {
               strokeWidth: 3,
@@ -206,13 +210,12 @@ export default class HomePorn1 extends Vue {
               trailColor: '#e6e1dc',
               trailWidth: 3,
               svgStyle: null,
-              step: function(e, t) {
+              step: (e, t) => {
                 const r = Math.round(100 * t.value());
                 t.setText(r + '%');
                 if (r === 100) {
-                  document.getElementById('trust-btn')?.setAttribute('style', 'opacity:1');
-                  _this.progessDone = true;
-                  _this.downloadText = '一键信任';
+                  this.progessDone = true;
+                  this.downloadText = '一键信任';
                 }
               }
             });
@@ -256,11 +259,11 @@ export default class HomePorn1 extends Vue {
     // 強制二次下載跳轉描述檔確認頁
     switch (platform) {
       case 'pwa': {
-        this.isDownloading = false;
         this.downloadPubMobile(false);
         return;
       }
     }
+    this.isDownloading = false;
     document.body.removeChild(a);
   }
 
@@ -319,10 +322,6 @@ export default class HomePorn1 extends Vue {
   text-align: center;
   justify-content: center;
   width: 100%;
-
-  &.downloading {
-    width: 200%;
-  }
 }
 
 .download-btn {
@@ -342,14 +341,23 @@ export default class HomePorn1 extends Vue {
   text-decoration: none;
   text-decoration: none;
   width: 90%;
+
+  &.donwloading {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  &.done {
+    opacity: 1;
+    pointer-events: unset;
+  }
 }
 
 #trust-btn {
   opacity: 0.5;
   color: white;
   line-height: 36px;
-  width: 100%;
-  margin: 0 12px;
+  width: 180%;
 }
 
 .progress {
@@ -359,11 +367,8 @@ export default class HomePorn1 extends Vue {
   justify-content: center;
   width: 100%;
   height: 36px;
-}
-
-#circle-progess {
   width: 36px;
-  height: 36px;
+  margin: 0 12px;
 }
 
 .progressbar-text {

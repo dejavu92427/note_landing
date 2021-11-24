@@ -66,10 +66,8 @@ export const actions = {
         }
       })
       .then(res => {
-        if (res && res.data && res.data.data && res.data.status === '000') {
-          const result = res.data.data;
-          commit(Types.SET_MEM_INFO, result);
-        }
+        const result = res.data.data;
+        commit(Types.SET_MEM_INFO, result);
         return res;
       })
       .catch(err => {
@@ -193,7 +191,6 @@ export const actions = {
               bundleID: ''
             }
           };
-
           downloadConfig.ios.show =
             result.find(i => {
               return i.name === 'showIPADownload';
@@ -212,10 +209,13 @@ export const actions = {
             return item.name === 'bbosApiPWABundleID';
           }).value;
 
-          downloadConfig.h5.show =
-            result.find(item => {
-              return item.name === 'showVisit';
-            }).value === 'true';
+          const showVisit = (downloadConfig.h5.show = result.find(item => {
+            return item.name === 'showVisit';
+          }));
+
+          if (showVisit) {
+            downloadConfig.h5.show = showVisit.value === 'true';
+          }
 
           downloadConfig.android.show =
             result.find(item => {
@@ -240,6 +240,7 @@ export const actions = {
       })
       .catch(err => {
         const response = err && err.response;
+        console.log(err);
         return response;
       });
   },

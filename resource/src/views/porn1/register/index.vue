@@ -1,15 +1,10 @@
-<template>
-  <register />
-</template>
+<template></template>
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import RegisterTpl from '../../common/register.vue';
 
 @Options({
-  components: {
-    register: RegisterTpl
-  }
+  components: {}
 })
 export default class RegisterPorn1 extends Vue {}
 </script>

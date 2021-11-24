@@ -13,11 +13,14 @@ import { Options, Vue } from 'vue-class-component';
       try {
         // 取得廳設定
         await store.dispatch('initSiteInfo');
-
         await store.dispatch('getPlayer').then(response => {
           if (response && response.data.status !== '000') {
             switch (response.data.code) {
               case 'M00002':
+                if (to.path === '/upup') {
+                  next();
+                  return;
+                }
                 next('/upup');
                 return;
               default:
@@ -29,7 +32,7 @@ import { Options, Vue } from 'vue-class-component';
         });
       } catch (e) {
         console.log(e);
-        next('/upup');
+        next('upup');
       }
     })();
   }

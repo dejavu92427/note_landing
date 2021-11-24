@@ -1,4 +1,5 @@
-export interface IMemInfo {
+export interface IPlayer {
+  extra?: { device: 0; domain: string; end_at: string; ip: string; start_at: string };
   user?: {
     alias: string;
     bankrupt: Boolean;

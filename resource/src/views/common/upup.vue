@@ -30,42 +30,10 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
-import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
+import { Vue } from 'vue-class-component';
 import { Getter, Action } from 'vuex-class';
 import { ISiteConfig } from '../../lib/interface';
-import { store } from '../../store';
 
-@Options({
-  beforeRouteEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) {
-    (async () => {
-      try {
-        await store.dispatch('getPlayer').then(response => {
-          // upup/test 測試模式
-          if (to.name === 'upup' && to.params.type && to.params.type === 'test') {
-            next();
-            return;
-          }
-
-          if (response && response.data.status !== '000') {
-            switch (response.data.code) {
-              case 'M00002':
-                next();
-                return;
-              default:
-                next('/');
-                break;
-            }
-          } else {
-            next('/download');
-          }
-        });
-      } catch (e) {
-        next();
-      }
-    })();
-  }
-})
 export default class HomePorn1 extends Vue {
   @Action('getPlayer') getPlayer!: Function;
   @Action('actionLinkTo') actionLinkTo!: Function;
@@ -75,12 +43,16 @@ export default class HomePorn1 extends Vue {
   maintainTime = '00:00 - 00:00';
 
   created() {
-    console.log('upup ', this.siteConfig);
-    if (this.$route.params && this.$route.params.type !== 'test') {
-      // this.getPlayer().then(response => {
-      //   console.log(response);
-      // });
-    }
+    this.getPlayer().then(res => {
+      if (res && res.status !== '000' && res.data.extra) {
+        const text = `${res.data.extra.start_at}${res.data.extra.end_at ? ` ~ ${res.data.extra.start_at}` : ''}`;
+        this.maintainTime = text;
+      }
+
+      if (this.$route.params.type !== 'test') {
+        this.$router.push('/download');
+      }
+    });
   }
 
   linkTo(): void {

@@ -1,4 +1,4 @@
-export { IMemInfo } from './member/MemInfo';
+export { IPlayer } from './member/Player';
 export { ISiteConfig } from './common/SiteConfig';
 export { IDownloadConfig } from './common/DownloadConfig';
 export { ICommonConfig } from './common/CommonList';

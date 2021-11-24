@@ -29,13 +29,6 @@ export const Porn1Router: RouteRecordRaw = {
         next();
       },
       component: () => import('../../views/porn1/pc/index.vue')
-    },
-    {
-      // 註冊
-      path: 'register/:tpye?',
-      alias: '',
-      name: 'register',
-      component: () => import('../../views/porn1/register/index.vue')
     }
   ]
 };

@@ -1,9 +1,9 @@
-import { ICommonConfig, IDownloadConfig, IMemInfo, ISiteConfig } from '../lib/interface';
+import { ICommonConfig, IDownloadConfig, IPlayer, ISiteConfig } from '../lib/interface';
 
 /* eslint-disable */
 
 export interface State {
-  memInfo: IMemInfo;
+  memInfo: IPlayer;
   siteConfig: ISiteConfig;
   cdn: string;
   downloadConfig: IDownloadConfig;
