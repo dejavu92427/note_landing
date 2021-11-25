@@ -20,6 +20,23 @@
     <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled.
         Please enable it to continue.</strong>
   </noscript>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      window.dataLayer.push(arguments);
+    }
+
+    window.SET_GTAG = function (id) {
+      gtag('js', new Date());
+      gtag('config', id);
+    }
+
+    window.SENT_GTAG = function (obj) {
+      const { event_category, event_label, value } = obj
+      console.log(obj.event, { event_category, event_label, value });
+      gtag("event", obj.event, { event_category, event_label, value });
+    }
+  </script>
   <div id="app"></div>
   <!-- built files will be auto injected -->
 </body>

@@ -5,7 +5,8 @@
     "THEME_TPL": "porn1",
     "SITE_NAME": "币发BIFA",
     "GOLANG_API_DOMAIN": "https://yaboapi.bbin-asia.com/api-v2",
-    "PROD": false
+    "PROD": false,
+    "GTAG_ID": "UA-132265281-13"
   },
   {
     "DOMAIN": "500023",
@@ -13,7 +14,8 @@
     "THEME_TPL": "ey1",
     "SITE_NAME": "亿元",
     "GOLANG_API_DOMAIN": "https://cxbb.bbin-asia.com/api-v2",
-    "PROD": false
+    "PROD": false,
+    "GTAG_ID": ""
   },
   {
     "DOMAIN": "500035",
@@ -21,7 +23,8 @@
     "THEME_TPL": "sg1",
     "SITE_NAME": "泡泡直播",
     "GOLANG_API_DOMAIN": "https://yaboapi.bbin-asia.com/api-v2",
-    "PROD": false
+    "PROD": false,
+    "GTAG_ID": ""
   },
   {
     "DOMAIN": "9999894",
@@ -29,7 +32,8 @@
     "THEME_TPL": "sg1",
     "SITE_NAME": "澳博国际",
     "GOLANG_API_DOMAIN": "https://yaboapi.bbin-asia.com/api-v2",
-    "PROD": false
+    "PROD": false,
+    "GTAG_ID": ""
   },
   {
     "DOMAIN": "9999905",
@@ -37,6 +41,7 @@
     "THEME_TPL": "porn1",
     "SITE_NAME": "51国际",
     "GOLANG_API_DOMAIN": "https://yaboapi.bbin-asia.com/api-v2",
-    "PROD": false
+    "PROD": false,
+    "GTAG_ID": ""
   }
 ]

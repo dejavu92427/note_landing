@@ -1,7 +1,5 @@
 import { ICommonConfig, IDownloadConfig, IPlayer, ISiteConfig } from '../lib/interface';
 
-/* eslint-disable */
-
 export interface State {
   memInfo: IPlayer;
   siteConfig: ISiteConfig;
@@ -21,41 +19,41 @@ export const state: State = {
     themtTpl: '',
     siteName: '',
     golangApiDomain: '',
-    pord: false
+    production: false,
   },
   // 前端網站配置客服連結
   commonList: {
-    on_service_url: ''
+    onServiceUrl: '',
   },
   // 下載開關
   downloadConfig: {
     h5: {
       show: false,
       uri: '',
-      bundleID: ''
+      bundleID: '',
     },
     pwa: {
       show: false,
       uri: '',
-      bundleID: ''
+      bundleID: '',
     },
     hide: {
       show: false,
       uri: '',
-      bundleID: ''
+      bundleID: '',
     },
     ios: {
       show: false,
       uri: '',
-      bundleID: ''
+      bundleID: '',
     },
     android: {
       show: false,
       uri: '',
-      bundleID: ''
-    }
+      bundleID: '',
+    },
   },
   // 客端網址
   hostnames: [],
-  version: {}
+  version: {},
 };

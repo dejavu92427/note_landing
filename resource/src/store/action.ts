@@ -4,39 +4,49 @@ import { State } from './state';
 import { Types } from './mutations_type';
 import axios from 'axios';
 import sitConfigJson from '../config/site.config.json';
+import versionJson from '../config/version.json';
 
-/* eslint-disable */
+declare global {
+  interface Window {
+    SITE_NAME: any;
+    SITE_DOMAIN: any;
+    CDN: string;
+    SET_GTAG: Function;
+    SENT_GTAG: Function;
+  }
+}
 export const actions = {
   // 網站初始化
   // /conf/domain nginx proxy
   initSiteInfo({ commit, dispatch }: { commit: Function; dispatch: Function }): any {
     return axios
       .get('/conf/domain')
-      .then(res => {
+      .then((res) => {
         if (res && res.data && res.status === 200) {
           const result: ISiteConfig = res.data;
-          const targetSite = sitConfigJson.find(i => i.DOMAIN === result.domain);
+          const targetSite = sitConfigJson.find((i) => i.DOMAIN === result.domain);
 
           if (targetSite) {
             commit(Types.SET_CDN, window.CDN);
             commit(Types.SET_SITE_CONFIG, targetSite);
 
             document.title = targetSite.SITE_NAME;
-            let link = document.createElement('link');
+            const link = document.createElement('link');
             link.rel = 'icon';
             document.getElementsByTagName('head')[0].appendChild(link);
-            link.href = '/img/porn1/favicon.ico';
+            link.href = `/img/${targetSite.SITE_NAME}/favicon.ico`;
 
             // 取得廳設定
             dispatch('getCommonList');
             dispatch('getHostnames');
-
+            commit(Types.SET_VERSION, versionJson.VERSION);
             // gtag
             if (process.env.NODE_ENV === 'production' && targetSite.PROD) {
               const gtm = document.createElement('script');
               gtm.setAttribute('async', 'true');
               gtm.setAttribute('src', `https://www.googletagmanager.com/gtag/js?id=UA-132265281-13`);
               document.body.append(gtm);
+              window.SET_GTAG(targetSite.GTAG_ID);
             }
           }
 
@@ -49,7 +59,7 @@ export const actions = {
           return;
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   },
@@ -59,18 +69,18 @@ export const actions = {
       .get(`${state.siteConfig.golangApiDomain}/xbb/Player`, {
         headers: {
           'x-domain': state.siteConfig.domain,
-          kind: 'h'
+          kind: 'h',
         },
         params: {
-          lang: 'zh-cn'
-        }
+          lang: 'zh-cn',
+        },
       })
-      .then(res => {
+      .then((res) => {
         const result = res.data.data;
         commit(Types.SET_MEM_INFO, result);
         return res;
       })
-      .catch(err => {
+      .catch((err) => {
         const response = err && err.response;
         return response;
       });
@@ -81,21 +91,21 @@ export const actions = {
       .get(`${state.siteConfig.golangApiDomain}/xbb/Domain/Hostnames/V2`, {
         headers: {
           'x-domain': state.siteConfig.domain,
-          kind: 'h'
+          kind: 'h',
         },
         params: {
           lang: 'zh-cn',
           clientType: 0,
-          withLevelHostname: true
-        }
+          withLevelHostname: true,
+        },
       })
-      .then(res => {
+      .then((res) => {
         if (res && res.data && res.data.data && res.data.status === '000') {
           const result = res.data.data;
           commit(Types.SET_HOSTNAME, result);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         const response = err && err.response;
         return response;
       });
@@ -106,110 +116,109 @@ export const actions = {
       .get(`${state.siteConfig.golangApiDomain}/xbb/Common/List`, {
         headers: {
           'x-domain': state.siteConfig.domain,
-          kind: 'h'
+          kind: 'h',
         },
         params: {
-          lang: 'zh-cn'
-        }
+          lang: 'zh-cn',
+        },
       })
-      .then(res => {
+      .then((res) => {
         if (res && res.data && res.data.data && res.data.status === '000') {
           const result = res.data.data;
           commit(Types.SET_COMMON_LIST, result);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         const response = err && err.response;
         return response;
       });
   },
 
-  getDownloadUri({ state, commit }: { state: State; commit: Function }, params: { bundleID: string; platform: string }): any {
-    console.log(params);
+  getDownloadUri({ state }: { state: State }, params: { bundleID: string; platform: string }): any {
     return axios
       .get(`${state.siteConfig.golangApiDomain}/xbb/App/Download`, {
         headers: {
           'x-domain': state.siteConfig.domain,
-          kind: 'h'
+          kind: 'h',
         },
         params: {
           lang: 'zh-cn',
           bundleID: params.bundleID,
-          platform: params.platform
-        }
+          platform: params.platform,
+        },
       })
-      .then(res => {
+      .then((res) => {
         if (res && res.data && res.data.data && res.data.status === '000') {
           return res.data.data.url;
         }
       })
-      .catch(err => {
+      .catch((err) => {
         const response = err && err.response;
         return response;
       });
   },
 
-  getLCFSystemConfig({ state, commit, dispatch }: { state: State; commit: Function; dispatch: Function }, data = 'lcf'): any {
+  getLCFSystemConfig({ state, commit }: { state: State; commit: Function }, data = 'lcf'): any {
     return axios
       .get(`${state.siteConfig.golangApiDomain}/cxbb/System/config/${data}`, {
         headers: {
           'x-domain': state.siteConfig.domain,
-          kind: 'h'
+          kind: 'h',
         },
         params: {
-          lang: 'zh-cn'
-        }
+          lang: 'zh-cn',
+        },
       })
-      .then(res => {
+      .then((res) => {
         if (res && res.data && res.data.data && res.data.status === '000') {
           const result: any[] = res.data.data;
 
-          let downloadConfig: IDownloadConfig = {
+          const downloadConfig: IDownloadConfig = {
             h5: {
               show: false,
               uri: '',
-              bundleID: ''
+              bundleID: '',
             },
             pwa: {
               show: false,
               uri: '',
-              bundleID: ''
+              bundleID: '',
             },
             hide: {
               show: false,
               uri: '',
-              bundleID: ''
+              bundleID: '',
             },
             ios: {
               show: false,
               uri: '',
-              bundleID: ''
+              bundleID: '',
             },
             android: {
               show: false,
               uri: '',
-              bundleID: ''
-            }
+              bundleID: '',
+            },
           };
           downloadConfig.ios.show =
-            result.find(i => {
+            result.find((i) => {
               return i.name === 'showIPADownload';
             }).value === 'true';
 
-          downloadConfig.ios.bundleID = result.find(item => {
+          downloadConfig.ios.bundleID = result.find((item) => {
             return item.name === 'bbosApiIOSBundleID';
           }).value;
 
           downloadConfig.pwa.show =
-            result.find(item => {
+            result.find((item) => {
               return item.name === 'showPWADownload';
             }).value === 'true';
 
-          downloadConfig.pwa.bundleID = result.find(item => {
+          downloadConfig.pwa.bundleID = result.find((item) => {
             return item.name === 'bbosApiPWABundleID';
           }).value;
 
-          const showVisit = (downloadConfig.h5.show = result.find(item => {
+          const showVisit = (downloadConfig.h5.show = result.find((item) => {
             return item.name === 'showVisit';
           }));
 
@@ -218,27 +227,27 @@ export const actions = {
           }
 
           downloadConfig.android.show =
-            result.find(item => {
+            result.find((item) => {
               return item.name === 'showAPKDownload';
             }).value === 'true';
 
-          downloadConfig.android.bundleID = result.find(item => {
+          downloadConfig.android.bundleID = result.find((item) => {
             return item.name === 'bbosApiAndBundleID';
           }).value;
 
           downloadConfig.hide.show =
-            result.find(item => {
+            result.find((item) => {
               return item.name === 'showStoreDownload';
             }).value === 'true';
 
-          downloadConfig.hide.bundleID = result.find(item => {
+          downloadConfig.hide.bundleID = result.find((item) => {
             return item.name === 'bbosApiMajaLink';
           }).value;
 
           commit(Types.SET_DOWNLOAD_CONIFG, downloadConfig);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         const response = err && err.response;
         console.log(err);
         return response;
@@ -256,8 +265,8 @@ export const actions = {
 
       // 客端客服連結
       case 'serviceUrl':
-        if (state.commonList && state.commonList.on_service_url) {
-          window.location.href = state.commonList.on_service_url;
+        if (state.commonList && state.commonList.onServiceUrl) {
+          window.location.href = state.commonList.onServiceUrl;
         }
         break;
 
@@ -269,5 +278,5 @@ export const actions = {
         }
         break;
     }
-  }
+  },
 };

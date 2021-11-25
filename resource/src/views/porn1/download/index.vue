@@ -24,7 +24,7 @@
         </button>
 
         <div id="circle-progess" :class="`progress`" />
-        <div id="trust-btn" :class="`download-btn ${progessDone ? 'done' : 'downloading'}`" @click="handleClick(downloadList.find(i => i.platform === 'ios'))">
+        <div id="trust-btn" :class="`download-btn ${progessDone ? 'done' : 'downloading'}`" @click="handleClick(downloadList.find((i) => i.platform === 'ios'))">
           {{ downloadText }}
         </div>
       </div>
@@ -50,32 +50,34 @@
         <a @click="linkTo('clientService')" class="link" target="_blank">请联系客服</a>
       </div>
     </div>
+
+    <div class="version">{{ verison }}</div>
   </div>
 </template>
 
 <script lang="ts">
 import { Getter, Action } from 'vuex-class';
+import { GTagItem, gtagList } from '../../../config/gtag.config';
 import { ICommonConfig } from '../../../lib/interface';
 import { IDownloadConfig, ISiteConfig } from '../../../lib/interface';
 import { isMobile } from '../../../lib/isMobile';
 import { Options, Vue } from 'vue-class-component';
-import ProgressBar from 'progressbar.js';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { SwiperOptions } from 'swiper';
+import ProgressBar from 'progressbar.js';
 
 interface DownloadItem {
   show: boolean;
   text: string;
   type: string;
   platform: string;
-  ga: string;
 }
 
 @Options({
   components: {
     swiper: Swiper,
-    swiperSlide: SwiperSlide
-  }
+    swiperSlide: SwiperSlide,
+  },
 })
 export default class HomePorn1 extends Vue {
   @Action('getPlayer') getPlayer!: Function;
@@ -88,6 +90,7 @@ export default class HomePorn1 extends Vue {
   @Getter('getCommonList') commonList!: ICommonConfig;
   @Getter('getHostnames') hostnames!: string[];
   @Getter('getCDN') cdnPath!: string;
+  @Getter('getVersion') version!: string;
 
   downloadList: DownloadItem[] = [
     {
@@ -95,40 +98,35 @@ export default class HomePorn1 extends Vue {
       text: '去逛逛',
       type: 'visit',
       platform: 'h5',
-      ga: ''
     },
     {
       show: false,
       text: '极速版下载',
       type: 'downloadPWA',
       platform: 'pwa',
-      ga: ''
     },
     {
       show: false,
       text: 'IOS版下载',
       type: 'downloadIOS',
       platform: 'ios',
-      ga: ''
     },
     {
       show: false,
       text: 'ANDROID版下载',
       type: 'downloadANDROID',
       platform: 'android',
-      ga: ''
-    }
+    },
     // {
     //   show: false,
     //   text: '隐藏版下载',
     //   type: '',
     //   platform:'',
-    //   ga: ''
     // }
   ];
   swiper: any = {};
   swiperOpts: SwiperOptions = {
-    loop: true
+    loop: true,
   };
 
   isIOSDownloadStatus = false;
@@ -136,6 +134,10 @@ export default class HomePorn1 extends Vue {
   isDownloading = false;
   progessDone = false;
   downloadText = '正在下载...'; // 一键信任
+
+  get verison() {
+    return this.version;
+  }
 
   beforeUnmount() {
     // window.removeEventListener('focus');
@@ -166,6 +168,7 @@ export default class HomePorn1 extends Vue {
   }
 
   handleClick(target: DownloadItem) {
+    this.sentGtag(target);
     switch (target.platform) {
       case 'ios': {
         this.isIOSDownloadStatus = true;
@@ -199,8 +202,6 @@ export default class HomePorn1 extends Vue {
     switch (target.platform) {
       case 'ios':
         {
-          platform = '1';
-
           this.$nextTick(() => {
             const circle = new ProgressBar.Circle('#circle-progess', {
               strokeWidth: 3,
@@ -217,11 +218,15 @@ export default class HomePorn1 extends Vue {
                   this.progessDone = true;
                   this.downloadText = '一键信任';
                 }
-              }
+              },
             });
-            circle.animate(1);
+
+            setTimeout(() => {
+              circle.animate(1);
+            }, 1000);
           });
         }
+        platform = '1';
         break;
       case 'pwa':
         platform = '2';
@@ -236,7 +241,7 @@ export default class HomePorn1 extends Vue {
 
     const params = {
       bundleID: bundleID,
-      platform: platform
+      platform: platform,
     };
 
     this.getDownloadUri(params).then((result: string) => {
@@ -260,10 +265,12 @@ export default class HomePorn1 extends Vue {
     switch (platform) {
       case 'pwa': {
         this.downloadPubMobile(false);
-        return;
+        break;
       }
     }
-    this.isDownloading = false;
+    setTimeout(() => {
+      this.isDownloading = false;
+    }, 1500);
     document.body.removeChild(a);
   }
 
@@ -281,10 +288,22 @@ export default class HomePorn1 extends Vue {
       window.addEventListener('focus', focusHandler);
     }
   }
+
+  sentGtag(target: DownloadItem) {
+    if (this.siteConfig.production) {
+      Object.keys(gtagList).some((key) => {
+        if (key === this.siteConfig.routerTpl) {
+          const gtagItem: GTagItem = gtagList[key];
+          window.SENT_GTAG(gtagItem[target.type]);
+          return;
+        }
+      });
+    }
+  }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import url('~@/assets/css/mobile/index.scss');
 
 .container {
@@ -341,6 +360,13 @@ export default class HomePorn1 extends Vue {
   text-decoration: none;
   text-decoration: none;
   width: 90%;
+}
+
+#trust-btn {
+  opacity: 0.5;
+  color: white;
+  line-height: 36px;
+  width: 180%;
 
   &.donwloading {
     opacity: 0.5;
@@ -351,13 +377,6 @@ export default class HomePorn1 extends Vue {
     opacity: 1;
     pointer-events: unset;
   }
-}
-
-#trust-btn {
-  opacity: 0.5;
-  color: white;
-  line-height: 36px;
-  width: 180%;
 }
 
 .progress {
@@ -394,5 +413,13 @@ export default class HomePorn1 extends Vue {
   > div:nth-child(2) {
     margin-top: 12px;
   }
+}
+
+.version {
+  bottom: 7px;
+  color: gainsboro;
+  font-size: 12px;
+  position: fixed;
+  right: 12px;
 }
 </style>

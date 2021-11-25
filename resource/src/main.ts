@@ -19,10 +19,7 @@ Vue.registerHooks(['beforeRouteEnter', 'beforeRouteLeave', 'beforeRouteUpdate'])
 // }
 
 // Vue.prototype.$getCDNPath = function() {};
-createApp(App)
-  .use(store)
-  .use(router)
-  .mount('#app');
+createApp(App).use(store).use(router).mount('#app');
 
 // 換頁前，顯示loading圖
 // router.beforeEach((to, from, next) => {
@@ -36,11 +33,3 @@ router.afterEach(() => {
   //   loadingWrap.style.display = "none";
   // }
 });
-
-declare global {
-  interface Window {
-    SITE_NAME: any;
-    SITE_DOMAIN: any;
-    CDN: string;
-  }
-}
