@@ -57,7 +57,7 @@
 
 <script lang="ts">
 import { Getter, Action } from 'vuex-class';
-import { GTagItem, gtagList } from '../../../config/gtag.config';
+import { GTagItem, GTagList } from '../../../config/gtag.config';
 import { ICommonConfig } from '../../../lib/interface';
 import { IDownloadConfig, ISiteConfig } from '../../../lib/interface';
 import { isMobile } from '../../../lib/isMobile';
@@ -291,9 +291,9 @@ export default class HomePorn1 extends Vue {
 
   sentGtag(target: DownloadItem) {
     if (this.siteConfig.production) {
-      Object.keys(gtagList).some((key) => {
+      Object.keys(GTagList).some((key) => {
         if (key === this.siteConfig.routerTpl) {
-          const gtagItem: GTagItem = gtagList[key];
+          const gtagItem: GTagItem = GTagList[key];
           window.SENT_GTAG(gtagItem[target.type]);
           return;
         }

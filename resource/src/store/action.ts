@@ -2,7 +2,9 @@ import { IDownloadConfig, ISiteConfig } from '@/lib/interface';
 
 import { State } from './state';
 import { Types } from './mutations_type';
+import { AplusQueueList as aplusQueueConfig } from '../config/aplusQueue.config';
 import axios from 'axios';
+import { GTagList as gtagConfig } from '../config/gtag.config';
 import sitConfigJson from '../config/site.config.json';
 import versionJson from '../config/version.json';
 
@@ -13,6 +15,7 @@ declare global {
     CDN: string;
     SET_GTAG: Function;
     SENT_GTAG: Function;
+    SET_YM: Function;
   }
 }
 export const actions = {
@@ -42,11 +45,8 @@ export const actions = {
             commit(Types.SET_VERSION, versionJson.VERSION);
             // gtag
             if (process.env.NODE_ENV === 'production' && targetSite.PROD) {
-              const gtm = document.createElement('script');
-              gtm.setAttribute('async', 'true');
-              gtm.setAttribute('src', `https://www.googletagmanager.com/gtag/js?id=UA-132265281-13`);
-              document.body.append(gtm);
-              window.SET_GTAG(targetSite.GTAG_ID);
+              window.SET_GTAG(gtagConfig[targetSite.ROUTER_TPL].id);
+              window.SET_YM(aplusQueueConfig[targetSite.ROUTER_TPL].id);
             }
           }
 
