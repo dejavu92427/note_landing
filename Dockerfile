@@ -1,5 +1,5 @@
 # FROM node:8-alpine as build-env
-FROM gcr.io/cloud-builders/yarn:node-12.18.3 as build-env
+FROM gcr.io/cloud-builders/yarn:node-14.10.0 as build-env
 # FROM gcr.io/cloud-builders/yarn:node-8.12.0 as build-env
 WORKDIR /app
 
@@ -18,7 +18,7 @@ RUN node -v
 # RUN npm install --save-dev @babel/plugin-proposal-class-static-block
 RUN  yarn install
 # RUN yarn add @babel/plugin-proposal-class-static-block
-RUN  yarn run build
+RUN  yarn run build 
 
 
 FROM nginx
