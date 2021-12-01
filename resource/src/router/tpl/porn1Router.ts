@@ -8,7 +8,7 @@ export const Porn1Router: RouteRecordRaw = {
       path: 'download/:type?',
       alias: '',
       name: 'download',
-      component: () => import('../../views/porn1/download/index.vue')
+      component: () => import('../../views/porn1/download/index.vue'),
     },
     {
       // pc
@@ -16,6 +16,8 @@ export const Porn1Router: RouteRecordRaw = {
       alias: '',
       name: 'pc',
       beforeEnter: (to, from, next) => {
+        localStorage.setItem('code', '');
+
         if (to.query && to.query.code) {
           const code = to.query.code.toString();
           localStorage.setItem('code', code);
@@ -28,7 +30,7 @@ export const Porn1Router: RouteRecordRaw = {
 
         next();
       },
-      component: () => import('../../views/porn1/pc/index.vue')
-    }
-  ]
+      component: () => import('../../views/porn1/pc/index.vue'),
+    },
+  ],
 };

@@ -10,6 +10,8 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Home',
     component: Home,
     beforeEnter: (to, from, next) => {
+      localStorage.setItem('code', '');
+
       if (to.query && to.query.code) {
         const code = to.query.code.toString();
         localStorage.setItem('code', code);
@@ -30,10 +32,10 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/a/:code',
         name: 'Code',
-        redirect: to => ({
+        redirect: (to) => ({
           name: 'Home',
-          query: { code: to.params.code }
-        })
+          query: { code: to.params.code },
+        }),
       },
 
       { path: '403error', name: '403error', redirect: '/403' },
@@ -42,9 +44,9 @@ const routes: Array<RouteRecordRaw> = [
 
       { path: 'maintain', name: 'maintain', redirect: '/upup' },
       { path: 'maintain.html', name: 'maintain.html', redirect: '/upup' },
-      { path: 'upup/:type?', name: 'upup', component: () => import('@/views/common/upup.vue') }
-    ]
-  }
+      { path: 'upup/:type?', name: 'upup', component: () => import('@/views/common/upup.vue') },
+    ],
+  },
 
   // {
   //   path: '/404',
@@ -56,7 +58,7 @@ const routes: Array<RouteRecordRaw> = [
 const site = window.SITE_NAME;
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
 });
 
 switch (site) {

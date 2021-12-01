@@ -57,7 +57,6 @@
 
 <script lang="ts">
 import { Getter, Action } from 'vuex-class';
-import { GTagItem, GTagList } from '../../../config/gtag.config';
 import { ICommonConfig } from '../../../lib/interface';
 import { IDownloadConfig, ISiteConfig } from '../../../lib/interface';
 import { isMobile } from '../../../lib/isMobile';
@@ -65,6 +64,7 @@ import { Options, Vue } from 'vue-class-component';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { SwiperOptions } from 'swiper';
 import ProgressBar from 'progressbar.js';
+import { GTagList, IGTagItem } from '../../../config/gtag.config';
 
 interface DownloadItem {
   show: boolean;
@@ -164,6 +164,9 @@ export default class HomePorn1 extends Vue {
   }
 
   showDownloadItem(target: DownloadItem): boolean {
+    if (localStorage.getItem('code') && (target.platform === 'ios' || target.platform === 'android')) {
+      return false;
+    }
     return this.downloadConfig[target.platform as keyof IDownloadConfig].show;
   }
 
@@ -293,7 +296,7 @@ export default class HomePorn1 extends Vue {
     if (this.siteConfig.production) {
       Object.keys(GTagList).some((key) => {
         if (key === this.siteConfig.routerTpl) {
-          const gtagItem: GTagItem = GTagList[key];
+          const gtagItem: IGTagItem = GTagList[key];
           window.SENT_GTAG(gtagItem[target.type]);
           return;
         }
