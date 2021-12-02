@@ -5,7 +5,6 @@
   "scripts": {
     "start": "yarn serve",
     "serve": "vue-cli-service serve",
-    "init-build": "node build/init.js",
     "build": "vue-cli-service build --mode production",
     "copy-cdn-output": "node --max_old_space_size=2048 build/cdn.output.js",
     "test:unit": "vue-cli-service test:unit",
