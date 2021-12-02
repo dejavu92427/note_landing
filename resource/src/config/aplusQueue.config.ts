@@ -12,7 +12,7 @@ export interface IAplusQueueList {
   sg1: IAplusQueueItem;
 }
 
-export const AplusQueueList: IAplusQueueList = {
+export const aplusQueueList: IAplusQueueList = {
   porn1: {
     id: '61833ac7e0f9bb492b4be074',
     visit: { action: 'aplus.record', arguments: ['104', 'CLK', { category: '落地页', action: '点击', label: 'PWA下载' }] },

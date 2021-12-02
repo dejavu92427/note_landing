@@ -33,7 +33,6 @@ export const mutations = {
     });
 
     state.commonList = result;
-    console.log(result);
   },
   [Types.SET_HOSTNAME](state: State, payload: any) {
     state.hostnames = payload;

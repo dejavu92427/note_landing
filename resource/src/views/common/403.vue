@@ -15,9 +15,9 @@ import { ISiteConfig } from '../../lib/interface';
 
 //  落地頁下載
 @Options({
-  components: {}
+  components: {},
 })
-export default class HomePorn1 extends Vue {
+export default class NoService extends Vue {
   @Action('getPlayer') getPlayer!: Function;
 
   @Getter('getSiteConfig') siteConfig!: ISiteConfig;

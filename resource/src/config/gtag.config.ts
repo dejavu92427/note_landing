@@ -15,7 +15,7 @@ export interface IGTagList {
   aobo1: IGTagItem;
 }
 
-export const GTagList: IGTagList = {
+export const gTagList: IGTagList = {
   porn1: {
     id: 'UA-132265281-13',
     visit: { event: 'Visit H5 Click', event_category: 'Click', event_label: 'Visit_H5_Bifa', value: '1' },

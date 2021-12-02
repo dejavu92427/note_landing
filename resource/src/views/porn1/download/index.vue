@@ -23,7 +23,7 @@
           {{ downloadList[0].text }}
         </button>
 
-        <div id="circle-progess" :class="`progress`" />
+        <div id="circle-progess" class="progress" />
         <div id="trust-btn" :class="`download-btn ${progessDone ? 'done' : 'downloading'}`" @click="handleClick(downloadList.find((i) => i.platform === 'ios'))">
           {{ downloadText }}
         </div>
@@ -52,6 +52,8 @@
     </div>
 
     <div class="version">{{ verison }}</div>
+
+    <modalBox v-show="showModal" @close="toogleModal(false)" />
   </div>
 </template>
 
@@ -59,15 +61,16 @@
 import { Getter, Action } from 'vuex-class';
 import { ICommonConfig } from '../../../lib/interface';
 import { IDownloadConfig, ISiteConfig } from '../../../lib/interface';
-import { isMobile } from '../../../lib/isMobile';
+import { isAndroid, isIOS, isMobile, isSafari } from '../../../lib/isMobile';
 import { Options, Vue } from 'vue-class-component';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { SwiperOptions } from 'swiper';
 import ProgressBar from 'progressbar.js';
-import { GTagList, IGTagItem } from '../../../config/gtag.config';
+import { gTagList, IGTagItem } from '../../../config/gtag.config';
+import { aplusQueueList, IAplusQueueItem } from '../../../config/aplusQueue.config';
+import ModalBox from '../../common/modalBox.vue';
 
 interface DownloadItem {
-  show: boolean;
   text: string;
   type: string;
   platform: string;
@@ -77,6 +80,7 @@ interface DownloadItem {
   components: {
     swiper: Swiper,
     swiperSlide: SwiperSlide,
+    modalBox: ModalBox,
   },
 })
 export default class HomePorn1 extends Vue {
@@ -84,6 +88,7 @@ export default class HomePorn1 extends Vue {
   @Action('getLCFSystemConfig') getLCFSystemConfig!: Function;
   @Action('getDownloadUri') getDownloadUri!: Function;
   @Action('actionLinkTo') actionLinkTo!: Function;
+  @Action('actionSentAnalysis') actionSentAnalysis!: Function;
 
   @Getter('getDonwloadConfig') downloadConfig!: IDownloadConfig;
   @Getter('getSiteConfig') siteConfig!: ISiteConfig;
@@ -94,25 +99,21 @@ export default class HomePorn1 extends Vue {
 
   downloadList: DownloadItem[] = [
     {
-      show: false,
       text: '去逛逛',
       type: 'visit',
       platform: 'h5',
     },
     {
-      show: false,
       text: '极速版下载',
       type: 'downloadPWA',
       platform: 'pwa',
     },
     {
-      show: false,
       text: 'IOS版下载',
       type: 'downloadIOS',
       platform: 'ios',
     },
     {
-      show: false,
       text: 'ANDROID版下载',
       type: 'downloadANDROID',
       platform: 'android',
@@ -134,6 +135,7 @@ export default class HomePorn1 extends Vue {
   isDownloading = false;
   progessDone = false;
   downloadText = '正在下载...'; // 一键信任
+  showModal = false;
 
   get verison() {
     return this.version;
@@ -164,14 +166,19 @@ export default class HomePorn1 extends Vue {
   }
 
   showDownloadItem(target: DownloadItem): boolean {
+    // 推廣代碼不顯示下載APP
     if (localStorage.getItem('code') && (target.platform === 'ios' || target.platform === 'android')) {
       return false;
     }
-    return this.downloadConfig[target.platform as keyof IDownloadConfig].show;
+
+    if ((isIOS() && target.platform === 'pwa') || (isAndroid() && target.platform === 'android') || (isIOS() && target.platform === 'ios') || target.platform === 'h5') {
+      return this.downloadConfig[target.platform as keyof IDownloadConfig].show;
+    } else {
+      return false;
+    }
   }
 
   handleClick(target: DownloadItem) {
-    this.sentGtag(target);
     switch (target.platform) {
       case 'ios': {
         this.isIOSDownloadStatus = true;
@@ -183,15 +190,27 @@ export default class HomePorn1 extends Vue {
         this.handleDownload(target);
         break;
       }
+
+      case 'pwa': {
+        if (!isSafari()) {
+          this.toogleModal(true);
+          return;
+        }
+        this.handleDownload(target);
+        break;
+      }
+
       case 'android':
-      case 'pwa':
       case 'hide':
         this.handleDownload(target);
         return;
+
       case 'h5':
         this.linkTo(target.type);
         return;
     }
+
+    this.actionSentAnalysis(target.type);
   }
 
   handleDownload(target: DownloadItem): void {
@@ -277,8 +296,8 @@ export default class HomePorn1 extends Vue {
     document.body.removeChild(a);
   }
 
-  downloadPubMobile(isIos = true) {
-    if (isIos) {
+  downloadPubMobile(isIOS = true) {
+    if (isIOS) {
       window.location.href = './pub.mobileprovision';
     } else {
       const focusHandler = () => {
@@ -292,16 +311,8 @@ export default class HomePorn1 extends Vue {
     }
   }
 
-  sentGtag(target: DownloadItem) {
-    if (this.siteConfig.production) {
-      Object.keys(GTagList).some((key) => {
-        if (key === this.siteConfig.routerTpl) {
-          const gtagItem: IGTagItem = GTagList[key];
-          window.SENT_GTAG(gtagItem[target.type]);
-          return;
-        }
-      });
-    }
+  toogleModal(toogle: boolean) {
+    this.showModal = toogle;
   }
 }
 </script>
@@ -387,7 +398,6 @@ export default class HomePorn1 extends Vue {
   position: relative;
   text-align: center;
   justify-content: center;
-  width: 100%;
   height: 36px;
   width: 36px;
   margin: 0 12px;

@@ -37,9 +37,14 @@
     }
 
     window.SENT_GTAG = function (obj) {
-      const { event_category, event_label, value } = obj
-      console.log(obj.event, { event_category, event_label, value });
-      gtag("event", obj.event, { event_category, event_label, value });
+      try {
+        const { event_category, event_label, value } = obj
+        console.log(obj.event, { event_category, event_label, value });
+
+        gtag("event", obj.event, { event_category, event_label, value });
+      } catch (e) {
+        console.log(e);
+      }
     }
 
     window.SET_YM = function (ymkey) {
@@ -57,6 +62,14 @@
         action: 'aplus.setMetaInfo',
         arguments: ['appKey', ymkey]
       });
+    }
+
+    window.SENT_YM = function (obj) {
+      try {
+
+      } catch (e) {
+        console.log(e);
+      }
     }
   </script>
   <div id="app"></div>

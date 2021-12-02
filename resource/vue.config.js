@@ -99,18 +99,18 @@ module.exports = {
     },
   },
 
-  pwa: {
-    ...pwaConfig,
+  // pwa: {
+  //   ...pwaConfig,
 
-    manifestOptions: {
-      name: `${siteName} v${assetsVersion}` || '',
-      short_name: siteName,
-      start_url: '/iframe.html',
-      display: 'standalone',
-      theme_color: '#FFFFFF',
-    },
-    assetsVersion: assetsVersion || '',
-  },
+  //   manifestOptions: {
+  //     name: `${siteName} v${assetsVersion}` || '',
+  //     short_name: siteName,
+  //     start_url: '/iframe.html',
+  //     display: 'standalone',
+  //     theme_color: '#FFFFFF',
+  //   },
+  //   assetsVersion: assetsVersion || '',
+  // },
 
   lintOnSave: process.env.NODE_ENV !== 'production',
 
@@ -122,7 +122,7 @@ module.exports = {
       // 模板来源
       template: 'public/index.html',
       filename: 'index.html',
-      title: `${siteName} v${assetsVersion}`,
+      title: ``,
       chunks: ['chunk-vendors', 'chunk-common', 'index'],
     },
   },

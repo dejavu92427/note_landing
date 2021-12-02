@@ -1,4 +1,5 @@
 import { RouteRecordRaw } from 'vue-router';
+import { initRouterReferralCode } from '@/lib/referralCode';
 
 export const Porn1Router: RouteRecordRaw = {
   path: '/',
@@ -9,6 +10,11 @@ export const Porn1Router: RouteRecordRaw = {
       alias: '',
       name: 'download',
       component: () => import('../../views/porn1/download/index.vue'),
+      beforeEnter: (to, from, next) => {
+        initRouterReferralCode(to);
+        // next({ query: to.query });
+        next();
+      },
     },
     {
       // pc

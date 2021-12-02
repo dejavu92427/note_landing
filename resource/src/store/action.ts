@@ -1,10 +1,10 @@
+import { IAplusQueueItem, aplusQueueList as aplusQueueConfig, aplusQueueList } from '../config/aplusQueue.config';
 import { IDownloadConfig, ISiteConfig } from '@/lib/interface';
+import { IGTagItem, gTagList, gTagList as gtagConfig } from '../config/gtag.config';
 
 import { State } from './state';
 import { Types } from './mutations_type';
-import { AplusQueueList as aplusQueueConfig } from '../config/aplusQueue.config';
 import axios from 'axios';
-import { GTagList as gtagConfig } from '../config/gtag.config';
 import sitConfigJson from '../config/site.config.json';
 import versionJson from '../config/version.json';
 
@@ -273,9 +273,38 @@ export const actions = {
       // 客端去逛逛
       case 'visit':
         if (state.hostnames && state.hostnames[0]) {
-          const agentCode = ''; // 推廣代碼
-          window.location.href = `https://${state.hostnames[0]}${agentCode ? `/a/${agentCode}` : ''}`;
+          const rederralCode = localStorage.getItem('code'); // 推廣代碼
+          window.location.href = `https://${state.hostnames[0]}${rederralCode ? `?a=${rederralCode}` : ''}`;
         }
+        break;
+    }
+  },
+
+  actionSentAnalysis({ state }: { state: State }, eventType = '', analysis = ''): any {
+    if (state.siteConfig.production) {
+      return;
+    }
+
+    switch (analysis) {
+      case 'gtag':
+        Object.keys(gTagList).some((key) => {
+          if (key === state.siteConfig.routerTpl) {
+            const gtagItem: IGTagItem = gTagList[key];
+            window.SENT_GTAG(gtagItem[eventType]);
+            return;
+          }
+        });
+
+        break;
+
+      case 'ym':
+        Object.keys(aplusQueueList).some((key) => {
+          if (key === state.siteConfig.routerTpl) {
+            const aplusQueueItem: IAplusQueueItem = aplusQueueList[key];
+            window.SET_YM(aplusQueueItem[eventType]);
+            return;
+          }
+        });
         break;
     }
   },
