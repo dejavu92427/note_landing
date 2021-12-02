@@ -22,10 +22,12 @@ console.info(`=> ${'version:'}`, version, '\n');
 console.info(`=> ${'process.argv:'}`, process.argv, '\n');
 
 module.exports = {
-  outputDir: '../www/static/', // defaut:'dist'
-  // assetsDir: '', // 放置生成的静态资源 (js、css、img、fonts) 的 (相对于 outputDir 的) 目录。
-  indexPath: '../index.html', // www/index.html
-  publicPath: process.env.NODE_ENV === 'production' ? './static' : '/',
+  // outputDir: '../www/static/', // defaut:'dist'
+  // // assetsDir: '', // 放置生成的静态资源 (js、css、img、fonts) 的 (相对于 outputDir 的) 目录。
+  // indexPath: '../index.html', // www/index.html
+  // publicPath: process.env.NODE_ENV === 'production' ? './static' : '/',
+
+  outputDir: '../www', // defaut:'dist'
 
   productionSourceMap: false,
   // https://webpack.js.org/configuration/dev-server/
@@ -42,7 +44,7 @@ module.exports = {
       warnings: false,
 
       // 顯示錯誤
-      errors: true
+      errors: true,
     },
 
     // 如果你的前端應用和後端 API 服務器沒有運行在同一個主機上，
@@ -62,39 +64,39 @@ module.exports = {
         onProxyRes(proxyRes, req, res) {
           // API LOG
           // console.log(req, res);
-        }
+        },
       },
       // 前端網站配置
       '/tpl': {
         target: proxy.client,
         changeOrigin: true,
         ws: true,
-        secure: false
+        secure: false,
       },
       // 體育直播
       '/exsport': {
         target: proxy.client,
         changeOrigin: true,
         ws: true,
-        secure: false
+        secure: false,
       },
       // nginx 客端配置
       '/conf': {
         target: proxy.client,
         changeOrigin: true,
         ws: true,
-        secure: false
-      }
-    }
+        secure: false,
+      },
+    },
   },
 
   css: {
     loaderOptions: {
       // 向所有 Sass 樣式傳入共享的全局變量
       scss: {
-        prependData: `@import "@/assets/css/variable.scss";`
-      }
-    }
+        prependData: `@import "@/assets/css/variable.scss";`,
+      },
+    },
   },
 
   pwa: {
@@ -105,9 +107,9 @@ module.exports = {
       short_name: siteName,
       start_url: '/iframe.html',
       display: 'standalone',
-      theme_color: '#FFFFFF'
+      theme_color: '#FFFFFF',
     },
-    assetsVersion: assetsVersion || ''
+    assetsVersion: assetsVersion || '',
   },
 
   lintOnSave: process.env.NODE_ENV !== 'production',
@@ -121,8 +123,8 @@ module.exports = {
       template: 'public/index.html',
       filename: 'index.html',
       title: `${siteName} v${assetsVersion}`,
-      chunks: ['chunk-vendors', 'chunk-common', 'index']
-    }
+      chunks: ['chunk-vendors', 'chunk-common', 'index'],
+    },
   },
 
   // settings: {
@@ -133,11 +135,11 @@ module.exports = {
     devtool: 'source-map',
     resolve: {
       alias: {
-        src: path.resolve(__dirname, 'src')
-      }
-    }
+        src: path.resolve(__dirname, 'src'),
+      },
+    },
   },
-  chainWebpack: config => {
+  chainWebpack: (config) => {
     // config.plugin('copy').tap((args) => {
     // if (process.env.CDN_HOST && outputDirName) {
     //   args[0].push({
@@ -168,5 +170,5 @@ module.exports = {
     // options.publicPath = process.env.NODE_ENV === 'production' ? __webpack_public_path__ : '';
     //   return options;
     // });
-  }
+  },
 };
