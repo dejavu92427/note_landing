@@ -5,11 +5,11 @@ let h;
 // nignx F5 DC x-cdn header
 function getCDNHost() {
   fetch(`/conf/domain`)
-    .then(function(response) {
+    .then(function (response) {
       h = response.headers;
       return response.json();
     })
-    .then(function(data) {
+    .then(function (data) {
       if (data.cdn) {
         cdnHost = h.get(`${data.cdn}`);
       }
@@ -23,13 +23,13 @@ function getCDNHost() {
 
       const path = cdnHost ? `https://${cdnHost}/` : '';
 
-      if (!isDev) {
+      if (!isDev && path) {
         window.CDN = path;
         process.env.cdn = path;
         __webpack_public_path__ = path;
       }
     })
-    .catch(function(e) {
+    .catch(function (e) {
       console.log(e);
     })
     .then(main);
