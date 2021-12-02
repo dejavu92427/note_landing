@@ -24,5 +24,9 @@ export function isAndroid() {
 }
 
 export function isSafari() {
-  return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  const ua = window.navigator.userAgent,
+    iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i),
+    webkit = !!ua.match(/WebKit/i);
+
+  return iOS && webkit && !ua.match(/CriOS/i);
 }

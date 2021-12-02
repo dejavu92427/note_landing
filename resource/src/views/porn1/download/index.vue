@@ -66,8 +66,6 @@ import { Options, Vue } from 'vue-class-component';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { SwiperOptions } from 'swiper';
 import ProgressBar from 'progressbar.js';
-import { gTagList, IGTagItem } from '../../../config/gtag.config';
-import { aplusQueueList, IAplusQueueItem } from '../../../config/aplusQueue.config';
 import ModalBox from '../../common/modalBox.vue';
 
 interface DownloadItem {
