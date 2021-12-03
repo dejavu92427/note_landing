@@ -4,11 +4,11 @@
     <!-- 圖片需放/assets/img 底下 img.hash.png -->
     <div class="content">
       <div class="logo-header">
-        <img src="@/assets/img/porn1/logo.png" />
+        <img :src="`${cdnPath}${require('@/assets/img/porn1/logo.png')}`" />
       </div>
 
       <div class="main-wrap">
-        <img src="@/assets/img/porn1/pic_maintain.png" />
+        <img :src="`${cdnPath}${require('@/assets/img/porn1/pic_maintain.png')}`" />
       </div>
 
       <div class="desc">
@@ -34,16 +34,17 @@ import { Vue } from 'vue-class-component';
 import { Getter, Action } from 'vuex-class';
 import { ISiteConfig } from '../../lib/interface';
 
-export default class HomePorn1 extends Vue {
+export default class Upup extends Vue {
   @Action('getPlayer') getPlayer!: Function;
   @Action('actionLinkTo') actionLinkTo!: Function;
 
   @Getter('getSiteConfig') siteConfig!: ISiteConfig;
+  @Getter('getCDN') cdnPath!: string;
 
   maintainTime = '00:00 - 00:00';
 
   created() {
-    this.getPlayer().then(res => {
+    this.getPlayer().then((res) => {
       if (res && res.status !== '000' && res.data.extra) {
         const text = `${res.data.extra.start_at}${res.data.extra.end_at ? ` ~ ${res.data.extra.start_at}` : ''}`;
         this.maintainTime = text;
@@ -65,76 +66,6 @@ export default class HomePorn1 extends Vue {
 }
 </script>
 
-<style lang="scss">
-.container {
-  position: relative;
-  background-color: #fff;
-  min-height: 100vh;
-  overflow-x: hidden;
-
-  > .bg {
-    width: 100%;
-    height: 100vh;
-    top: 0;
-  }
-}
-
-.content {
-  height: 100%;
-  padding-top: 25px;
-  position: absolute;
-  top: 0;
-  width: 100%;
-  z-index: 1;
-}
-
-.logo-header {
-  width: 100%;
-  height: 60px;
-  text-align: center;
-
-  > img {
-    height: 60px;
-  }
-}
-
-.main-wrap {
-  width: 100%;
-  height: 360px;
-  text-align: center;
-  > img {
-    height: 100%;
-  }
-}
-
-.desc {
-  color: #9ca3bf;
-  font-family: Microsoft JhengHei, Microsoft JhengHei-Regular;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 19px;
-  margin: 28px auto;
-  text-align: center;
-  width: 100%;
-
-  .time {
-    color: #f70;
-    white-space: nowrap;
-  }
-}
-
-.service {
-  bottom: 10%;
-  color: #a6a9b2;
-  font-family: Microsoft JhengHei, Microsoft JhengHei-Regular;
-  font-size: 14px;
-  font-weight: 400;
-  position: absolute;
-  text-align: center;
-  width: 100%;
-
-  #serviceBtn {
-    color: #6aaaf5;
-  }
-}
+<style lang="scss" scoped>
+@import '~@/assets/css/mobile/status.scss';
 </style>

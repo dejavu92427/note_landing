@@ -13,7 +13,11 @@ import { Options, Vue } from 'vue-class-component';
       try {
         // 取得廳設定
         await store.dispatch('initSiteInfo');
-        await store.dispatch('getPlayer').then(response => {
+
+        store.dispatch('getCommonList');
+        store.dispatch('getHostnames');
+
+        await store.dispatch('getPlayer').then((response) => {
           if (response && response.data.status !== '000') {
             switch (response.data.code) {
               case 'M00002':
@@ -23,6 +27,16 @@ import { Options, Vue } from 'vue-class-component';
                 }
                 next('/upup');
                 return;
+
+              case 'M00003':
+              case 'M00004':
+                if (to.path === '/no_service') {
+                  next();
+                  return;
+                }
+                next('/no_service');
+                return;
+
               default:
                 break;
             }
@@ -35,7 +49,7 @@ import { Options, Vue } from 'vue-class-component';
         next('upup');
       }
     })();
-  }
+  },
 })
 export default class RootMobile extends Vue {
   // created() {}

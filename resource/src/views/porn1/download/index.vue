@@ -43,7 +43,7 @@
     <div class="donwload-tip">
       <div>
         需在同一网络环境下载安装，请勿切换网络；
-        <span class="recommend-text">若无法正常安装，请使用手机自带浏览器打开本页面（苹果浏览器Safari）</span>
+        <span class="recommend-text">{{ recommendText }}</span>
       </div>
       <div>
         如需帮助，
@@ -139,6 +139,14 @@ export default class HomePorn1 extends Vue {
     return this.version;
   }
 
+  get recommendText() {
+    if (isAndroid()) {
+      return '若无法正常安装，请使用手机自带浏览器打开本页面（寰宇浏览器、Chrome谷歌浏览器）';
+    } else {
+      return '若无法正常安装，请使用手机自带浏览器打开本页面（苹果浏览器Safari）';
+    }
+  }
+
   beforeUnmount() {
     // window.removeEventListener('focus');
   }
@@ -147,7 +155,8 @@ export default class HomePorn1 extends Vue {
     console.log('isMobile:', isMobile());
     this.getLCFSystemConfig();
     if (isMobile()) {
-      this.$router.push('/download');
+      // 是否保留推廣代碼
+      // this.$router.push('/download');
     } else {
       this.$router.push('/pc');
     }

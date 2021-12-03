@@ -30,7 +30,7 @@ function getCDNHost() {
       }
     })
     .catch(function (e) {
-      console.log(e);
+      window.location.href = '/404';
     })
     .then(main);
 }

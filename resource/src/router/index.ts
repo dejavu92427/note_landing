@@ -3,6 +3,8 @@ import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/index.vue';
 import { Porn1Router } from './tpl/porn1Router';
 import { Sg1Router } from './tpl/sg1Router';
+import error403 from '../views/common/403.vue';
+import error404 from '../views/common/404.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -29,21 +31,28 @@ const routes: Array<RouteRecordRaw> = [
         }),
       },
 
-      { path: '403error', name: '403error', redirect: '/403' },
-      { path: '403error.html', name: '403error.html', redirect: '/403' },
-      { path: '403', name: '403', component: () => import('@/views/common/403.vue') },
+      { path: '403error', name: '403error', redirect: 'no_service' },
+      { path: '403error.html', name: '403error.html', redirect: 'no_service' },
+      { path: '403', name: '403', redirect: 'no_service' },
+      {
+        path: '/no_service/:type?',
+        name: '403',
+        component: error403,
+        // component: () => import('@/views/common/403.vue')
+        // { path: '403', name: '403', },
+      },
 
-      { path: 'maintain', name: 'maintain', redirect: '/upup' },
-      { path: 'maintain.html', name: 'maintain.html', redirect: '/upup' },
+      { path: 'maintain', name: 'maintain', redirect: 'upup' },
+      { path: 'maintain.html', name: 'maintain.html', redirect: 'upup' },
       { path: 'upup/:type?', name: 'upup', component: () => import('@/views/common/upup.vue') },
     ],
   },
 
-  // {
-  //   path: '/404',
-  //   name: '404',
-  //   redirect: '/'
-  // }
+  {
+    path: '/:pathMatch(.*)*',
+    name: '404',
+    component: error404,
+  },
 ];
 
 const site = window.SITE_NAME;

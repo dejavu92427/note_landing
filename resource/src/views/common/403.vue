@@ -1,10 +1,33 @@
 <template>
   <div class="container">
-    403
+    <img class="bg" src="@/assets/img/porn1/bg.png" />
     <!-- 圖片需放/assets/img 底下 img.hash.png -->
-    <!-- <div>
-      <img class="swiper-slide-img" src="@/assets/img/sports_main.png" />
-    </div> -->
+    <div class="content">
+      <div class="logo-header">
+        <img src="@/assets/img/porn1/logo.png" />
+      </div>
+
+      <div class="main-wrap">
+        <img src="@/assets/img/porn1/pic_maintain.png" />
+      </div>
+
+      <div class="desc">
+        <div>
+          尊敬的用户，由于相关法规限制，您所在的地区无法使用
+          <br />
+          币发BIFA产品，如有任何疑问，请通过在线客服，或发邮件至
+          <p class="mail" onclick="location.href='mailto:cs@bifa8.co';">cs@bifa8.co</p>
+          我们将第一时间给您回复，对您造成的不便，我们深表歉
+          <br />
+          意，感谢您的理解与支持！
+        </div>
+      </div>
+
+      <div class="service">
+        如需帮助，请
+        <a id="serviceBtn" type="button" @click="linkTo">联系客服</a>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -19,19 +42,33 @@ import { ISiteConfig } from '../../lib/interface';
 })
 export default class NoService extends Vue {
   @Action('getPlayer') getPlayer!: Function;
+  @Action('actionLinkTo') actionLinkTo!: Function;
 
   @Getter('getSiteConfig') siteConfig!: ISiteConfig;
+  @Getter('getCDN') cdnPath!: string;
 
   created() {
-    console.log('noService');
+    this.getPlayer().then((res) => {
+      if (res && res.status !== '000' && res.data.extra) {
+        console.log(res.data.extra);
+      }
+
+      if (this.$route.params.type !== 'test') {
+        this.$router.push('/download');
+      }
+    });
   }
 
-  // mounted() {}
+  linkTo(): void {
+    this.actionLinkTo('clientService');
+  }
+
+  getCDNPath(path) {
+    return path;
+  }
 }
 </script>
 
-<style lang="scss">
-.container {
-  position: relative;
-}
+<style lang="scss" scoped>
+@import '~@/assets/css/mobile/status.scss';
 </style>

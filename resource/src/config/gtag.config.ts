@@ -33,6 +33,8 @@ export const gTagList: IGTagList = {
   },
   sp1: {
     id: 'UA-132265281-13',
+    // UA-213963200-1
+
     visit: { event: 'Visit H5 Click', event_category: 'Click', event_label: 'event_label', value: '1' },
     downloadPWA: { event: 'Download Click', event_category: 'Click', event_label: 'event_label', value: '1' },
     downloadIOS: { event: 'Download Click', event_category: 'Click', event_label: 'event_label', value: '1' },

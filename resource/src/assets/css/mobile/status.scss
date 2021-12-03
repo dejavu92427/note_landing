@@ -1,0 +1,77 @@
+.container {
+  position: relative;
+  background-color: #fff;
+  min-height: 100vh;
+  overflow-x: hidden;
+
+  > .bg {
+    width: 100%;
+    height: 100vh;
+    top: 0;
+  }
+}
+
+.content {
+  height: 100%;
+  padding-top: 25px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.logo-header {
+  width: 100%;
+  height: 60px;
+  text-align: center;
+
+  > img {
+    height: 60px;
+  }
+}
+
+.main-wrap {
+  width: 100%;
+  height: 360px;
+  text-align: center;
+  > img {
+    height: 100%;
+  }
+}
+
+.desc {
+  color: #9ca3bf;
+  font-family: Microsoft JhengHei, Microsoft JhengHei-Regular;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 19px;
+  margin: 28px auto;
+  text-align: center;
+  width: 100%;
+
+  .time {
+    color: #f70;
+    white-space: nowrap;
+  }
+}
+
+.service {
+  bottom: 10%;
+  color: #a6a9b2;
+  font-family: Microsoft JhengHei, Microsoft JhengHei-Regular;
+  font-size: 14px;
+  font-weight: 400;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+
+  #serviceBtn {
+    color: #6aaaf5;
+  }
+}
+
+.mail {
+  color: #6aaaf5;
+  padding: 8px 0;
+  margin: unset;
+}

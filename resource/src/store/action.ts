@@ -16,12 +16,13 @@ declare global {
     SET_GTAG: Function;
     SENT_GTAG: Function;
     SET_YM: Function;
+    SENT_YM: Function;
   }
 }
 export const actions = {
   // 網站初始化
   // /conf/domain nginx proxy
-  initSiteInfo({ commit, dispatch }: { commit: Function; dispatch: Function }): any {
+  initSiteInfo({ commit }: { commit: Function; dispatch: Function }): any {
     return axios
       .get('/conf/domain')
       .then((res) => {
@@ -39,9 +40,6 @@ export const actions = {
             document.getElementsByTagName('head')[0].appendChild(link);
             link.href = `/img/${targetSite.SITE_NAME}/favicon.ico`;
 
-            // 取得廳設定
-            dispatch('getCommonList');
-            dispatch('getHostnames');
             commit(Types.SET_VERSION, versionJson.VERSION);
             // gtag
             if (process.env.NODE_ENV === 'production' && targetSite.PROD) {
@@ -52,14 +50,12 @@ export const actions = {
 
           return;
         } else {
-          // 測試預設鴨博
-          if (process.env.NODE_ENV === 'development') {
-            commit(Types.SET_SITE_CONFIG, sitConfigJson[0]);
-          }
+          // commit(Types.SET_SITE_CONFIG, sitConfigJson[0]);
           return;
         }
       })
       .catch((err) => {
+        window.location.href = '/404';
         console.log(err);
       });
   },
@@ -301,7 +297,7 @@ export const actions = {
         Object.keys(aplusQueueList).some((key) => {
           if (key === state.siteConfig.routerTpl) {
             const aplusQueueItem: IAplusQueueItem = aplusQueueList[key];
-            window.SET_YM(aplusQueueItem[eventType]);
+            window.SENT_YM(aplusQueueItem[eventType]);
             return;
           }
         });
