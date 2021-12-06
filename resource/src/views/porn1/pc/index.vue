@@ -55,7 +55,6 @@ export default class PcPorn1 extends Vue {
     // let qrUrl = `${window.location.host}${this.$route.query.a ? `/a/${this.$route.query.a}/` : ''}`;
     const qrUrl = `${window.location.host}${localStorage.getItem('code') ? `/a/${localStorage.getItem('code')}/` : ''}`;
     this.qrcodeOpt.value = qrUrl;
-    console.log(qrUrl);
   }
 }
 </script>

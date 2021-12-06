@@ -3,8 +3,9 @@ import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/index.vue';
 import { Porn1Router } from './tpl/porn1Router';
 import { Sg1Router } from './tpl/sg1Router';
-import error403 from '../views/common/403.vue';
+import error403 from '../views/common/noService.vue';
 import error404 from '../views/common/404.vue';
+import { initRouterReferralCode } from '@/lib/referralCode';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -12,6 +13,8 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Home',
     component: Home,
     beforeEnter: (to, from, next) => {
+      initRouterReferralCode(to);
+
       if (to.name === 'Home') {
         next({
           name: 'download',
@@ -36,7 +39,7 @@ const routes: Array<RouteRecordRaw> = [
       { path: '403', name: '403', redirect: 'no_service' },
       {
         path: '/no_service/:type?',
-        name: '403',
+        name: 'no_service',
         component: error403,
         // component: () => import('@/views/common/403.vue')
         // { path: '403', name: '403', },

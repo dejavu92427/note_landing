@@ -13,11 +13,10 @@ import { Options, Vue } from 'vue-class-component';
       try {
         // 取得廳設定
         await store.dispatch('initSiteInfo');
-
-        store.dispatch('getCommonList');
-        store.dispatch('getHostnames');
-
         await store.dispatch('getPlayer').then((response) => {
+          store.dispatch('getCommonList');
+          store.dispatch('getHostnames');
+
           if (response && response.data.status !== '000') {
             switch (response.data.code) {
               case 'M00002':
@@ -56,3 +55,5 @@ export default class RootMobile extends Vue {
 }
 </script>
 <style lang="scss"></style>
+
+function initRouterReferralCode(to: RouteLocationNormalized) { throw new Error('Function not implemented.'); }

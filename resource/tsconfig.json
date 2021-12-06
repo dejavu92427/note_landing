@@ -12,21 +12,16 @@
     "esModuleInterop": true,
     "noImplicitAny": false,
     "allowSyntheticDefaultImports": true,
-    "resolveJsonModule":true,
+    "resolveJsonModule": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "types": ["webpack-env", "mocha", "chai","@types/gtag.js"],
+    "types": [ "node","webpack-env", "mocha", "chai", "@types/gtag.js"],
+    "typeRoots": [ "../node_modules/@types" ],
     "paths": {
       "@/*": ["src/*"]
     },
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
-    "tests/**/*.ts",
-    "tests/**/*.tsx"
-  ],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "tests/**/*.ts", "tests/**/*.tsx"],
   "exclude": ["node_modules"]
 }

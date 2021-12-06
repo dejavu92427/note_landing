@@ -7,9 +7,9 @@
 
     <div class="swiper-wrap">
       <swiper :loop="true" :slidesPerView="'auto'">
-        <swiper-slide>
+        <swiper-slide v-for="(item, key) in mainImgList" :key="key">
           <div class="swiper-slide-img">
-            <img :src="`${cdnPath}${require('@/assets/img/porn1/sports_main.png')}`" />
+            <img :src="`${cdnPath}${(item.src)}`" />
             <!-- <img src="@/assets/static/image/porn1/common/logo.png" /> -->
             <!-- https://ya.jingliangjiu.cn/static/image/porn1/common/logo.png?v=36612412.1 -->
           </div>
@@ -94,6 +94,12 @@ export default class HomePorn1 extends Vue {
   @Getter('getHostnames') hostnames!: string[];
   @Getter('getCDN') cdnPath!: string;
   @Getter('getVersion') version!: string;
+
+  mainImgList: any[] = [
+    {
+      src: require('@/assets/img/porn1/sports_main.png'),
+    },
+  ];
 
   downloadList: DownloadItem[] = [
     {

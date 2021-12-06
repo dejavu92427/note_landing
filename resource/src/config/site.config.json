@@ -8,6 +8,22 @@
     "PROD": false
   },
   {
+    "DOMAIN": "100003",
+    "ROUTER_TPL": "porn1",
+    "THEME_TPL": "porn1",
+    "SITE_NAME": "币发BIFA",
+    "GOLANG_API_DOMAIN": "https://ybbe2.777vendor.com/api-v2",
+    "PROD": false
+  },
+  {
+    "DOMAIN": "67",
+    "ROUTER_TPL": "porn1",
+    "THEME_TPL": "porn1",
+    "SITE_NAME": "币发BIFA",
+    "GOLANG_API_DOMAIN": "https://yaboapi.lysywh.cn:9443/api-v2",
+    "PROD": true
+  },
+  {
     "DOMAIN": "500023",
     "ROUTER_TPL": "ey1",
     "THEME_TPL": "ey1",

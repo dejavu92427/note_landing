@@ -1,14 +1,17 @@
 <template>
   <div class="container">
-    <img class="bg" src="@/assets/img/porn1/bg.png" />
+    <img class="bg" :src="`${cdnPath}${require(`@/assets/img/${siteConfig.routerTpl}/bg.png`)}`" />
     <!-- 圖片需放/assets/img 底下 img.hash.png -->
     <div class="content">
       <div class="logo-header">
-        <img src="@/assets/img/porn1/logo.png" />
+        <img :src="`${cdnPath}${require(`@/assets/img/${siteConfig.routerTpl}/logo_b.png`)}`" />
       </div>
 
+      <div class="title">访问受限制</div>
+      <div class="extraMsg">{{ extraMsg }}</div>
+
       <div class="main-wrap">
-        <img src="@/assets/img/porn1/pic_maintain.png" />
+        <img :src="`${cdnPath}${require(`@/assets/img/${siteConfig.routerTpl}/pic_403.png`)}`" />
       </div>
 
       <div class="desc">
@@ -47,13 +50,15 @@ export default class NoService extends Vue {
   @Getter('getSiteConfig') siteConfig!: ISiteConfig;
   @Getter('getCDN') cdnPath!: string;
 
+  extraMsg = '';
   created() {
     this.getPlayer().then((res) => {
-      if (res && res.status !== '000' && res.data.extra) {
-        console.log(res.data.extra);
+      if (res && res.data && res.data.status !== '000' && res.data.msg) {
+        // msg: "您所在的区域不在我们服务允许范围内(x.x.x.x)"
+        this.extraMsg = res.data.msg;
       }
 
-      if (this.$route.params.type !== 'test') {
+      if (res && res.data && res.data.status === '000' && this.$route.params.type !== 'test') {
         this.$router.push('/download');
       }
     });

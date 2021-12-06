@@ -41,11 +41,14 @@ export const actions = {
             link.href = `/img/${targetSite.SITE_NAME}/favicon.ico`;
 
             commit(Types.SET_VERSION, versionJson.VERSION);
-            // gtag
+
+            // gtag 友盟
             if (process.env.NODE_ENV === 'production' && targetSite.PROD) {
               window.SET_GTAG(gtagConfig[targetSite.ROUTER_TPL].id);
               window.SET_YM(aplusQueueConfig[targetSite.ROUTER_TPL].id);
             }
+          }else{
+            window.location.href = '/404'
           }
 
           return;

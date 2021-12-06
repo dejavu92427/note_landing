@@ -1,14 +1,16 @@
 <template>
   <div class="container">
-    <img class="bg" src="@/assets/img/porn1/bg.png" />
+    <img class="bg" :src="`${cdnPath}${require(`@/assets/img/${siteConfig.routerTpl}/bg.png`)}`" />
     <!-- 圖片需放/assets/img 底下 img.hash.png -->
     <div class="content">
       <div class="logo-header">
-        <img :src="`${cdnPath}${require('@/assets/img/porn1/logo.png')}`" />
+        <img :src="`${cdnPath}${require(`@/assets/img/${this.siteConfig.routerTpl}/logo.png`)}`" />
       </div>
 
+      <div class="title">网站升级中</div>
+
       <div class="main-wrap">
-        <img :src="`${cdnPath}${require('@/assets/img/porn1/pic_maintain.png')}`" />
+        <img :src="`${cdnPath}${require(`@/assets/img/${this.siteConfig.routerTpl}/pic_maintain.png`)}`" />
       </div>
 
       <div class="desc">
@@ -50,8 +52,8 @@ export default class Upup extends Vue {
         this.maintainTime = text;
       }
 
-      if (this.$route.params.type !== 'test') {
-        this.$router.push('/download');
+      if (res && res.data && res.data.status === '000' && this.$route.params.type !== 'test') {
+        this.$router.push(`/download${localStorage.getItem('code') ? `/a/${localStorage.getItem('code')}` : ''}`);
       }
     });
   }

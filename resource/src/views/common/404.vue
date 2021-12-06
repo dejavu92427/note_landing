@@ -5,7 +5,7 @@
 <script lang="ts">
 import { Vue } from 'vue-class-component';
 
-export default class error404 extends Vue {
+export default class NotFound extends Vue {
   created() {
     console.log('404');
   }

@@ -14,10 +14,10 @@ export const mutations = {
     state.siteConfig = result;
   },
   [Types.SET_VERSION](state: State, payload: any) {
-    state.version = payload;
+    state.version = payload || '';
   },
   [Types.SET_CDN](state: State, payload: any) {
-    state.cdn = payload;
+    state.cdn = payload || '';
   },
   [Types.SET_MEM_INFO](state: State, payload: any) {
     state.memInfo = payload;
