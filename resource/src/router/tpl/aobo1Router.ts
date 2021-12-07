@@ -1,19 +1,19 @@
 import { RouteRecordRaw } from 'vue-router';
 
-export const Sg1Router: RouteRecordRaw = {
+export const Aobo1Router: RouteRecordRaw = {
   path: '/',
   component: () => import('../../views/index.vue'),
   children: [
     {
-      path: 'download/:type?',
+      path: 'download',
       name: 'download',
-      component: () => import('../../views/sg1/download/index.vue'),
+      component: () => import('../../views/aobo1/download/index.vue'),
     },
     {
       // pc
       path: 'pc',
       name: 'pc',
-      component: () => import('../../views/sg1/pc/index.vue'),
+      component: () => import('../../views/aobo1/pc/index.vue'),
     },
   ],
 };

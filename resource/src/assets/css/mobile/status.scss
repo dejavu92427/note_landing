@@ -1,12 +1,11 @@
 .container {
   position: relative;
   background-color: #fff;
-  min-height: 100vh;
-  overflow-x: hidden;
+  min-height: 812px;
 
   > .bg {
     width: 100%;
-    height: 100vh;
+    min-height: 812px;
     top: 0;
   }
 }
@@ -41,9 +40,10 @@
 
 .main-wrap {
   width: 100%;
-  height: 375px;
   text-align: center;
+
   > img {
+    width: 100%;
     height: 100%;
   }
 }
@@ -64,7 +64,7 @@
 }
 
 .service {
-  bottom: 8%;;
+  bottom: 8%;
   color: #a6a9b2;
   font-size: 14px;
   font-weight: 400;

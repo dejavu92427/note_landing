@@ -1,5 +1,6 @@
 import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router';
 
+import { Aobo1Router } from './tpl/aobo1Router';
 import Home from '../views/index.vue';
 import { Porn1Router } from './tpl/porn1Router';
 import { Sg1Router } from './tpl/sg1Router';
@@ -71,9 +72,10 @@ switch (site) {
   case 'sg1':
     router.addRoute(Sg1Router);
     break;
-
+  case 'aobo1':
+    router.addRoute(Aobo1Router);
+    break;
   default:
-    router.addRoute(Porn1Router);
     break;
 }
 

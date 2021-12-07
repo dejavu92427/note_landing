@@ -5,13 +5,13 @@ export const Porn1Router: RouteRecordRaw = {
   component: () => import('../../views/index.vue'),
   children: [
     {
-      path: 'download/:type?',
+      path: 'download',
       name: 'download',
       component: () => import('../../views/porn1/download/index.vue'),
     },
     {
       // pc
-      path: 'pc/:code?',
+      path: 'pc',
       name: 'pc',
       component: () => import('../../views/porn1/pc/index.vue'),
     },

@@ -29,7 +29,6 @@ export const actions = {
         if (res && res.data && res.status === 200) {
           const result: ISiteConfig = res.data;
           const targetSite = sitConfigJson.find((i) => i.DOMAIN === result.domain);
-
           if (targetSite) {
             commit(Types.SET_CDN, window.CDN);
             commit(Types.SET_SITE_CONFIG, targetSite);
@@ -47,8 +46,8 @@ export const actions = {
               window.SET_GTAG(gtagConfig[targetSite.ROUTER_TPL].id);
               window.SET_YM(aplusQueueConfig[targetSite.ROUTER_TPL].id);
             }
-          }else{
-            window.location.href = '/404'
+          } else {
+            window.location.href = '/404';
           }
 
           return;

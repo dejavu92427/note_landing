@@ -1,0 +1,115 @@
+.container {
+  position: relative;
+  font-size: 14px;
+  padding: 0 14px;
+}
+
+.swiper-wrap {
+  width: 100%;
+  margin-top: 12px;
+}
+
+.swiper-slide-img {
+  width: 100%;
+  text-align: center;
+
+  > img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+// 下載按鈕
+.download-wrap {
+  width: 100%;
+
+  display: flex;
+  position: relative;
+}
+
+.download-container {
+  display: flex;
+  position: relative;
+  text-align: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.download-btn {
+  -moz-appearance: auto;
+  -webkit-animation: install-button 0.66s ease-in-out;
+  -webkit-appearance: auto;
+  animation: install-button 0.66s ease-in-out;
+  appearance: auto;
+  background: #3354ad;
+  border-radius: 18px;
+  border: unset;
+  color: white;
+  font-family: PingFangSC-Regular, sans-serif;
+  font-size: 13px;
+  height: 36px;
+  outline: none;
+  text-decoration: none;
+  text-decoration: none;
+  width: 90%;
+}
+
+#trust-btn {
+  opacity: 0.5;
+  color: white;
+  line-height: 36px;
+  width: 180%;
+
+  &.donwloading {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  &.done {
+    opacity: 1;
+    pointer-events: unset;
+  }
+}
+
+.progress {
+  display: flex;
+  position: relative;
+  text-align: center;
+  justify-content: center;
+  height: 36px;
+  width: 36px;
+  margin: 0 12px;
+}
+
+.progressbar-text {
+  width: 100%;
+  text-align: center;
+  font-size: 12px;
+  color: #3354ad !important;
+}
+
+.donwload-tip {
+  font-size: 12px;
+  line-height: 18px;
+  color: #666666;
+  text-align: center;
+  padding: 14px 7px;
+
+  .link {
+    font-family: Microsoft JhengHei, Microsoft JhengHei-Regular;
+    font-weight: 400;
+    color: #6aaaf5;
+  }
+
+  > div:nth-child(2) {
+    margin-top: 12px;
+  }
+}
+
+.version {
+  bottom: 7px;
+  color: gainsboro;
+  font-size: 12px;
+  position: fixed;
+  right: 12px;
+}
