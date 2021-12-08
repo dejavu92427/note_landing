@@ -29,11 +29,11 @@ export default class DownloadMixin extends Vue {
   @Getter('getCDN') cdnPath!: string;
   @Getter('getVersion') version!: string;
 
-  mainImgList: any[] = [
-    {
-      src: require('@/assets/img/porn1/sports_main.png'),
-    },
-  ];
+  // mainImgList: any[] = [
+  //   {
+  //     src: require('@/assets/img/porn1/sports_main.png'),
+  //   },
+  // ];
 
   downloadList: DownloadItem[] = [
     {
@@ -91,6 +91,10 @@ export default class DownloadMixin extends Vue {
     } else {
       return '若无法正常安装，请使用手机自带浏览器打开本页面（苹果浏览器Safari）';
     }
+  }
+
+  get isIOSMobile() {
+    return isIOS();
   }
 
   beforeUnmount() {

@@ -41,7 +41,7 @@
   -webkit-appearance: auto;
   animation: install-button 0.66s ease-in-out;
   appearance: auto;
-  background: #3354ad;
+  background: $main_button_color;
   border-radius: 18px;
   border: unset;
   color: white;
@@ -52,6 +52,10 @@
   text-decoration: none;
   text-decoration: none;
   width: 90%;
+
+  &.aobo1 {
+    background: $aobo1_button_color;
+  }
 }
 
 #trust-btn {
@@ -85,7 +89,11 @@
   width: 100%;
   text-align: center;
   font-size: 12px;
-  color: #3354ad !important;
+  color: $main_button_color !important;
+
+  &.aobo1 {
+    color: $aobo1_button_color !important;
+  }
 }
 
 .donwload-tip {
@@ -104,6 +112,11 @@
   > div:nth-child(2) {
     margin-top: 12px;
   }
+
+  &.text {
+    padding: 0;
+    color: #ad947c;
+  }
 }
 
 .version {
@@ -112,4 +125,30 @@
   font-size: 12px;
   position: fixed;
   right: 12px;
+}
+
+.donwload-tip-arrow {
+  width: 7px;
+  height: 7px;
+  margin-left: 5px;
+
+  > img {
+    width: 100%;
+  }
+}
+
+.apple-icon {
+  width: 100%;
+  height: 40px;
+  text-align: center;
+  margin-top: 5px;
+
+  > img {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.tutorial {
+  width: 100%;
 }
