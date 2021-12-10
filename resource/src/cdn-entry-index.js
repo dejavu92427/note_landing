@@ -14,12 +14,13 @@ function getCDNHost() {
     })
     .then(function (data) {
       let target = siteConfigJson.find((i) => i.DOMAIN === data.domain);
-      console.log(target);
-      if (target) {
+
+      if (target && target.CDN_HEADER) {
         cdnHost = h.get(`${target.CDN_HEADER}`);
       }
 
       const isDev = process.env.NODE_ENV === 'development';
+      console.log('header:', target.CDN_HEADER);
       console.log('__webpack_public_path__:', cdnHost);
 
       window.SITE_NAME = data.site;
