@@ -58,6 +58,4 @@ export default class PcSg1 extends Vue {
   }
 }
 </script>
-<style lang="scss" scoped>
-@import '~@/assets/css/mobile/pc.scss';
-</style>
+<style lang="scss" scoped></style>

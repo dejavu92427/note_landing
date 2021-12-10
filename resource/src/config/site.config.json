@@ -16,20 +16,21 @@
     "PROD": false
   },
   {
+    "DOMAIN": "69",
+    "ROUTER_TPL": "porn1",
+    "THEME_TPL": "porn1",
+    "SITE_NAME": "币发BIFA",
+    "GOLANG_API_DOMAIN": "https://yaboapi.lysywh.cn:9443/api-v2",
+    "PROD": false
+  },
+  {
     "DOMAIN": "67",
     "ROUTER_TPL": "porn1",
     "THEME_TPL": "porn1",
     "SITE_NAME": "币发BIFA",
     "GOLANG_API_DOMAIN": "https://yaboapi.lysywh.cn:9443/api-v2",
-    "PROD": true
-  },
-  {
-    "DOMAIN": "500023",
-    "ROUTER_TPL": "ey1",
-    "THEME_TPL": "ey1",
-    "SITE_NAME": "亿元",
-    "GOLANG_API_DOMAIN": "https://cxbb.bbin-asia.com/api-v2",
-    "PROD": false
+    "PROD": true,
+    "CDN_HEADER": "x_cdn_yb_landing"
   },
   {
     "DOMAIN": "500035",
@@ -37,22 +38,81 @@
     "THEME_TPL": "sg1",
     "SITE_NAME": "泡泡直播",
     "GOLANG_API_DOMAIN": "https://yaboapi.bbin-asia.com/api-v2",
+    "PROD": true
+  },
+  {
+    "DOMAIN": "100009",
+    "ROUTER_TPL": "sg1",
+    "THEME_TPL": "sg1",
+    "SITE_NAME": "泡泡直播",
+    "GOLANG_API_DOMAIN": "https://ybbe2.777vendor.com/api-v2",
     "PROD": false
+  },
+  {
+    "DOMAIN": "81",
+    "ROUTER_TPL": "sg1",
+    "THEME_TPL": "sg1",
+    "SITE_NAME": "泡泡直播",
+    "GOLANG_API_DOMAIN": "https://yaboapi.lysywh.cn:9443/api-v2",
+    "PROD": false
+  },
+  {
+    "DOMAIN": "80",
+    "ROUTER_TPL": "sg1",
+    "THEME_TPL": "sg1",
+    "SITE_NAME": "泡泡直播",
+    "GOLANG_API_DOMAIN": "https://yaboapi.lysywh.cn:9443/api-v2",
+    "PROD": true,
+    "CDN_HEADER": "x_cdn_sg_landing"
   },
   {
     "DOMAIN": "9999894",
     "ROUTER_TPL": "aobo1",
-    "THEME_TPL": "sg1",
+    "THEME_TPL": "aobo1",
     "SITE_NAME": "澳博国际",
     "GOLANG_API_DOMAIN": "https://yaboapi.bbin-asia.com/api-v2",
     "PROD": false
   },
   {
+    "DOMAIN": "93",
+    "ROUTER_TPL": "aobo1",
+    "THEME_TPL": "aobo1",
+    "SITE_NAME": "澳博国际",
+    "GOLANG_API_DOMAIN": "https://yaboapi.bjspzc.cn:9443/api-v2",
+    "PROD": false
+  },
+  {
+    "DOMAIN": "92",
+    "ROUTER_TPL": "aobo1",
+    "THEME_TPL": "aobo1",
+    "SITE_NAME": "澳博国际",
+    "GOLANG_API_DOMAIN": "https://yaboapi.lysywh.cn:9443/api-v2",
+    "PROD": true,
+    "CDN_HEADER": "x_cdn_ab_landing"
+  },
+  {
     "DOMAIN": "9999905",
     "ROUTER_TPL": "sp1",
-    "THEME_TPL": "porn1",
+    "THEME_TPL": "sp1",
     "SITE_NAME": "51国际",
     "GOLANG_API_DOMAIN": "https://yaboapi.bbin-asia.com/api-v2",
     "PROD": false
+  },
+  {
+    "DOMAIN": "95",
+    "ROUTER_TPL": "sp1",
+    "THEME_TPL": "sp1",
+    "SITE_NAME": "51国际",
+    "GOLANG_API_DOMAIN": "https://yaboapi.dormousepie.com/api-v2",
+    "PROD": false
+  },
+  {
+    "DOMAIN": "94",
+    "ROUTER_TPL": "sp1",
+    "THEME_TPL": "sp1",
+    "SITE_NAME": "51国际",
+    "GOLANG_API_DOMAIN": "https://yaboapi.dormousepie.com/api-v2",
+    "PROD": true,
+    "CDN_HEADER": "x_cdn_sp51_landing"
   }
 ]

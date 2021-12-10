@@ -1,5 +1,8 @@
 /* eslint-disable */
 const main = () => import(/* webpackChunkName: 'main' */ './main');
+
+import siteConfigJson from '../src/config/site.config.json';
+
 let cdnHost = '';
 let h;
 // nignx F5 DC x-cdn header
@@ -10,8 +13,10 @@ function getCDNHost() {
       return response.json();
     })
     .then(function (data) {
-      if (data.cdn) {
-        cdnHost = h.get(`${data.cdn}`);
+      let target = siteConfigJson.find((i) => i.DOMAIN === data.domain);
+      console.log(target);
+      if (target) {
+        cdnHost = h.get(`${target.CDN_HEADER}`);
       }
 
       const isDev = process.env.NODE_ENV === 'development';

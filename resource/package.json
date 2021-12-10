@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "yarn serve",
+    "start": "yarn run serve",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --mode production",
     "copy-cdn-output": "node --max_old_space_size=2048 build/cdn.output.js",

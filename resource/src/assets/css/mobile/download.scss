@@ -52,10 +52,6 @@
   text-decoration: none;
   text-decoration: none;
   width: 90%;
-
-  &.aobo1 {
-    background: $aobo1_button_color;
-  }
 }
 
 #trust-btn {
@@ -90,10 +86,6 @@
   text-align: center;
   font-size: 12px;
   color: $main_button_color !important;
-
-  &.aobo1 {
-    color: $aobo1_button_color !important;
-  }
 }
 
 .donwload-tip {

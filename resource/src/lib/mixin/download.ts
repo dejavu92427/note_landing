@@ -97,6 +97,10 @@ export default class DownloadMixin extends Vue {
     return isIOS();
   }
 
+  get isAndroidMobile() {
+    return isAndroid();
+  }
+
   beforeUnmount() {
     // window.removeEventListener('focus');
   }

@@ -5,6 +5,7 @@ const proxy = require('./config/proxy.index');
 const pwaConfig = require('./config/pwa.config');
 const path = require('path');
 const version = require('./src/config/version.json');
+const siteConfig = require('./src/config/site.config.json');
 
 // debugg gcp 觸發條件
 // process.argv = [
@@ -15,11 +16,23 @@ const version = require('./src/config/version.json');
 //   'production',
 //   'porn1'
 // ]
-let siteName = '';
-let assetsVersion = version.VERSION;
 
-console.info(`=> ${'version:'}`, version, '\n');
 console.info(`=> ${'process.argv:'}`, process.argv, '\n');
+let assetsVariablePath = `@import "@/assets/css/variable.scss";`;
+let buildSite = '';
+try {
+  process.argv.map((a) => {
+    if (a.startsWith('--SITE=') || a.startsWith('--site=')) {
+      buildSite = a.split('=')[1];
+      assetsVariablePath = `@import "@/assets/css/${buildSite}/variable.scss";`;
+      console.info('=> build target site:', buildSite);
+      console.info('=> import variable scss:', assetsVariablePath);
+      return;
+    }
+  });
+} catch (e) {
+  console.info('=> error:', e);
+}
 
 module.exports = {
   // outputDir: '../www/static/', // defaut:'dist'
@@ -94,23 +107,32 @@ module.exports = {
     loaderOptions: {
       // 向所有 Sass 樣式傳入共享的全局變量
       scss: {
-        prependData: `@import "@/assets/css/variable.scss";`,
+        // prependData: `@import "@/assets/css/variable.scss";`,
+        prependData: assetsVariablePath,
       },
     },
   },
 
-  // pwa: {
-  //   ...pwaConfig,
+  pwa: {
+    ...pwaConfig,
 
-  //   manifestOptions: {
-  //     name: `${siteName} v${assetsVersion}` || '',
-  //     short_name: siteName,
-  //     start_url: '/iframe.html',
-  //     display: 'standalone',
-  //     theme_color: '#FFFFFF',
-  //   },
-  //   assetsVersion: assetsVersion || '',
-  // },
+    manifestOptions: {
+      name: siteConfig.find((i) => i.ROUTER_TPL === buildSite).SITE_NAME,
+      short_name: siteConfig.find((i) => i.ROUTER_TPL === buildSite).SITE_NAME,
+      start_url: '/iframe.html',
+      display: 'standalone',
+      theme_color: '#FFFFFF',
+    },
+    iconPaths: {
+      faviconSVG: 'img/aobo1/favicon.icon',
+      favicon32: 'img/aobo1/favicon.icon',
+      favicon16: 'img/aobo1/favicon.icon',
+      appleTouchIcon: 'img/aobo1/favicon.icon',
+      maskIcon: 'img/aobo1/favicon.icon',
+      msTileImage: 'img/aobo1/favicon.icon',
+    },
+    assetsVersion: version.VERSION || '',
+  },
 
   lintOnSave: process.env.NODE_ENV !== 'production',
 

@@ -8,7 +8,7 @@
     <div class="swiper-wrap">
       <swiper id="swiper" :loop="true" :pagination="{ clickable: true }">
         <template v-if="['porn1'].includes(siteConfig.routerTpl)">
-          <swiper-slide v-for="(item, key) in mainImgList" :key="key">
+          <swiper-slide>
             <div class="swiper-slide-img">
               <!-- <img :src="`${cdnPath}${(item.src)}`" /> -->
               <img :src="`${cdnPath}${require('@/assets/img/porn1/sports_main.png')}`" />
@@ -73,7 +73,7 @@
       </template>
     </div>
 
-    <div class="donwload-tip">
+    <div v-if="!['aobo1', 'sp1'].includes(siteConfig.routerTpl)" class="donwload-tip">
       <div>
         需在同一网络环境下载安装，请勿切换网络；
         <span class="recommend-text">{{ recommendText }}</span>
@@ -84,7 +84,7 @@
       </div>
     </div>
 
-    <div v-if="['aobo1'].includes(siteConfig.routerTpl)" class="download-tip-extra">
+    <div v-if="['aobo1', 'sp1'].includes(siteConfig.routerTpl)" class="download-tip-extra">
       <div class="donwload-tip text">
         下滑查看安装教程
         <img class="donwload-tip-arrow" :src="`${cdnPath}${require('@/assets/img/jiantou.png')}`" />
@@ -93,6 +93,11 @@
       <div v-if="isIOSMobile" class="download_img">
         <div class="apple-icon"><img :src="`${cdnPath}${require('@/assets/img/apple.png')}`" /></div>
         <img class="tutorial" :src="`${cdnPath}${require('@/assets/img/aobo1/tutorial_ios.png')}`" />
+      </div>
+
+      <div v-if="isAndroidMobile" class="download_img">
+        <div class="apple-icon"><img :src="`${cdnPath}${require('@/assets/img/android.png')}`" /></div>
+        <img class="tutorial" :src="`${cdnPath}${require('@/assets/img/aobo1/tutorial_and.png')}`" />
       </div>
     </div>
     <div class="version">{{ verison }}</div>

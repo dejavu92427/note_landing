@@ -37,7 +37,8 @@ export const actions = {
             const link = document.createElement('link');
             link.rel = 'icon';
             document.getElementsByTagName('head')[0].appendChild(link);
-            link.href = `/img/${targetSite.SITE_NAME}/favicon.ico`;
+            console.log(targetSite.ROUTER_TPL);
+            link.href = `./img/${targetSite.ROUTER_TPL}/favicon.ico`;
 
             commit(Types.SET_VERSION, versionJson.VERSION);
 
