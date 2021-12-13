@@ -48,6 +48,12 @@
       </div>
     </div>
 
+    <div class="service-wrap">
+      <div @click="linkTo('clientService')" id="service-link">
+        <img id="appicon" :src="`${cdnPath}${require('@/assets/img/sg1/ic_service.png')}`" />
+      </div>
+    </div>
+
     <modalBox v-show="showModal" @close="toogleModal(false)" />
   </div>
 </template>
@@ -217,6 +223,27 @@ export default class DonwloadSg1 extends mixins(DownloadMixin) {
   .text {
     color: white;
     font-weight: 500;
+  }
+}
+
+.service-wrap {
+  position: fixed;
+  max-width: 420px;
+  width: 100%;
+  display: flex;
+  left: 50%;
+  justify-content: flex-end;
+  top: 50%;
+  z-index: 10;
+  transform: translateX(-50%);
+}
+
+#service-link {
+  width: 60px;
+  height: 40px;
+
+  > img {
+    width: 100%;
   }
 }
 </style>
