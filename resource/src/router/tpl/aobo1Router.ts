@@ -7,7 +7,7 @@ export const Aobo1Router: RouteRecordRaw = {
     {
       path: 'download',
       name: 'download',
-      component: () => import('../../views/aobo1/download/index.vue'),
+      component: () => import(`../../views/aobo1/download/index.vue`),
     },
     {
       // pc

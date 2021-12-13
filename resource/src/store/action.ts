@@ -39,6 +39,11 @@ export const actions = {
             document.getElementsByTagName('head')[0].appendChild(link);
             link.href = `./img/${targetSite.ROUTER_TPL}/favicon.ico`;
 
+            const appleTouchIcon = document.createElement('link');
+            appleTouchIcon.rel = 'apple-touch-icon';
+            link.href = `./img/${targetSite.ROUTER_TPL}/icon-192x192.png`;
+            link.setAttribute('sizes', '192x192');
+
             commit(Types.SET_VERSION, versionJson.VERSION);
 
             // gtag 友盟

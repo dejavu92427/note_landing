@@ -2,7 +2,6 @@
 /* eslint-disable */
 
 const proxy = require('./config/proxy.index');
-const pwaConfig = require('./config/pwa.config');
 const path = require('path');
 const version = require('./src/config/version.json');
 const siteConfig = require('./src/config/site.config.json');
@@ -114,22 +113,23 @@ module.exports = {
   },
 
   pwa: {
-    ...pwaConfig,
-
+    appleMobileWebAppCapable: 'yes',
+    appleMobileWebAppStatusBarStyle: 'black',
     manifestOptions: {
-      name: siteConfig.find((i) => i.ROUTER_TPL === buildSite).SITE_NAME,
+      name: `${siteConfig.find((i) => i.ROUTER_TPL === buildSite).SITE_NAME}`,
       short_name: siteConfig.find((i) => i.ROUTER_TPL === buildSite).SITE_NAME,
-      start_url: '/iframe.html',
+      id: '/',
+      start_url: '/',
       display: 'standalone',
       theme_color: '#FFFFFF',
     },
     iconPaths: {
-      faviconSVG: 'img/aobo1/favicon.icon',
-      favicon32: 'img/aobo1/favicon.icon',
-      favicon16: 'img/aobo1/favicon.icon',
-      appleTouchIcon: 'img/aobo1/favicon.icon',
-      maskIcon: 'img/aobo1/favicon.icon',
-      msTileImage: 'img/aobo1/favicon.icon',
+      faviconSVG: `img/${siteConfig.find((i) => i.ROUTER_TPL === buildSite).ROUTER_TPL}/favicon.svg`,
+      favicon32: null,
+      favicon16: null,
+      appleTouchIcon: `img/${siteConfig.find((i) => i.ROUTER_TPL === buildSite).ROUTER_TPL}/icon-192x192.png`,
+      maskIcon: null,
+      msTileImage: null,
     },
     assetsVersion: version.VERSION || '',
   },

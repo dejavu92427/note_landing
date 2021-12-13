@@ -53,9 +53,21 @@ const routes: Array<RouteRecordRaw> = [
   },
 
   {
-    path: '/:pathMatch(.*)*',
+    // path: '/:pathMatch(.*)*',
+    path: '/404',
     name: '404',
     component: error404,
+  },
+  {
+    // path: '/:pathMatch(.*)*',
+    path: '/img/:pathMatch(.*)*',
+    name: 'imgNotFound',
+    component: error404,
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'default',
+    redirect: 'download',
   },
 ];
 
@@ -73,6 +85,9 @@ switch (site) {
     router.addRoute(Sg1Router);
     break;
   case 'aobo1':
+    router.addRoute(Aobo1Router);
+    break;
+  case 'sp1':
     router.addRoute(Aobo1Router);
     break;
   default:

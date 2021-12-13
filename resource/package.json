@@ -1,5 +1,5 @@
 {
-  "name": "rd7_web_frontend_landing",
+  "name": "web_frontend_landing",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -42,7 +42,7 @@
     "@typescript-eslint/parser": "^2.33.0",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-plugin-pwa": "~4.5.0",
+    "@vue/cli-plugin-pwa": "^4.5.15",
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-typescript": "~4.5.0",
     "@vue/cli-plugin-unit-mocha": "~4.5.0",
