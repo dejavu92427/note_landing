@@ -126,7 +126,9 @@ export default class DownloadPorn1 extends mixins(DownloadMixin) {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import '~@/assets/css/mobile/index.scss';
+</style>
+<style lang="scss" scoped>
 @import '~@/assets/css/mobile/download.scss';
 </style>

@@ -58,4 +58,4 @@ export default class PcSg1 extends Vue {
   }
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss"></style>
