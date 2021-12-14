@@ -5,10 +5,6 @@
 <script lang="ts">
 import { Vue } from 'vue-class-component';
 
-export default class RootPorn1 extends Vue {
-  created() {
-    console.log('RootPorn1 created');
-  }
-}
+export default class RootPorn1 extends Vue {}
 </script>
 <style lang="scss"></style>

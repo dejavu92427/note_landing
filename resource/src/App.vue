@@ -21,10 +21,6 @@ export default class App extends Vue {
   get dateTime() {
     return new Date().toUTCString();
   }
-
-  created() {
-    console.log('APP:', this.dateTime);
-  }
 }
 </script>
 <style lang="scss">

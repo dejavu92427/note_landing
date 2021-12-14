@@ -142,7 +142,6 @@ export default class DownloadMixin extends Vue {
       return false;
     }
 
-    console.log(target);
     if ((isAndroid() && target.platform === 'android') || (isIOS() && target.platform === 'pwa') || (isIOS() && target.platform === 'ios')) {
       return this.downloadConfig[target.platform as keyof IDownloadConfig].show;
     }
