@@ -199,6 +199,11 @@ export default class DownloadMixin extends Vue {
     switch (target.platform) {
       case 'ios':
         {
+          if (this.siteConfig.routerTpl === 'sg1') {
+            this.progessDone = true;
+            break;
+          }
+
           this.$nextTick(() => {
             const circle = new ProgressBar.Circle('#circle-progess', {
               strokeWidth: 3,
@@ -211,7 +216,7 @@ export default class DownloadMixin extends Vue {
               step: (e, t) => {
                 const r = Math.round(100 * t.value());
                 t.setText(r + '%');
-                if (r === 100) {
+                if (+r > 100) {
                   this.progessDone = true;
                   this.downloadText = '一键信任';
                 }
