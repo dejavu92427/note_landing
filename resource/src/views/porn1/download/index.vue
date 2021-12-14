@@ -48,7 +48,12 @@
 
     <div v-if="isIOSDownloadStatus">
       <div :class="`download-container downloading`">
-        <button v-if="showDownloadItem(downloadList[0])" :id="downloadList[0].type" :class="`download-btn ${siteConfig.routerTpl}`" @click="handleClick(downloadList[0])">
+        <button
+          v-if="showDownloadItem(downloadList[0])"
+          :id="downloadList[0].type"
+          :class="`download-btn ${siteConfig.routerTpl}`"
+          @click="handleDownloadClick(downloadList[0])"
+        >
           {{ downloadList[0].text }}
         </button>
 
@@ -56,7 +61,7 @@
         <div
           id="trust-btn"
           :class="`download-btn ${progessDone ? 'done' : 'downloading'} ${siteConfig.routerTpl}`"
-          @click="handleClick(downloadList.find((i) => i.platform === 'ios'))"
+          @click="handleDownloadClick(downloadList.find((i) => i.platform === 'ios'))"
         >
           {{ downloadText }}
         </div>
@@ -66,7 +71,7 @@
     <div v-else class="download-wrap">
       <template v-for="item in downloadList">
         <div v-if="showDownloadItem(item)" :key="`download-btn-${item.type}`" :class="`download-container`">
-          <button :id="item.type" :class="`download-btn ${siteConfig.routerTpl}`" @click="handleClick(item)">
+          <button :id="item.type" :class="`download-btn ${siteConfig.routerTpl}`" @click="handleDownloadClick(item)" :type="item.platform">
             {{ item.text }}
           </button>
         </div>

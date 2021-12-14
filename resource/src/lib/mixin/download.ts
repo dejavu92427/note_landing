@@ -132,24 +132,29 @@ export default class DownloadMixin extends Vue {
   }
 
   showDownloadItem(target: DownloadItem): boolean {
+    // 去逛逛
+    if (target.platform === 'h5') {
+      return this.downloadConfig['h5'].show;
+    }
+
     // 推廣代碼不顯示下載APP
-    if (localStorage.getItem('code') && (target.platform === 'ios' || target.platform === 'android')) {
+    if (localStorage.getItem('code')) {
       return false;
     }
 
-    if (
-      (isIOS() && target.platform === 'pwa') ||
-      (isAndroid() && target.platform === 'android') ||
-      (isIOS() && target.platform === 'ios') ||
-      target.platform === 'h5'
-    ) {
+    console.log(target);
+    if ((isAndroid() && target.platform === 'android') || (isIOS() && target.platform === 'pwa') || (isIOS() && target.platform === 'ios')) {
+      return this.downloadConfig[target.platform as keyof IDownloadConfig].show;
+    }
+
+    if (!isMobile() && ((isSafari() && target.platform === 'ios') || (!isSafari() && target.platform === 'android'))) {
       return this.downloadConfig[target.platform as keyof IDownloadConfig].show;
     } else {
       return false;
     }
   }
 
-  handleClick(target: DownloadItem) {
+  handleDownloadClick(target: DownloadItem) {
     switch (target.platform) {
       case 'ios': {
         this.isIOSDownloadStatus = true;

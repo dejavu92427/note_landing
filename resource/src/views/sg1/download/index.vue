@@ -6,15 +6,16 @@
           <img id="appicon" :src="`${cdnPath}${require('@/assets/img/sg1/appicon_pao.png')}`" />
         </div>
         <div class="text">
-          <span>泡泡直播&nbsp;激情不断</span>
-          <br />
-          <span>24小时大尺度开播</span>
+          <div>
+            <div>泡泡直播&nbsp;激情不断</div>
+            <div>24小时大尺度开播</div>
+          </div>
         </div>
       </div>
       <div class="right">
         <template v-for="item in downloadList">
           <div v-if="showDownloadItem(item)" :key="`download-btn-${item.type}`" :class="`download-container`">
-            <div :id="item.type" :class="`download-btn ${siteConfig.routerTpl}`" @click="handleClick(item)">
+            <div :id="item.type" :class="`download-btn`" @click="handleClick(item)" :type="item.platform">
               {{ item.text }}
             </div>
           </div>
@@ -34,14 +35,15 @@
           <img id="appicon" :src="`${cdnPath}${require('@/assets/img/sg1/appicon_pao.png')}`" />
         </div>
         <div class="text">
-          <span>香艳色播第一品牌&nbsp;</span>
-          <br />
-          <span>即时观看性爱高潮</span>
+          <div>
+            <div>香艳色播第一品牌</div>
+            <div>即时观看性爱高潮</div>
+          </div>
         </div>
       </div>
       <div class="right">
         <div v-if="showDownloadItem(h5Item)" class="download-container-h5">
-          <div :class="`download-btn ${siteConfig.routerTpl}`" @click="handleClick(h5Item)">
+          <div :class="`download-btn`" @click="handleDownloadClick(h5Item)">
             {{ '去逛逛' }}
           </div>
         </div>
@@ -55,6 +57,13 @@
     </div>
 
     <modalBox v-show="showModal" @close="toogleModal(false)" />
+
+    <div v-if="showDownloadqrcode" class="download-qrcode-wrap" @click="showDownloadqrcode = false">
+      <div>
+        <qrcode-vue class="download-qrcode" :value="qrcodeOpt.value" :size="qrcodeOpt.size"></qrcode-vue>
+        <div class="qrcode-text">扫一扫下载泡泡直播</div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -62,6 +71,8 @@
 import { Options, mixins } from 'vue-class-component';
 import ModalBox from '../../common/modalBox.vue';
 import DownloadMixin from '../../../lib/mixin/download';
+import { isMobile } from '../../../lib/isMobile';
+import qrcodeVue from 'qrcode.vue';
 
 interface DownloadItem {
   text: string;
@@ -72,9 +83,12 @@ interface DownloadItem {
 @Options({
   components: {
     modalBox: ModalBox,
+    qrcodeVue,
   },
 })
 export default class DonwloadSg1 extends mixins(DownloadMixin) {
+  showDownloadqrcode = false;
+
   h5Item: DownloadItem = {
     text: '去逛逛',
     type: 'visit',
@@ -99,8 +113,28 @@ export default class DonwloadSg1 extends mixins(DownloadMixin) {
     },
   ];
 
-  // created() {}
+  get getIsMobile() {
+    return isMobile();
+  }
+
+  qrcodeOpt = {
+    value: '',
+    size: 160,
+  };
+
+  created() {
+    const qrUrl = `${window.location.host}${localStorage.getItem('code') ? `/a/${localStorage.getItem('code')}/` : ''}`;
+    this.qrcodeOpt.value = qrUrl;
+  }
   // mounted() {}
+
+  handleClick(item) {
+    if (isMobile()) {
+      this.handleDownloadClick(item);
+    } else {
+      this.showDownloadqrcode = true;
+    }
+  }
 }
 </script>
 
@@ -112,40 +146,52 @@ export default class DonwloadSg1 extends mixins(DownloadMixin) {
   background-size: 100% 100%;
   background: #fff;
   box-shadow: 5px 5px 20px -10px rgb(0 0 0 / 20%);
-  display: flex;
-  flex-wrap: nowrap;
   height: 81.2px;
   max-width: 420px;
   min-height: 0;
   position: fixed;
   width: 100%;
-  width: 100%;
+  display: inline-flex;
   z-index: 20;
 }
 
 .left {
   align-items: center;
   display: flex;
-  flex-wrap: nowrap;
-  flex: 1 1 55%;
+  height: 100%;
   font-size: 16px !important;
-  justify-content: space-around;
-  margin: auto;
+  justify-content: center;
+  padding-left: 5px;
 }
 
 .right {
-  flex: 1 1 45%;
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: space-around;
   align-items: center;
   color: white;
+  display: flex;
   font-size: 14px;
+  justify-content: center;
+  height: 100%;
+  width: 45%;
+  position: absolute;
+  right: 0;
+
+  &:empty {
+    display: none;
+  }
+
+  > .download-container:only-child {
+    > div {
+      padding: 4px 25px;
+    }
+  }
 }
 
 .appicon-wrap {
-  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100%;
+  width: 50px;
 
   > img {
     width: 50px;
@@ -155,7 +201,15 @@ export default class DonwloadSg1 extends mixins(DownloadMixin) {
 
 .text {
   color: #000;
+  display: inline-block;
   font-weight: 500;
+  height: 100%;
+  padding-left: 5px;
+
+  > div {
+    line-height: 20px;
+    margin-top: 20px;
+  }
 }
 
 .download-container {
@@ -163,6 +217,7 @@ export default class DonwloadSg1 extends mixins(DownloadMixin) {
   border: 1px solid white;
   background: linear-gradient(to bottom, #c02515, #488790);
   border-radius: 47px;
+  margin: 0 auto;
 
   > div {
     padding: 2px 7px;
@@ -219,6 +274,17 @@ export default class DonwloadSg1 extends mixins(DownloadMixin) {
     color: white;
     font-weight: 500;
   }
+
+  .appicon-wrap {
+    > img {
+      border: 1px solid #fff;
+      border-radius: 10px;
+    }
+  }
+
+  .right {
+    margin: 0 auto;
+  }
 }
 
 .service-wrap {
@@ -239,6 +305,39 @@ export default class DonwloadSg1 extends mixins(DownloadMixin) {
 
   > img {
     width: 100%;
+  }
+}
+
+.download-qrcode-wrap {
+  opacity: 1;
+  position: fixed;
+  z-index: 99;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  -ms-touch-action: none;
+  touch-action: none;
+  -webkit-overflow-scrolling: none;
+
+  > div {
+    -webkit-transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 10px;
+    left: 50%;
+    padding: 16px;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+  }
+
+  .qrcode-text {
+    margin-top: 10px;
+    font-size: 16px;
+    color: black;
   }
 }
 </style>
