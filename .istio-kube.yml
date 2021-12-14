@@ -1,0 +1,90 @@
+# Nginx.conf 需更改configmap
+# nginxssl.crt ,nginxssl.key 需更改secret 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: istio-yabo
+  name: {{.deployName}}
+  labels:
+    app: yabo-landingpage-{{.env}}
+    base: yabo-landingpage
+    version: v1
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: yabo-landingpage-{{.env}}
+      base: yabo-landingpage
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: yabo-landingpage-{{.env}}
+        base: yabo-landingpage
+        version: v1
+    spec:
+      initContainers:
+      - name: source
+        image: {{.imageName}}
+        imagePullPolicy: "Always"
+        resources:
+          requests:
+            memory: '100Mi'
+            cpu: '50m'
+        command:
+          - sh
+          - -c
+          - rsync -avrh --delete /source/* /app
+        volumeMounts:
+        - name: source
+          mountPath: /app   
+              
+      containers:
+      - name: nginx
+        image: nginx
+        resources:
+          requests:
+            memory: '100Mi'
+            cpu: '50m'
+        volumeMounts:
+        - name: source
+          mountPath: /app
+          # subPath 當目錄中有多個資料夾時，用來指定要掛載哪個資料夾或檔案用
+          # 掛載 volume 中的 "nginx的nginx.conf"
+        - name: nginx-config
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+        - name: nginx-ssl
+          readOnly: true
+          mountPath: "/etc/nginx/nginxssl.crt"
+          subPath: nginxssl.crt
+        - name: nginx-ssl
+          readOnly: true
+          mountPath: "/etc/nginx/nginxssl.key"
+          subPath: nginxssl.key
+        ports:
+        - containerPort: 80
+        - containerPort: 443 
+
+      - name: php-fpm
+        image: php:7-fpm
+        resources:
+          requests:
+            memory: '100Mi'
+            cpu: '50m'
+        volumeMounts:
+        - name: source
+          mountPath: /app
+      volumes:
+      - name: source
+        emptyDir: {}
+      - name: nginx-config
+        configMap:
+          name: {{.k8sNginxConfigMap}}
+          defaultMode: 420
+      - name: nginx-ssl
+        secret:
+          defaultMode: 420
+          secretName: nginx-ssl-{{.env}}
+      nodeSelector:
+        {{.nodePool}}: {{.nodePoolName}}

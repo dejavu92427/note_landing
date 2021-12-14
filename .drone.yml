@@ -1,0 +1,193 @@
+---
+kind: pipeline
+name: yaboLandingPipeline(porn1QA)
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: push2GCR-QA
+  image: plugins/gcr
+  settings:
+    build_args:
+    - website=porn1
+    json_key:
+      from_secret: GOOGLE_CREDENTIALS
+    repo: gcr.io/rd7-project/yaboxxx-landingpage
+    tags:
+    - latest
+    - qa-${DRONE_COMMIT}
+    - ${DRONE_TAG}
+
+- name: deploy2GKE-QA
+  image: nytimes/drone-gke
+  settings:
+    cluster: yaboxxx-test
+    project: rd7-project
+    template: .istio-kube.yml
+    vars:
+      deployName: yabo-landingpage-qa
+      env: qa
+      imageName: gcr.io/rd7-project/yaboxxx-landingpage:${DRONE_TAG}
+      k8sNginxConfigMap: yabo-landingpage-nginx-qa
+      nodePool: env
+      nodePoolName: qa
+    zone: asia-east1-b
+  environment:
+    TOKEN:
+      from_secret: GOOGLE_CREDENTIALS
+
+trigger:
+  event:
+  - tag
+  ref:
+  - refs/tags/porn1QA-*
+
+---
+kind: pipeline
+name: yaboLandingPipeline(porn1Beta)
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: push2GCR-Beta
+  image: plugins/gcr
+  settings:
+    build_args:
+    - website=porn1
+    json_key:
+      from_secret: GOOGLE_CREDENTIALS
+    repo: gcr.io/rd7-project/yaboxxx-landingpage
+    tags:
+    - latest
+    - beta-${DRONE_COMMIT}
+    - ${DRONE_TAG}
+
+- name: deploy2GKE-Beta
+  image: nytimes/drone-gke
+  settings:
+    cluster: yaboxxx-prod
+    project: rd7-project
+    template: .istio-kube.yml
+    vars:
+      deployName: yabo-landingpage-beta
+      env: beta
+      imageName: gcr.io/rd7-project/yaboxxx-landingpage:${DRONE_TAG}
+      k8sNginxConfigMap: yabo-landingpage-nginx-beta
+      nodePool: env
+      nodePoolName: prod
+    zone: asia-east1-b
+  environment:
+    TOKEN:
+      from_secret: GOOGLE_CREDENTIALS
+
+trigger:
+  event:
+  - tag
+  ref:
+  - refs/tags/porn1Beta-*
+
+---
+kind: pipeline
+name: yaboLandingPipeline(porn1Demo)
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: push2GCR-Demo
+  image: plugins/gcr
+  settings:
+    build_args:
+    - website=porn1
+    json_key:
+      from_secret: GOOGLE_CREDENTIALS
+    repo: gcr.io/rd7-project/yaboxxx-landingpage
+    tags:
+    - latest
+    - demo-${DRONE_COMMIT}
+    - ${DRONE_TAG}
+  depends_on:
+  - clone
+
+- name: deploy2GKE-Demo
+  image: nytimes/drone-gke
+  settings:
+    cluster: yaboxxx-prod
+    project: rd7-project
+    template: .istio-kube.yml
+    vars:
+      deployName: yabo-landingpage-demo
+      env: demo
+      imageName: gcr.io/rd7-project/yaboxxx-landingpage:${DRONE_TAG}
+      k8sNginxConfigMap: yabo-landingpage-nginx-demo
+      nodePool: env
+      nodePoolName: prod
+    zone: asia-east1-b
+  environment:
+    TOKEN:
+      from_secret: GOOGLE_CREDENTIALS
+  depends_on:
+  - push2GCR-Demo
+
+trigger:
+  event:
+  - tag
+  ref:
+  - refs/tags/porn1Demo-*
+
+---
+kind: pipeline
+name: yaboLandingPipeline(porn1Prod)
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: push2GCR-Prod
+  image: plugins/gcr
+  settings:
+    build_args:
+    - website=porn1
+    json_key:
+      from_secret: GOOGLE_CREDENTIALS
+    repo: gcr.io/rd7-project/yaboxxx-landingpage
+    tags:
+    - latest
+    - prod-${DRONE_COMMIT}
+    - ${DRONE_TAG}
+  depends_on:
+  - clone
+
+- name: deploy2GKE-Prod
+  image: nytimes/drone-gke
+  settings:
+    cluster: yaboxxx-prod
+    project: rd7-project
+    template: .istio-kube.yml
+    vars:
+      deployName: yabo-landingpage-prod
+      env: prod
+      imageName: gcr.io/rd7-project/yaboxxx-landingpage:${DRONE_TAG}
+      k8sNginxConfigMap: yabo-landingpage-nginx-prod
+      nodePool: env
+      nodePoolName: prod
+    zone: asia-east1-b
+  environment:
+    TOKEN:
+      from_secret: GOOGLE_CREDENTIALS
+  depends_on:
+  - push2GCR-Prod
+
+trigger:
+  event:
+  - tag
+  ref:
+  - refs/tags/porn1Prod-*
+
+...

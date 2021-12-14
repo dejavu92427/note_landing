@@ -2,7 +2,7 @@
 FROM gcr.io/cloud-builders/yarn:node-14.17.1 as build-env
 # FROM gcr.io/cloud-builders/yarn:node-8.12.0 as build-env
 WORKDIR /app
-
+ARG website
 # Install yarn and other dependencies via apk
 # RUN apk update && apk add yarn python2 g++ make && rm -rf /var/cache/apk/*
 # RUN npm view yarn versions
@@ -18,7 +18,7 @@ RUN node -v
 # RUN npm install --save-dev @babel/plugin-proposal-class-static-block
 RUN  yarn install
 # RUN yarn add @babel/plugin-proposal-class-static-block
-RUN  yarn build --site=porn1
+RUN  yarn build --site=${website}
 
 
 FROM nginx
