@@ -108,6 +108,12 @@ export default class DownloadMixin extends Vue {
   created() {
     console.log('isMobile:', isMobile());
     this.getLCFSystemConfig();
+
+    // 泡泡無PC版頁面
+    if (this.siteConfig.routerTpl === 'sg1') {
+      return;
+    }
+
     if (isMobile()) {
       // 是否保留推廣代碼
       // this.$router.push('/download');
@@ -131,7 +137,12 @@ export default class DownloadMixin extends Vue {
       return false;
     }
 
-    if ((isIOS() && target.platform === 'pwa') || (isAndroid() && target.platform === 'android') || (isIOS() && target.platform === 'ios') || target.platform === 'h5') {
+    if (
+      (isIOS() && target.platform === 'pwa') ||
+      (isAndroid() && target.platform === 'android') ||
+      (isIOS() && target.platform === 'ios') ||
+      target.platform === 'h5'
+    ) {
       return this.downloadConfig[target.platform as keyof IDownloadConfig].show;
     } else {
       return false;

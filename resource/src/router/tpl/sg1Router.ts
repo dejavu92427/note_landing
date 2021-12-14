@@ -13,7 +13,7 @@ export const Sg1Router: RouteRecordRaw = {
       // pc
       path: 'pc',
       name: 'pc',
-      component: () => import('../../views/sg1/pc/index.vue'),
+      redirect: 'download',
     },
   ],
 };

@@ -13,7 +13,7 @@
       </div>
       <div class="right">
         <template v-for="item in downloadList">
-          <div v-if="showDownloadItem(item) && item.platform !== 'h5'" :key="`download-btn-${item.type}`" :class="`download-container`">
+          <div v-if="showDownloadItem(item)" :key="`download-btn-${item.type}`" :class="`download-container`">
             <div :id="item.type" :class="`download-btn ${siteConfig.routerTpl}`" @click="handleClick(item)">
               {{ item.text }}
             </div>
@@ -82,11 +82,6 @@ export default class DonwloadSg1 extends mixins(DownloadMixin) {
   };
 
   downloadList: DownloadItem[] = [
-    {
-      text: '去逛逛',
-      type: 'visit',
-      platform: 'h5',
-    },
     {
       text: '下载APP',
       type: 'downloadPWA',
