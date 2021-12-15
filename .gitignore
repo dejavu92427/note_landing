@@ -28,7 +28,7 @@ pnpm-debug.log*
 # www/static/css
 # www/static/js
 www/
-www/index.html
-www/static/
-!*www/static/image
-!*www/static/tpl
+# www/index.html
+# www/static/
+# !*www/static/image
+# !*www/static/tpl

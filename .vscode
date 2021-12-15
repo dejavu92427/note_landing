@@ -19,5 +19,5 @@
     "editor.defaultFormatter": "vscode.html-language-features"
   },
   "javascript.updateImportsOnFileMove.enabled": "always",
-  "typescript.updateImportsOnFileMove.enabled": "always",
+  "typescript.updateImportsOnFileMove.enabled": "always"
 }

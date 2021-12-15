@@ -101,6 +101,18 @@ export default class DownloadMixin extends Vue {
     return isAndroid();
   }
 
+  get hasAPPDownalod() {
+    if (localStorage.getItem('code')) {
+      return false;
+    }
+
+    if (!this.downloadConfig.android.show || !this.downloadConfig.ios.show || !this.downloadConfig.pwa.show) {
+      return false;
+    }
+
+    return true;
+  }
+
   beforeUnmount() {
     // window.removeEventListener('focus');
   }
@@ -108,6 +120,12 @@ export default class DownloadMixin extends Vue {
   created() {
     console.log('isMobile:', isMobile());
     this.getLCFSystemConfig();
+
+    // 泡泡無PC版頁面
+    if (this.siteConfig.routerTpl === 'sg1') {
+      return;
+    }
+
     if (isMobile()) {
       // 是否保留推廣代碼
       // this.$router.push('/download');
@@ -126,19 +144,28 @@ export default class DownloadMixin extends Vue {
   }
 
   showDownloadItem(target: DownloadItem): boolean {
+    // 去逛逛
+    if (target.platform === 'h5') {
+      return this.downloadConfig['h5'].show;
+    }
+
     // 推廣代碼不顯示下載APP
-    if (localStorage.getItem('code') && (target.platform === 'ios' || target.platform === 'android')) {
+    if (localStorage.getItem('code')) {
       return false;
     }
 
-    if ((isIOS() && target.platform === 'pwa') || (isAndroid() && target.platform === 'android') || (isIOS() && target.platform === 'ios') || target.platform === 'h5') {
+    if ((isAndroid() && target.platform === 'android') || (isIOS() && target.platform === 'pwa') || (isIOS() && target.platform === 'ios')) {
+      return this.downloadConfig[target.platform as keyof IDownloadConfig].show;
+    }
+
+    if (!isMobile() && ((isSafari() && target.platform === 'ios') || (!isSafari() && target.platform === 'android'))) {
       return this.downloadConfig[target.platform as keyof IDownloadConfig].show;
     } else {
       return false;
     }
   }
 
-  handleClick(target: DownloadItem) {
+  handleDownloadClick(target: DownloadItem) {
     switch (target.platform) {
       case 'ios': {
         this.isIOSDownloadStatus = true;
@@ -181,9 +208,41 @@ export default class DownloadMixin extends Vue {
     this.isDownloading = true;
     const bundleID = this.downloadConfig[target.platform as keyof IDownloadConfig].bundleID;
     let platform = '';
+
+    const getDownloadUri = (platformType) => {
+      this.getDownloadUri({ bundleID: bundleID, platform: platformType }).then((result: string) => {
+        if (result && result.length > 0) {
+          const a = document.createElement('a');
+          a.href = result;
+          document.body.appendChild(a);
+          a.click();
+
+          // 強制二次下載跳轉描述檔確認頁
+          switch (target.platform) {
+            case 'pwa': {
+              this.downloadPubMobile(false);
+              break;
+            }
+          }
+          setTimeout(() => {
+            this.isDownloading = false;
+          }, 1500);
+          document.body.removeChild(a);
+        }
+      });
+    };
+
     switch (target.platform) {
       case 'ios':
         {
+          platform = '1';
+
+          if (this.siteConfig.routerTpl === 'sg1') {
+            this.progessDone = true;
+            getDownloadUri(platform);
+            break;
+          }
+
           this.$nextTick(() => {
             const circle = new ProgressBar.Circle('#circle-progess', {
               strokeWidth: 3,
@@ -196,9 +255,10 @@ export default class DownloadMixin extends Vue {
               step: (e, t) => {
                 const r = Math.round(100 * t.value());
                 t.setText(r + '%');
-                if (r === 100) {
+                if (+r > 100) {
                   this.progessDone = true;
                   this.downloadText = '一键信任';
+                  getDownloadUri(platform);
                 }
               },
             });
@@ -208,52 +268,27 @@ export default class DownloadMixin extends Vue {
             }, 1000);
           });
         }
-        platform = '1';
         break;
+
       case 'pwa':
         platform = '2';
+        getDownloadUri(platform);
         break;
+
       case 'android':
         platform = '3';
+        getDownloadUri(platform);
         break;
+
       case 'hide':
         platform = '4';
+        getDownloadUri(platform);
         break;
     }
-
-    const params = {
-      bundleID: bundleID,
-      platform: platform,
-    };
-
-    this.getDownloadUri(params).then((result: string) => {
-      if (result && result.length > 0) {
-        this.download(result, target.platform);
-      }
-    });
   }
 
   linkTo(target): void {
     this.actionLinkTo(target);
-  }
-
-  download(href: string, platform: string) {
-    const a = document.createElement('a');
-    a.href = href;
-    document.body.appendChild(a);
-    a.click();
-
-    // 強制二次下載跳轉描述檔確認頁
-    switch (platform) {
-      case 'pwa': {
-        this.downloadPubMobile(false);
-        break;
-      }
-    }
-    setTimeout(() => {
-      this.isDownloading = false;
-    }, 1500);
-    document.body.removeChild(a);
   }
 
   downloadPubMobile(isIOS = true) {
