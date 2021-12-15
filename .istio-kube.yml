@@ -56,8 +56,9 @@ spec:
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         volumeMounts:
-        - mountPath: /etc/nginx/conf.d
+        - mountPath: /etc/nginx/nginx.conf
           name: nginx-config
+          subPath: nginx.conf
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
