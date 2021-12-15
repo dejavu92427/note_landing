@@ -35,8 +35,8 @@ function getCDNHost() {
         __webpack_public_path__ = path;
       }
     })
-    .catch(function (e) {
-      window.location.href = '/404';
+    .catch((e) => {
+      console.log(e);
     })
     .then(main);
 }

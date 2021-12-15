@@ -1,6 +1,7 @@
 import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router';
 
 import { Aobo1Router } from './tpl/aobo1Router';
+import { DefaultRouter } from './tpl/defaultRouter';
 import Home from '../views/index.vue';
 import { Porn1Router } from './tpl/porn1Router';
 import { Sg1Router } from './tpl/sg1Router';
@@ -91,6 +92,7 @@ switch (site) {
     router.addRoute(Aobo1Router);
     break;
   default:
+    router.addRoute(DefaultRouter);
     break;
 }
 

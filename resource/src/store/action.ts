@@ -57,11 +57,13 @@ export const actions = {
 
           return;
         } else {
+          window.location.href = '/404';
           // commit(Types.SET_SITE_CONFIG, sitConfigJson[0]);
           return;
         }
       })
       .catch((err) => {
+        alert('domain error');
         window.location.href = '/404';
         console.log(err);
       });
