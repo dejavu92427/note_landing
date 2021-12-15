@@ -208,11 +208,38 @@ export default class DownloadMixin extends Vue {
     this.isDownloading = true;
     const bundleID = this.downloadConfig[target.platform as keyof IDownloadConfig].bundleID;
     let platform = '';
+
+    const getDownloadUri = (platformType) => {
+      this.getDownloadUri({ bundleID: bundleID, platform: platformType }).then((result: string) => {
+        if (result && result.length > 0) {
+          const a = document.createElement('a');
+          a.href = result;
+          document.body.appendChild(a);
+          a.click();
+
+          // 強制二次下載跳轉描述檔確認頁
+          switch (target.platform) {
+            case 'pwa': {
+              this.downloadPubMobile(false);
+              break;
+            }
+          }
+          setTimeout(() => {
+            this.isDownloading = false;
+          }, 1500);
+          document.body.removeChild(a);
+        }
+      });
+    };
+
     switch (target.platform) {
       case 'ios':
         {
+          platform = '1';
+
           if (this.siteConfig.routerTpl === 'sg1') {
             this.progessDone = true;
+            getDownloadUri(platform);
             break;
           }
 
@@ -231,6 +258,7 @@ export default class DownloadMixin extends Vue {
                 if (+r > 100) {
                   this.progessDone = true;
                   this.downloadText = '一键信任';
+                  getDownloadUri(platform);
                 }
               },
             });
@@ -240,52 +268,27 @@ export default class DownloadMixin extends Vue {
             }, 1000);
           });
         }
-        platform = '1';
         break;
+
       case 'pwa':
         platform = '2';
+        getDownloadUri(platform);
         break;
+
       case 'android':
         platform = '3';
+        getDownloadUri(platform);
         break;
+
       case 'hide':
         platform = '4';
+        getDownloadUri(platform);
         break;
     }
-
-    const params = {
-      bundleID: bundleID,
-      platform: platform,
-    };
-
-    this.getDownloadUri(params).then((result: string) => {
-      if (result && result.length > 0) {
-        this.download(result, target.platform);
-      }
-    });
   }
 
   linkTo(target): void {
     this.actionLinkTo(target);
-  }
-
-  download(href: string, platform: string) {
-    const a = document.createElement('a');
-    a.href = href;
-    document.body.appendChild(a);
-    a.click();
-
-    // 強制二次下載跳轉描述檔確認頁
-    switch (platform) {
-      case 'pwa': {
-        this.downloadPubMobile(false);
-        break;
-      }
-    }
-    setTimeout(() => {
-      this.isDownloading = false;
-    }, 1500);
-    document.body.removeChild(a);
   }
 
   downloadPubMobile(isIOS = true) {
