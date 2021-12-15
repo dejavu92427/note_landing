@@ -101,6 +101,18 @@ export default class DownloadMixin extends Vue {
     return isAndroid();
   }
 
+  get hasAPPDownalod() {
+    if (localStorage.getItem('code')) {
+      return false;
+    }
+
+    if (!this.downloadConfig.android.show || !this.downloadConfig.ios.show || !this.downloadConfig.pwa.show) {
+      return false;
+    }
+
+    return true;
+  }
+
   beforeUnmount() {
     // window.removeEventListener('focus');
   }

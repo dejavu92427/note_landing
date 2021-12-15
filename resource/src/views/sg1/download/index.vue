@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="header">
+    <div :class="`header ${hasAPPDownalod ? 'has-download' : ''}`">
       <div class="left">
         <div class="appicon-wrap">
           <img id="appicon" :src="`${cdnPath}${require('@/assets/img/sg1/appicon_pao.png')}`" />
@@ -60,6 +60,7 @@
 
     <div v-if="showDownloadqrcode" class="download-qrcode-wrap" @click="showDownloadqrcode = false">
       <div>
+        <img class="close-img" :src="`${cdnPath}${require('@/assets/img/sg1/btn_close_w.png')}`" />
         <qrcode-vue class="download-qrcode" :value="qrcodeOpt.value" :size="qrcodeOpt.size"></qrcode-vue>
         <div class="qrcode-text">扫一扫下载泡泡直播</div>
       </div>
@@ -123,7 +124,7 @@ export default class DonwloadSg1 extends mixins(DownloadMixin) {
   };
 
   created() {
-    const qrUrl = `${window.location.host}${localStorage.getItem('code') ? `/a/${localStorage.getItem('code')}/` : ''}`;
+    const qrUrl = `${window.location.host}${localStorage.getItem('code') ? `/a/${localStorage.getItem('code')}/` : '1234'}`;
     this.qrcodeOpt.value = qrUrl;
   }
   // mounted() {}
@@ -142,6 +143,9 @@ export default class DonwloadSg1 extends mixins(DownloadMixin) {
 @import '~@/assets/css/mobile/index.scss';
 </style>
 <style lang="scss" scoped>
+$font_size: 16px;
+$min_font_size: 10px;
+
 .header {
   background-size: 100% 100%;
   background: #fff;
@@ -151,15 +155,19 @@ export default class DonwloadSg1 extends mixins(DownloadMixin) {
   min-height: 0;
   position: fixed;
   width: 100%;
-  display: inline-flex;
+  display: block;
   z-index: 20;
+
+  &.has-download {
+    display: inline-flex;
+  }
 }
 
 .left {
   align-items: center;
   display: flex;
   height: 100%;
-  font-size: 16px !important;
+  font-size: $font_size;
   justify-content: center;
   padding-left: 5px;
 }
@@ -338,6 +346,19 @@ export default class DonwloadSg1 extends mixins(DownloadMixin) {
     margin-top: 10px;
     font-size: 16px;
     color: black;
+  }
+}
+
+.close-img {
+  position: absolute;
+  right: 0;
+  top: -30px;
+  width: 30px;
+}
+
+@media only screen and (min-width: 245px) and (max-width: 340px) {
+  .left {
+    font-size: $min_font_size;
   }
 }
 </style>
