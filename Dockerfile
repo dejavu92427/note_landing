@@ -26,9 +26,9 @@ FROM nginx
 RUN apt-get update && apt-get install -y inotify-tools
 
 # COPY --from=build-env /app/. /usr/share/nginx/html/frontend-client
-# COPY --from=build-env /app/. /usr/share/nginx/html/
+COPY --from=build-env /app/. /usr/share/nginx/html/
 
-# WORKDIR /usr/share/nginx/html/
+WORKDIR /usr/share/nginx/html/
 
 #COPY container/auto-reload-nginx.sh /
 # COPY --from=build-env /app/auto-reload-nginx.sh /
