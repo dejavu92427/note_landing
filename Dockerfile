@@ -31,8 +31,8 @@ COPY --from=build-env /app/. /usr/share/nginx/html/
 WORKDIR /usr/share/nginx/html/
 
 #COPY container/auto-reload-nginx.sh /
-COPY --from=build-env /app/auto-reload-nginx.sh /
+# COPY --from=build-env /app/auto-reload-nginx.sh /
 
-RUN chmod +x /auto-reload-nginx.sh
+# RUN chmod +x /auto-reload-nginx.sh
 
-CMD ["/auto-reload-nginx.sh"]
+# CMD ["/auto-reload-nginx.sh"]
