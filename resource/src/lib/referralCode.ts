@@ -12,7 +12,4 @@ export function initRouterReferralCode(to: RouteLocationNormalized) {
     const code = to.query.a.toString();
     localStorage.setItem('code', code);
   }
-
-  const qrUrl = `https://${window.location.host}${localStorage.getItem('code') ? `/a/${localStorage.getItem('code')}/` : ''}`;
-  localStorage.setItem('referral-link', qrUrl);
 }

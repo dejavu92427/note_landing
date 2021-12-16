@@ -46,6 +46,9 @@ export const actions = {
 
             commit(Types.SET_VERSION, versionJson.VERSION);
 
+            const qrUrl = `https://${window.location.host}${localStorage.getItem('code') ? `/a/${localStorage.getItem('code')}/` : ''}`;
+            localStorage.setItem('referral-link', qrUrl);
+
             // gtag 友盟
             if (process.env.NODE_ENV === 'production' && targetSite.PROD) {
               window.SET_GTAG(gtagConfig[targetSite.ROUTER_TPL].id);
