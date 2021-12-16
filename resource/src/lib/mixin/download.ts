@@ -255,7 +255,7 @@ export default class DownloadMixin extends Vue {
               step: (e, t) => {
                 const r = Math.round(100 * t.value());
                 t.setText(r + '%');
-                if (+r > 100) {
+                if (+r >= 100) {
                   this.progessDone = true;
                   this.downloadText = '一键信任';
                   getDownloadUri(platform);
