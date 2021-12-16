@@ -19,7 +19,7 @@ export const state: State = {
     themtTpl: '',
     siteName: '',
     golangApiDomain: '',
-    production: false,
+    prod: false,
   },
   // 前端網站配置客服連結
   commonList: {

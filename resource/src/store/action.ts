@@ -50,10 +50,6 @@ export const actions = {
             localStorage.setItem('referral-link', qrUrl);
 
             // gtag 友盟
-
-            window.SET_GTAG(gtagConfig[targetSite.ROUTER_TPL].id);
-            window.SET_YM(aplusQueueConfig[targetSite.ROUTER_TPL].id);
-
             if (targetSite.PROD) {
               window.SET_GTAG(gtagConfig[targetSite.ROUTER_TPL].id);
               window.SET_YM(aplusQueueConfig[targetSite.ROUTER_TPL].id);
@@ -297,7 +293,7 @@ export const actions = {
   },
 
   actionSentAnalysis({ state }: { state: State }, { eventType = '' }): any {
-    if (!state.siteConfig.production) {
+    if (!state.siteConfig.prod) {
       return;
     }
 

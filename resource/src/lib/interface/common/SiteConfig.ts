@@ -4,5 +4,5 @@ export interface ISiteConfig {
   themtTpl: string;
   siteName: string;
   golangApiDomain: string;
-  production: boolean;
+  prod: boolean;
 }
