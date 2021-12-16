@@ -1,12 +1,12 @@
 <template>
   <div class="wrap">
-    <img class="logo-corner" :src="`${cdnPath}${require('@/assets/img/aobo1/logo_corner.png')}`" />
+    <img class="logo-corner" :src="`${cdnPath}${require('@/assets/img/sp1/logo_corner.png')}`" />
     <div class="main-header">
       <qrcode-vue id="qrcode" :value="qrcodeOpt.value" :size="qrcodeOpt.size"></qrcode-vue>
-      <img class="code-tips" :src="`${cdnPath}${require('@/assets/img/aobo1/code_tip.png')}`" />
+      <img class="code-tips" :src="`${cdnPath}${require('@/assets/img/sp1/code_tip.png')}`" />
     </div>
     <div class="cover-image">
-      <img :src="`${cdnPath}${require('@/assets/img/aobo1/appdown_sports.png')}`" />
+      <img :src="`${cdnPath}${require('@/assets/img/sp1/appdown_sports.png')}`" />
     </div>
   </div>
 </template>

@@ -41,10 +41,10 @@
   -webkit-appearance: auto;
   animation: install-button 0.66s ease-in-out;
   appearance: auto;
-  background: $main_button_color;
+  background: var(--main_button_color);
   border-radius: 18px;
   border: unset;
-  color: white;
+  color: var(--main_button_text_color);
   font-family: PingFangSC-Regular, sans-serif;
   font-size: 13px;
   height: 36px;
@@ -56,7 +56,7 @@
 
 #trust-btn {
   opacity: 0.5;
-  color: white;
+  color: var(--main_button_text_color);
   line-height: 36px;
   width: 180%;
 
@@ -79,19 +79,20 @@
   height: 36px;
   width: 36px;
   margin: 0 12px;
+  font-size: 12px;
 }
 
 .progressbar-text {
   width: 100%;
   text-align: center;
   font-size: 12px;
-  color: $main_button_color !important;
+  color: var(--main_button_color) !important;
 }
 
 .donwload-tip {
   font-size: 12px;
   line-height: 18px;
-  color: #666666;
+  color: var(--main_text_color);
   text-align: center;
   padding: 14px 7px;
 
@@ -107,7 +108,7 @@
 
   &.text {
     padding: 0;
-    color: #ad947c;
+    color: var(--main_text_color);
   }
 }
 

@@ -54,6 +54,10 @@ export const actions = {
               window.SET_GTAG(gtagConfig[targetSite.ROUTER_TPL].id);
               window.SET_YM(aplusQueueConfig[targetSite.ROUTER_TPL].id);
             }
+
+            if (process.env.NODE_ENV !== 'production') {
+              console.log('site:', targetSite);
+            }
           } else {
             window.location.href = '/404';
           }

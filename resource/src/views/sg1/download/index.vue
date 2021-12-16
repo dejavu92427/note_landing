@@ -140,6 +140,7 @@ export default class DonwloadSg1 extends mixins(DownloadMixin) {
 
 <style lang="scss">
 @import '~@/assets/css/mobile/index.scss';
+@import '~@/assets/css/variable/sg1.scss';
 </style>
 <style lang="scss" scoped>
 $font_size: 16px;

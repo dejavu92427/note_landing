@@ -107,7 +107,7 @@ module.exports = {
       // 向所有 Sass 樣式傳入共享的全局變量
       scss: {
         // prependData: `@import "@/assets/css/variable.scss";`,
-        prependData: assetsVariablePath,
+        // prependData: assetsVariablePath,
       },
     },
   },

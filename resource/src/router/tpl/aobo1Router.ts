@@ -2,7 +2,7 @@ import { RouteRecordRaw } from 'vue-router';
 
 export const Aobo1Router: RouteRecordRaw = {
   path: '/',
-  component: () => import('../../views/index.vue'),
+  component: () => import('../../views/aobo1/index.vue'),
   children: [
     {
       path: 'download',

@@ -1,127 +1,15 @@
 <template>
-  <div class="container">
-    <!-- 圖片需放/assets/img 底下 img.hash.png -->
-    <!-- <div>
-      <img class="swiper-slide-img" src="@/assets/img/sports_main.png" />
-    </div> -->
-
-    <div class="swiper-wrap">
-      <swiper id="swiper" :loop="true" :pagination="{ clickable: true }">
-        <template v-if="['porn1'].includes(siteConfig.routerTpl)">
-          <swiper-slide>
-            <div class="swiper-slide-img">
-              <!-- <img :src="`${cdnPath}${(item.src)}`" /> -->
-              <img :src="`${cdnPath}${require('@/assets/img/porn1/sports_main.png')}`" />
-            </div>
-          </swiper-slide>
-        </template>
-
-        <template v-if="['aobo1'].includes(siteConfig.routerTpl)">
-          <swiper-slide>
-            <div class="swiper-slide-img">
-              <img :src="`${cdnPath}${require('@/assets/img/aobo1/main_01.png')}`" />
-            </div>
-          </swiper-slide>
-          <swiper-slide>
-            <div class="swiper-slide-img">
-              <img :src="`${cdnPath}${require('@/assets/img/aobo1/main_02.png')}`" />
-            </div>
-          </swiper-slide>
-          <swiper-slide>
-            <div class="swiper-slide-img">
-              <img :src="`${cdnPath}${require('@/assets/img/aobo1/main_03.png')}`" />
-            </div>
-          </swiper-slide>
-          <swiper-slide>
-            <div class="swiper-slide-img">
-              <img :src="`${cdnPath}${require('@/assets/img/aobo1/main_04.png')}`" />
-            </div>
-          </swiper-slide>
-          <swiper-slide>
-            <div class="swiper-slide-img">
-              <img :src="`${cdnPath}${require('@/assets/img/aobo1/main_05.png')}`" />
-            </div>
-          </swiper-slide>
-        </template>
-      </swiper>
-    </div>
-
-    <div v-if="isIOSDownloadStatus">
-      <div :class="`download-container downloading`">
-        <button
-          v-if="showDownloadItem(downloadList[0])"
-          :id="downloadList[0].type"
-          :class="`download-btn ${siteConfig.routerTpl}`"
-          @click="handleDownloadClick(downloadList[0])"
-        >
-          {{ downloadList[0].text }}
-        </button>
-
-        <div id="circle-progess" class="progress" />
-        <div
-          id="trust-btn"
-          :class="`download-btn ${progessDone ? 'done' : 'downloading'} ${siteConfig.routerTpl}`"
-          @click="handleDownloadClick(downloadList.find((i) => i.platform === 'ios'))"
-        >
-          {{ downloadText }}
-        </div>
-      </div>
-    </div>
-
-    <div v-else class="download-wrap">
-      <template v-for="item in downloadList">
-        <div v-if="showDownloadItem(item)" :key="`download-btn-${item.type}`" :class="`download-container`">
-          <button :id="item.type" :class="`download-btn ${siteConfig.routerTpl}`" @click="handleDownloadClick(item)" :type="item.platform">
-            {{ item.text }}
-          </button>
-        </div>
-      </template>
-    </div>
-
-    <div v-if="!['aobo1', 'sp1'].includes(siteConfig.routerTpl)" class="donwload-tip">
-      <div>
-        需在同一网络环境下载安装，请勿切换网络；
-        <span class="recommend-text">{{ recommendText }}</span>
-      </div>
-      <div>
-        如需帮助，
-        <a @click="linkTo('clientService')" class="link" target="_blank">请联系客服</a>
-      </div>
-    </div>
-
-    <div v-if="['aobo1', 'sp1'].includes(siteConfig.routerTpl)" class="download-tip-extra">
-      <div class="donwload-tip text">
-        下滑查看安装教程
-        <img class="donwload-tip-arrow" :src="`${cdnPath}${require('@/assets/img/jiantou.png')}`" />
-      </div>
-
-      <div v-if="isIOSMobile" class="download_img">
-        <div class="apple-icon"><img :src="`${cdnPath}${require('@/assets/img/apple.png')}`" /></div>
-        <img class="tutorial" :src="`${cdnPath}${require('@/assets/img/aobo1/tutorial_ios.png')}`" />
-      </div>
-
-      <div v-if="isAndroidMobile" class="download_img">
-        <div class="apple-icon"><img :src="`${cdnPath}${require('@/assets/img/android.png')}`" /></div>
-        <img class="tutorial" :src="`${cdnPath}${require('@/assets/img/aobo1/tutorial_and.png')}`" />
-      </div>
-    </div>
-    <div class="version">{{ verison }}</div>
-
-    <modalBox v-show="showModal" @close="toogleModal(false)" />
-  </div>
+  <downloadCommon />
 </template>
 
 <script lang="ts">
 import { Options, mixins } from 'vue-class-component';
-import { Swiper, SwiperSlide } from 'swiper/vue';
-import ModalBox from '../../common/modalBox.vue';
 import DownloadMixin from '../../../lib/mixin/download';
+import DownloadCommon from '../../common/download.vue';
 
 @Options({
   components: {
-    swiper: Swiper,
-    swiperSlide: SwiperSlide,
-    modalBox: ModalBox,
+    downloadCommon: DownloadCommon,
   },
   // mixins: [DownloadMixin],
 })
@@ -133,6 +21,7 @@ export default class DownloadPorn1 extends mixins(DownloadMixin) {
 
 <style lang="scss">
 @import '~@/assets/css/mobile/index.scss';
+@import '~@/assets/css/variable/porn1.scss';
 </style>
 <style lang="scss" scoped>
 @import '~@/assets/css/mobile/download.scss';

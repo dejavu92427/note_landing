@@ -5,6 +5,7 @@ import { DefaultRouter } from './tpl/defaultRouter';
 import Home from '../views/index.vue';
 import { Porn1Router } from './tpl/porn1Router';
 import { Sg1Router } from './tpl/sg1Router';
+import { Sp1Router } from './tpl/sp1Router';
 import error403 from '../views/common/noService.vue';
 import error404 from '../views/common/404.vue';
 import { initRouterReferralCode } from '@/lib/referralCode';
@@ -89,7 +90,7 @@ switch (site) {
     router.addRoute(Aobo1Router);
     break;
   case 'sp1':
-    router.addRoute(Aobo1Router);
+    router.addRoute(Sp1Router);
     break;
   default:
     router.addRoute(DefaultRouter);
