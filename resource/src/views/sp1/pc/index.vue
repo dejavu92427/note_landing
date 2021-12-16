@@ -40,8 +40,7 @@ export default class PcAobo1 extends Vue {
       return;
     }
 
-    const qrUrl = `${window.location.host}${localStorage.getItem('code') ? `/a/${localStorage.getItem('code')}/` : ''}`;
-    this.qrcodeOpt.value = qrUrl;
+    this.qrcodeOpt.value = `${localStorage.getItem('referral-link')}`;
   }
 }
 </script>

@@ -32,8 +32,8 @@ import qrcodeVue from 'qrcode.vue';
 
 @Options({
   components: {
-    qrcodeVue
-  }
+    qrcodeVue,
+  },
 })
 export default class PcPorn1 extends Vue {
   @Getter('getCDN') cdnPath!: string;
@@ -44,7 +44,7 @@ export default class PcPorn1 extends Vue {
 
   qrcodeOpt = {
     value: '',
-    size: 170
+    size: 170,
   };
 
   created() {
@@ -53,8 +53,7 @@ export default class PcPorn1 extends Vue {
       return;
     }
     // let qrUrl = `${window.location.host}${this.$route.query.a ? `/a/${this.$route.query.a}/` : ''}`;
-    const qrUrl = `${window.location.host}${localStorage.getItem('code') ? `/a/${localStorage.getItem('code')}/` : ''}`;
-    this.qrcodeOpt.value = qrUrl;
+    this.qrcodeOpt.value = `${localStorage.getItem('referral-link')}`;
   }
 }
 </script>

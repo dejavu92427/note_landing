@@ -124,8 +124,7 @@ export default class DonwloadSg1 extends mixins(DownloadMixin) {
   };
 
   created() {
-    const qrUrl = `${window.location.host}${localStorage.getItem('code') ? `/a/${localStorage.getItem('code')}/` : '1234'}`;
-    this.qrcodeOpt.value = qrUrl;
+    this.qrcodeOpt.value = `${localStorage.getItem('referral-link')}`;
   }
   // mounted() {}
 
