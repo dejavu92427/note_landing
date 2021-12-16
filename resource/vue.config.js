@@ -112,27 +112,27 @@ module.exports = {
     },
   },
 
-  pwa: {
-    appleMobileWebAppCapable: 'yes',
-    appleMobileWebAppStatusBarStyle: 'black',
-    manifestOptions: {
-      name: `${siteConfig.find((i) => i.ROUTER_TPL === buildSite).SITE_NAME}`,
-      short_name: siteConfig.find((i) => i.ROUTER_TPL === buildSite).SITE_NAME,
-      id: '/',
-      start_url: '/',
-      display: 'standalone',
-      theme_color: '#FFFFFF',
-    },
-    iconPaths: {
-      faviconSVG: `img/${siteConfig.find((i) => i.ROUTER_TPL === buildSite).ROUTER_TPL}/favicon.svg`,
-      favicon32: null,
-      favicon16: null,
-      appleTouchIcon: `img/${siteConfig.find((i) => i.ROUTER_TPL === buildSite).ROUTER_TPL}/icon-192x192.png`,
-      maskIcon: null,
-      msTileImage: null,
-    },
-    assetsVersion: version.VERSION || '',
-  },
+  // pwa: {
+  //   appleMobileWebAppCapable: 'yes',
+  //   appleMobileWebAppStatusBarStyle: 'black',
+  //   manifestOptions: {
+  //     name: `${siteConfig.find((i) => i.ROUTER_TPL === buildSite).SITE_NAME}`,
+  //     short_name: siteConfig.find((i) => i.ROUTER_TPL === buildSite).SITE_NAME,
+  //     id: '/',
+  //     start_url: '/',
+  //     display: 'standalone',
+  //     theme_color: '#FFFFFF',
+  //   },
+  //   iconPaths: {
+  //     faviconSVG: `img/${siteConfig.find((i) => i.ROUTER_TPL === buildSite).ROUTER_TPL}/favicon.svg`,
+  //     favicon32: null,
+  //     favicon16: null,
+  //     appleTouchIcon: `img/${siteConfig.find((i) => i.ROUTER_TPL === buildSite).ROUTER_TPL}/icon-192x192.png`,
+  //     maskIcon: null,
+  //     msTileImage: null,
+  //   },
+  //   assetsVersion: version.VERSION || '',
+  // },
 
   lintOnSave: process.env.NODE_ENV !== 'production',
 

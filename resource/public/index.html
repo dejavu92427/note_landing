@@ -6,8 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <meta name="google-site-verification" content="_jQyYxS7tZ59syz7teR6YRr4L6ZYjiMbJsJb6ymLPCw" />
-  <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-132265281-13"></script> -->
+  <!-- <link rel="icon" href="<%= BASE_URL %>favicon.ico"> -->
   <title>
     <%= htmlWebpackPlugin.options.title %>
   </title>
@@ -40,7 +39,6 @@
       try {
         const { event_category, event_label, value } = obj
         console.log(obj.event, { event_category, event_label, value });
-
         gtag("event", obj.event, { event_category, event_label, value });
       } catch (e) {
         console.log(e);
@@ -62,11 +60,23 @@
         action: 'aplus.setMetaInfo',
         arguments: ['appKey', ymkey]
       });
+
+      // 是否开启调试模式
+      // aplus_queue.push({
+      //   action: 'aplus.setMetaInfo',
+      //   arguments: ['DEBUG', true]
+      // });
     }
 
     window.SENT_YM = function (obj) {
       try {
-
+        const { aplus_queue } = window;
+        if (aplus_queue && typeof aplus_queue != "undefined") {
+          aplus_queue.push({
+            action: obj.action,
+            arguments: obj.arguments
+          });
+        }
       } catch (e) {
         console.log(e);
       }

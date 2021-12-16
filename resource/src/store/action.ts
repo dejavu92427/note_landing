@@ -36,7 +36,7 @@ export const actions = {
             document.title = targetSite.SITE_NAME;
             const link = document.createElement('link');
             link.rel = 'icon';
-            document.getElementsByTagName('head')[0].appendChild(link);
+            document.head.appendChild(link);
             link.href = `./img/${targetSite.ROUTER_TPL}/favicon.ico`;
 
             const appleTouchIcon = document.createElement('link');
@@ -50,7 +50,11 @@ export const actions = {
             localStorage.setItem('referral-link', qrUrl);
 
             // gtag 友盟
-            if (process.env.NODE_ENV === 'production' && targetSite.PROD) {
+
+            window.SET_GTAG(gtagConfig[targetSite.ROUTER_TPL].id);
+            window.SET_YM(aplusQueueConfig[targetSite.ROUTER_TPL].id);
+
+            if (targetSite.PROD) {
               window.SET_GTAG(gtagConfig[targetSite.ROUTER_TPL].id);
               window.SET_YM(aplusQueueConfig[targetSite.ROUTER_TPL].id);
             }
@@ -71,8 +75,8 @@ export const actions = {
       })
       .catch((err) => {
         alert('domain error');
-        window.location.href = '/404';
         console.log(err);
+        window.location.href = '/404';
       });
   },
 
@@ -292,32 +296,28 @@ export const actions = {
     }
   },
 
-  actionSentAnalysis({ state }: { state: State }, eventType = '', analysis = ''): any {
-    if (state.siteConfig.production) {
+  actionSentAnalysis({ state }: { state: State }, { eventType = '' }): any {
+    if (!state.siteConfig.production) {
       return;
     }
 
-    switch (analysis) {
-      case 'gtag':
-        Object.keys(gTagList).some((key) => {
-          if (key === state.siteConfig.routerTpl) {
-            const gtagItem: IGTagItem = gTagList[key];
-            window.SENT_GTAG(gtagItem[eventType]);
-            return;
-          }
-        });
+    // gtag
+    Object.keys(gTagList).some((key) => {
+      if (key === state.siteConfig.routerTpl) {
+        const gtagItem: IGTagItem = gTagList[key];
+        window.SENT_GTAG(gtagItem[eventType]);
+        return;
+      }
+    });
 
-        break;
-
-      case 'ym':
-        Object.keys(aplusQueueList).some((key) => {
-          if (key === state.siteConfig.routerTpl) {
-            const aplusQueueItem: IAplusQueueItem = aplusQueueList[key];
-            window.SENT_YM(aplusQueueItem[eventType]);
-            return;
-          }
-        });
-        break;
-    }
+    // ym
+    Object.keys(aplusQueueList).some((key) => {
+      if (key === state.siteConfig.routerTpl) {
+        const aplusQueueItem: IAplusQueueItem = aplusQueueList[key];
+        console.log(aplusQueueItem);
+        window.SENT_YM(aplusQueueItem[eventType]);
+        return;
+      }
+    });
   },
 };

@@ -197,7 +197,7 @@ export default class DownloadMixin extends Vue {
         return;
     }
 
-    this.actionSentAnalysis(target.type);
+    this.actionSentAnalysis({ eventType: target.type });
   }
 
   handleDownload(target: DownloadItem): void {
