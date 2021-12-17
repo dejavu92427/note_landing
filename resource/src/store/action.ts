@@ -285,8 +285,8 @@ export const actions = {
       // 客端去逛逛
       case 'visit':
         if (state.hostnames && state.hostnames[0]) {
-          const rederralCode = localStorage.getItem('code'); // 推廣代碼
-          window.location.href = `https://${state.hostnames[0]}${rederralCode ? `?a=${rederralCode}` : ''}`;
+          const refCode = localStorage.getItem('code'); // 推廣代碼
+          window.location.href = `https://${state.hostnames[0]}${refCode ? `/a/${refCode}` : ''}`;
         }
         break;
     }
