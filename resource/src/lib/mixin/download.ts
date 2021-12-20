@@ -258,7 +258,6 @@ export default class DownloadMixin extends Vue {
                 if (+r >= 100) {
                   this.progessDone = true;
                   this.downloadText = '一键信任';
-                  getDownloadUri(platform);
                 }
               },
             });
@@ -267,6 +266,8 @@ export default class DownloadMixin extends Vue {
               circle.animate(1);
             }, 1000);
           });
+
+          getDownloadUri(platform);
         }
         break;
 
