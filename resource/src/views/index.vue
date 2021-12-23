@@ -13,7 +13,6 @@ import { isMobile } from '../lib/isMobile';
     (async () => {
       try {
         // 取得廳設定
-        console.log(to);
         await store.dispatch('initSiteInfo');
         await store.dispatch('getPlayer').then((response) => {
           store.dispatch('getCommonList');

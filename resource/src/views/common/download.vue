@@ -163,9 +163,7 @@ import DownloadMixin from '../../lib/mixin/download';
   // mixins: [DownloadMixin],
 })
 export default class DownloadCommon extends mixins(DownloadMixin) {
-  created() {
-    console.log(this.siteConfig);
-  }
+  // created() {}
   // mounted() {}
 }
 </script>
