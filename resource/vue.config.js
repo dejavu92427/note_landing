@@ -3,8 +3,8 @@
 
 const proxy = require('./config/proxy.index');
 const path = require('path');
-const version = require('./src/config/version.json');
-const siteConfig = require('./src/config/site.config.json');
+// const version = require('./src/config/version.json');
+// const siteConfig = require('./src/config/site.config.json');
 
 // debugg gcp 觸發條件
 // process.argv = [

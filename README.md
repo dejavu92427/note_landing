@@ -2,20 +2,34 @@
 nvm use 14.15
 ```
 
+- ## Develop
+
 ```sh
-yarn start --site=porn1
+yarn start
+```
+
+- ## Build
+
+```sh
+yarn build
+```
+
+- Site
+
+```sh
+幣發 porn1
 ```
 
 ```sh
-yarn start --site=sg1
+泡泡 sg1
 ```
 
 ```sh
-yarn start --site=aobo1
+澳博 aobo1
 ```
 
 ```sh
-yarn start --site=sp1
+51國際 sp1
 ```
 
 ## yabo 佈署方式
