@@ -15,72 +15,73 @@
     </div>
 
     <div class="swiper-wrap">
-      <swiper id="swiper" :loop="true" :pagination="{ clickable: true }">
-        <template v-if="['porn1'].includes(siteConfig.routerTpl)">
-          <swiper-slide>
+      <div id="swiper-container">
+        <div class="swiper-wrapper">
+          <div v-if="['porn1'].includes(siteConfig.routerTpl)" class="swiper-slide">
             <div class="swiper-slide-img">
               <!-- <img :src="`${cdnPath}${(item.src)}`" /> -->
               <img :src="`${cdnPath}${require('@/assets/img/porn1/sports_main.png')}`" />
             </div>
-          </swiper-slide>
-        </template>
+          </div>
 
-        <template v-if="['aobo1'].includes(siteConfig.routerTpl)">
-          <swiper-slide>
-            <div class="swiper-slide-img">
-              <img :src="`${cdnPath}${require('@/assets/img/aobo1/main_01.png')}`" />
+          <template v-if="['aobo1'].includes(siteConfig.routerTpl)">
+            <div class="swiper-slide">
+              <div class="swiper-slide-img">
+                <img :src="`${cdnPath}${require('@/assets/img/aobo1/main_01.png')}`" />
+              </div>
             </div>
-          </swiper-slide>
-          <swiper-slide>
-            <div class="swiper-slide-img">
-              <img :src="`${cdnPath}${require('@/assets/img/aobo1/main_02.png')}`" />
+            <div class="swiper-slide">
+              <div class="swiper-slide-img">
+                <img :src="`${cdnPath}${require('@/assets/img/aobo1/main_02.png')}`" />
+              </div>
             </div>
-          </swiper-slide>
-          <swiper-slide>
-            <div class="swiper-slide-img">
-              <img :src="`${cdnPath}${require('@/assets/img/aobo1/main_03.png')}`" />
+            <div class="swiper-slide">
+              <div class="swiper-slide-img">
+                <img :src="`${cdnPath}${require('@/assets/img/aobo1/main_03.png')}`" />
+              </div>
             </div>
-          </swiper-slide>
-          <swiper-slide>
-            <div class="swiper-slide-img">
-              <img :src="`${cdnPath}${require('@/assets/img/aobo1/main_04.png')}`" />
+            <div class="swiper-slide">
+              <div class="swiper-slide-img">
+                <img :src="`${cdnPath}${require('@/assets/img/aobo1/main_04.png')}`" />
+              </div>
             </div>
-          </swiper-slide>
-          <swiper-slide>
-            <div class="swiper-slide-img">
-              <img :src="`${cdnPath}${require('@/assets/img/aobo1/main_05.png')}`" />
+            <div class="swiper-slide">
+              <div class="swiper-slide-img">
+                <img :src="`${cdnPath}${require('@/assets/img/aobo1/main_05.png')}`" />
+              </div>
             </div>
-          </swiper-slide>
-        </template>
+          </template>
 
-        <template v-if="['sp1'].includes(siteConfig.routerTpl)">
-          <swiper-slide>
-            <div class="swiper-slide-img">
-              <img :src="`${cdnPath}${require('@/assets/img/sp1/main_01.png')}`" />
+          <template v-if="['sp1'].includes(siteConfig.routerTpl)">
+            <div class="swiper-slide">
+              <div class="swiper-slide-img">
+                <img :src="`${cdnPath}${require('@/assets/img/sp1/main_01.png')}`" />
+              </div>
             </div>
-          </swiper-slide>
-          <swiper-slide>
-            <div class="swiper-slide-img">
-              <img :src="`${cdnPath}${require('@/assets/img/sp1/main_02.png')}`" />
+            <div class="swiper-slide">
+              <div class="swiper-slide-img">
+                <img :src="`${cdnPath}${require('@/assets/img/sp1/main_02.png')}`" />
+              </div>
             </div>
-          </swiper-slide>
-          <swiper-slide>
-            <div class="swiper-slide-img">
-              <img :src="`${cdnPath}${require('@/assets/img/sp1/main_03.png')}`" />
+            <div class="swiper-slide">
+              <div class="swiper-slide-img">
+                <img :src="`${cdnPath}${require('@/assets/img/sp1/main_03.png')}`" />
+              </div>
             </div>
-          </swiper-slide>
-          <swiper-slide>
-            <div class="swiper-slide-img">
-              <img :src="`${cdnPath}${require('@/assets/img/sp1/main_04.png')}`" />
+            <div class="swiper-slide">
+              <div class="swiper-slide-img">
+                <img :src="`${cdnPath}${require('@/assets/img/sp1/main_04.png')}`" />
+              </div>
             </div>
-          </swiper-slide>
-          <swiper-slide>
-            <div class="swiper-slide-img">
-              <img :src="`${cdnPath}${require('@/assets/img/sp1/main_05.png')}`" />
+            <div class="swiper-slide">
+              <div class="swiper-slide-img">
+                <img :src="`${cdnPath}${require('@/assets/img/sp1/main_05.png')}`" />
+              </div>
             </div>
-          </swiper-slide>
-        </template>
-      </swiper>
+          </template>
+        </div>
+        <div class="swiper-pagination"></div>
+      </div>
     </div>
 
     <div v-if="isIOSDownloadStatus">
@@ -150,21 +151,17 @@
 
 <script lang="ts">
 import { Options, mixins } from 'vue-class-component';
-import { Swiper, SwiperSlide } from 'swiper/vue';
-import ModalBox from './modalBox.vue';
 import DownloadMixin from '../../lib/mixin/download';
+import ModalBox from './modalBox.vue';
 
 @Options({
   components: {
-    swiper: Swiper,
-    swiperSlide: SwiperSlide,
     modalBox: ModalBox,
   },
   // mixins: [DownloadMixin],
 })
 export default class DownloadCommon extends mixins(DownloadMixin) {
   // created() {}
-  // mounted() {}
 }
 </script>
 

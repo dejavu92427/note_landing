@@ -1,10 +1,11 @@
 import { Action, Getter } from 'vuex-class';
 import { ICommonConfig, IDownloadConfig, ISiteConfig } from '../interface';
 import { Options, Vue } from 'vue-class-component';
-import Swiper, { SwiperOptions } from 'swiper';
+import Swiper, { Pagination } from 'swiper';
 import { isAndroid, isIOS, isMobile, isSafari } from '../isMobile';
 
 import ProgressBar from 'progressbar.js';
+import { SwiperOptions } from 'swiper';
 
 interface DownloadItem {
   text: string;
@@ -63,16 +64,6 @@ export default class DownloadMixin extends Vue {
     //   platform:'',
     // }
   ];
-  swiper?: Swiper;
-  swiperOpts: SwiperOptions = {
-    loop: true,
-    pagination: {
-      type: 'bullets',
-      el: '.swiper-pagination',
-      clickable: true,
-    },
-    slidesPerView: 'auto',
-  };
 
   isIOSDownloadStatus = false;
   isDownloadPub = false;
@@ -135,10 +126,23 @@ export default class DownloadMixin extends Vue {
   }
 
   mounted() {
+    const swiperOptions: SwiperOptions = {
+      loop: true,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+        type: 'bullets',
+      },
+      slidesPerView: 'auto',
+    };
+
+    Swiper.use([Pagination]);
+    const swiper = new Swiper('#swiper-container', swiperOptions);
+
     this.$nextTick(() => {
-      const swiperDom: any = document.getElementById('swiper');
-      if (swiperDom && swiperDom.swiper) {
-        swiperDom.swiper.update();
+      if (swiper && swiper.pagination) {
+        swiper.update();
+        swiper.pagination.update();
       }
     });
   }

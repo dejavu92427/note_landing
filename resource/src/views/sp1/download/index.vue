@@ -23,6 +23,3 @@ export default class DownloadSp1 extends mixins(DownloadMixin) {
 @import '~@/assets/css/mobile/index.scss';
 @import '~@/assets/css/variable/sp1.scss';
 </style>
-<style lang="scss" scoped>
-@import '~@/assets/css/mobile/download.scss';
-</style>
