@@ -17,21 +17,21 @@ const siteConfig = require('./src/config/site.config.json');
 // ]
 
 console.info(`=> ${'process.argv:'}`, process.argv, '\n');
-let assetsVariablePath = `@import "@/assets/css/variable.scss";`;
-let buildSite = '';
-try {
-  process.argv.map((a) => {
-    if (a.startsWith('--SITE=') || a.startsWith('--site=')) {
-      buildSite = a.split('=')[1];
-      assetsVariablePath = `@import "@/assets/css/${buildSite}/variable.scss";`;
-      console.info('=> build target site:', buildSite);
-      console.info('=> import variable scss:', assetsVariablePath);
-      return;
-    }
-  });
-} catch (e) {
-  console.info('=> error:', e);
-}
+// let assetsVariablePath = `@import "@/assets/css/variable.scss";`;
+// let buildSite = '';
+// try {
+//   process.argv.map((a) => {
+//     if (a.startsWith('--SITE=') || a.startsWith('--site=')) {
+//       buildSite = a.split('=')[1];
+//       assetsVariablePath = `@import "@/assets/css/${buildSite}/variable.scss";`;
+//       console.info('=> build target site:', buildSite);
+//       console.info('=> import variable scss:', assetsVariablePath);
+//       return;
+//     }
+//   });
+// } catch (e) {
+//   console.info('=> error:', e);
+// }
 
 module.exports = {
   // outputDir: '../www/static/', // defaut:'dist'

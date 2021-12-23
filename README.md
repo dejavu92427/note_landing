@@ -1,5 +1,5 @@
 ```sh
-nvm use 14.17.1
+nvm use 14.15
 ```
 
 ```sh

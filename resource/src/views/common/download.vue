@@ -5,6 +5,15 @@
       <img class="swiper-slide-img" src="@/assets/img/sports_main.png" />
     </div> -->
 
+    <div class="logo-wrap">
+      <template v-if="['porn1'].includes(siteConfig.routerTpl)">
+        <img class="bifa-logo" :src="`${cdnPath}${require(`@/assets/img/${siteConfig.routerTpl}/bifa_logo.png`)}`" />
+      </template>
+      <template v-else>
+        <img :src="`${cdnPath}${require(`@/assets/img/${siteConfig.routerTpl}/logo.png`)}`" />
+      </template>
+    </div>
+
     <div class="swiper-wrap">
       <swiper id="swiper" :loop="true" :pagination="{ clickable: true }">
         <template v-if="['porn1'].includes(siteConfig.routerTpl)">
@@ -106,7 +115,7 @@
       </template>
     </div>
 
-    <div v-if="!['aobo1'].includes(siteConfig.routerTpl)" class="donwload-tip">
+    <div class="donwload-tip">
       <div>
         需在同一网络环境下载安装，请勿切换网络；
         <span class="recommend-text">{{ recommendText }}</span>
@@ -154,7 +163,9 @@ import DownloadMixin from '../../lib/mixin/download';
   // mixins: [DownloadMixin],
 })
 export default class DownloadCommon extends mixins(DownloadMixin) {
-  // created() {}
+  created() {
+    console.log(this.siteConfig);
+  }
   // mounted() {}
 }
 </script>

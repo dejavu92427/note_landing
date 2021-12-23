@@ -36,15 +36,26 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
+import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 import { Getter, Action } from 'vuex-class';
 import { ISiteConfig } from '../../lib/interface';
+import { store } from '../../store';
 
-//  落地頁下載
 @Options({
-  components: {},
+  beforeRouteEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) {
+    (async () => {
+      try {
+        // 取得廳設定
+        await store.dispatch('initSiteInfo');
+        next();
+      } catch (e) {}
+    })();
+  },
 })
 export default class NoService extends Vue {
   @Action('getPlayer') getPlayer!: Function;
+  @Action('getCommonList') getCommonList!: Function;
+  @Action('getHostnames') getHostnames!: Function;
   @Action('actionLinkTo') actionLinkTo!: Function;
 
   @Getter('getSiteConfig') siteConfig!: ISiteConfig;
@@ -53,13 +64,15 @@ export default class NoService extends Vue {
   extraMsg = '';
   created() {
     this.getPlayer().then((res) => {
-      if (res && res.data && res.data.status !== '000' && res.data.msg) {
+      this.getCommonList();
+      this.getHostnames();
+      if (res && res.status !== '000' && res.data.extra) {
         // msg: "您所在的区域不在我们服务允许范围内(x.x.x.x)"
         this.extraMsg = res.data.msg;
       }
 
       if (res && res.data && res.data.status === '000' && this.$route.params.type !== 'test') {
-        this.$router.push('/download');
+        this.$router.push(`/download${localStorage.getItem('code') ? `/a/${localStorage.getItem('code')}` : ''}`);
       }
     });
   }
@@ -73,7 +86,9 @@ export default class NoService extends Vue {
   }
 }
 </script>
-
+<style lang="scss">
+@import '~@/assets/css/mobile/index.scss';
+</style>
 <style lang="scss" scoped>
 @import '~@/assets/css/mobile/status.scss';
 </style>

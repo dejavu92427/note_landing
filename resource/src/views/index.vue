@@ -6,12 +6,14 @@
 import { RouteLocationNormalized, NavigationGuardNext } from 'vue-router';
 import { store } from '../store';
 import { Options, Vue } from 'vue-class-component';
+import { isMobile } from '../lib/isMobile';
 
 @Options({
   beforeRouteEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) {
     (async () => {
       try {
         // 取得廳設定
+        console.log(to);
         await store.dispatch('initSiteInfo');
         await store.dispatch('getPlayer').then((response) => {
           store.dispatch('getCommonList');
@@ -40,7 +42,15 @@ import { Options, Vue } from 'vue-class-component';
                 break;
             }
           } else {
-            next();
+            if (to.name === 'download' || to.name === 'pc') {
+              next();
+            } else {
+              if (isMobile()) {
+                next('download');
+              } else {
+                next('pc');
+              }
+            }
           }
         });
       } catch (e) {
@@ -55,5 +65,3 @@ export default class RootMobile extends Vue {
 }
 </script>
 <style lang="scss"></style>
-
-function initRouterReferralCode(to: RouteLocationNormalized) { throw new Error('Function not implemented.'); }

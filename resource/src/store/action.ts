@@ -54,10 +54,6 @@ export const actions = {
               window.SET_GTAG(gtagConfig[targetSite.ROUTER_TPL].id);
               window.SET_YM(aplusQueueConfig[targetSite.ROUTER_TPL].id);
             }
-
-            if (process.env.NODE_ENV !== 'production') {
-              console.log('site:', targetSite);
-            }
           } else {
             window.location.href = '/404';
           }
@@ -171,99 +167,103 @@ export const actions = {
   },
 
   getLCFSystemConfig({ state, commit }: { state: State; commit: Function }, data = 'lcf'): any {
-    return axios
-      .get(`${state.siteConfig.golangApiDomain}/cxbb/System/config/${data}`, {
-        headers: {
-          'x-domain': state.siteConfig.domain,
-          kind: 'h',
-        },
-        params: {
-          lang: 'zh-cn',
-        },
-      })
-      .then((res) => {
-        if (res && res.data && res.data.data && res.data.status === '000') {
-          const result: any[] = res.data.data;
+    if (state && state.siteConfig && state.siteConfig.golangApiDomain) {
+      return axios
+        .get(`${state.siteConfig.golangApiDomain}/cxbb/System/config/${data}`, {
+          headers: {
+            'x-domain': state.siteConfig.domain,
+            kind: 'h',
+          },
+          params: {
+            lang: 'zh-cn',
+          },
+        })
+        .then((res) => {
+          if (res && res.data && res.data.data && res.data.status === '000') {
+            const result: any[] = res.data.data;
 
-          const downloadConfig: IDownloadConfig = {
-            h5: {
-              show: false,
-              uri: '',
-              bundleID: '',
-            },
-            pwa: {
-              show: false,
-              uri: '',
-              bundleID: '',
-            },
-            hide: {
-              show: false,
-              uri: '',
-              bundleID: '',
-            },
-            ios: {
-              show: false,
-              uri: '',
-              bundleID: '',
-            },
-            android: {
-              show: false,
-              uri: '',
-              bundleID: '',
-            },
-          };
-          downloadConfig.ios.show =
-            result.find((i) => {
-              return i.name === 'showIPADownload';
-            }).value === 'true';
+            const downloadConfig: IDownloadConfig = {
+              h5: {
+                show: false,
+                uri: '',
+                bundleID: '',
+              },
+              pwa: {
+                show: false,
+                uri: '',
+                bundleID: '',
+              },
+              hide: {
+                show: false,
+                uri: '',
+                bundleID: '',
+              },
+              ios: {
+                show: false,
+                uri: '',
+                bundleID: '',
+              },
+              android: {
+                show: false,
+                uri: '',
+                bundleID: '',
+              },
+            };
+            downloadConfig.ios.show =
+              result.find((i) => {
+                return i.name === 'showIPADownload';
+              }).value === 'true';
 
-          downloadConfig.ios.bundleID = result.find((item) => {
-            return item.name === 'bbosApiIOSBundleID';
-          }).value;
+            downloadConfig.ios.bundleID = result.find((item) => {
+              return item.name === 'bbosApiIOSBundleID';
+            }).value;
 
-          downloadConfig.pwa.show =
-            result.find((item) => {
-              return item.name === 'showPWADownload';
-            }).value === 'true';
+            downloadConfig.pwa.show =
+              result.find((item) => {
+                return item.name === 'showPWADownload';
+              }).value === 'true';
 
-          downloadConfig.pwa.bundleID = result.find((item) => {
-            return item.name === 'bbosApiPWABundleID';
-          }).value;
+            downloadConfig.pwa.bundleID = result.find((item) => {
+              return item.name === 'bbosApiPWABundleID';
+            }).value;
 
-          const showVisit = (downloadConfig.h5.show = result.find((item) => {
-            return item.name === 'showVisit';
-          }));
+            const showVisit = (downloadConfig.h5.show = result.find((item) => {
+              return item.name === 'showVisit';
+            }));
 
-          if (showVisit) {
-            downloadConfig.h5.show = showVisit.value === 'true';
+            if (showVisit) {
+              downloadConfig.h5.show = showVisit.value === 'true';
+            }
+
+            downloadConfig.android.show =
+              result.find((item) => {
+                return item.name === 'showAPKDownload';
+              }).value === 'true';
+
+            downloadConfig.android.bundleID = result.find((item) => {
+              return item.name === 'bbosApiAndBundleID';
+            }).value;
+
+            downloadConfig.hide.show =
+              result.find((item) => {
+                return item.name === 'showStoreDownload';
+              }).value === 'true';
+
+            downloadConfig.hide.bundleID = result.find((item) => {
+              return item.name === 'bbosApiMajaLink';
+            }).value;
+
+            commit(Types.SET_DOWNLOAD_CONIFG, downloadConfig);
           }
-
-          downloadConfig.android.show =
-            result.find((item) => {
-              return item.name === 'showAPKDownload';
-            }).value === 'true';
-
-          downloadConfig.android.bundleID = result.find((item) => {
-            return item.name === 'bbosApiAndBundleID';
-          }).value;
-
-          downloadConfig.hide.show =
-            result.find((item) => {
-              return item.name === 'showStoreDownload';
-            }).value === 'true';
-
-          downloadConfig.hide.bundleID = result.find((item) => {
-            return item.name === 'bbosApiMajaLink';
-          }).value;
-
-          commit(Types.SET_DOWNLOAD_CONIFG, downloadConfig);
-        }
-      })
-      .catch((err) => {
-        const response = err && err.response;
-        console.log(err);
-        return response;
-      });
+        })
+        .catch((err) => {
+          const response = err && err.response;
+          console.log(err);
+          return response;
+        });
+    } else {
+      return null;
+    }
   },
 
   actionLinkTo({ state }: { state: State }, target = ''): any {

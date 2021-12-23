@@ -16,16 +16,18 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Home',
     component: Home,
     beforeEnter: (to, from, next) => {
+      console.log(to);
       initRouterReferralCode(to);
+      next();
 
-      if (to.name === 'Home') {
-        next({
-          name: 'download',
-          query: to.query,
-        });
-      } else {
-        next();
-      }
+      // if (to.name === 'Home') {
+      //   next({
+      //     name: 'download',
+      //     query: to.query,
+      //   });
+      // } else {
+      //   next();
+      // }
     },
     children: [
       {
@@ -36,24 +38,23 @@ const routes: Array<RouteRecordRaw> = [
           query: { code: to.params.code },
         }),
       },
-
-      { path: '403error', name: '403error', redirect: 'no_service' },
-      { path: '403error.html', name: '403error.html', redirect: 'no_service' },
-      { path: '403', name: '403', redirect: 'no_service' },
-      {
-        path: '/no_service/:type?',
-        name: 'no_service',
-        component: error403,
-        // component: () => import('@/views/common/403.vue')
-        // { path: '403', name: '403', },
-      },
-
-      { path: 'maintain', name: 'maintain', redirect: 'upup' },
-      { path: 'maintain.html', name: 'maintain.html', redirect: 'upup' },
-      { path: 'upup/:type?', name: 'upup', component: () => import('@/views/common/upup.vue') },
     ],
   },
 
+  { path: '/403error', name: '403error', redirect: 'no_service' },
+  { path: '/403error.html', name: '403error.html', redirect: 'no_service' },
+  { path: '/403', name: '403', redirect: 'no_service' },
+  {
+    path: '/no_service/:type?',
+    name: 'no_service',
+    component: error403,
+    // component: () => import('@/views/common/403.vue')
+    // { path: '403', name: '403', },
+  },
+
+  { path: '/maintain', name: 'maintain', redirect: 'upup' },
+  { path: '/maintain.html', name: 'maintain.html', redirect: 'upup' },
+  { path: '/upup/:type?', name: 'upup', component: () => import('@/views/common/upup.vue') },
   {
     // path: '/:pathMatch(.*)*',
     path: '/404',
