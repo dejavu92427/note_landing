@@ -1,4 +1,0 @@
-export enum ActionTypes {
-  GET_PLAYER = 'GET_PLAYER',
-  GET_DOWNLOAD_CONFIG = 'GET_DOWNLOAD_CONFIG',
-}

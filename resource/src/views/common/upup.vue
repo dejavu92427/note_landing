@@ -54,8 +54,10 @@ import { store } from '../../store';
 export default class Upup extends Vue {
   @Action('getPlayer') getPlayer!: Function;
   @Action('getCommonList') getCommonList!: Function;
-  @Action('getHostnames') getHostnames!: Function;
+  @Action('getClientDomain') getClientDomain!: Function;
   @Action('actionLinkTo') actionLinkTo!: Function;
+
+  // @Action('getHostnames') getHostnames!: Function;
 
   @Getter('getSiteConfig') siteConfig!: ISiteConfig;
   @Getter('getCDN') cdnPath!: string;
@@ -65,7 +67,8 @@ export default class Upup extends Vue {
   created() {
     this.getPlayer().then((res) => {
       this.getCommonList();
-      this.getHostnames();
+      this.getClientDomain();
+
       if (res && res.status !== '000' && res.data.extra) {
         const text =
           res.data.extra.start_at && res.data.extra.end_at

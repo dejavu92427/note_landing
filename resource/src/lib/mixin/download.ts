@@ -23,7 +23,6 @@ export default class DownloadMixin extends Vue {
   @Getter('getDonwloadConfig') downloadConfig!: IDownloadConfig;
   @Getter('getSiteConfig') siteConfig!: ISiteConfig;
   @Getter('getCommonList') commonList!: ICommonConfig;
-  @Getter('getHostnames') hostnames!: string[];
   @Getter('getCDN') cdnPath!: string;
   @Getter('getVersion') version!: string;
 

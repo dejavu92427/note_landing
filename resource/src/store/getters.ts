@@ -8,4 +8,5 @@ export const getters = {
   getDonwloadConfig: (state: State) => state.downloadConfig,
   getCommonList: (state: State) => state.commonList,
   getHostnames: (state: State) => state.hostnames,
+  getClientDomain: (state: State) => state.clientDomain,
 };

@@ -55,8 +55,9 @@ import { store } from '../../store';
 export default class NoService extends Vue {
   @Action('getPlayer') getPlayer!: Function;
   @Action('getCommonList') getCommonList!: Function;
-  @Action('getHostnames') getHostnames!: Function;
+  @Action('getClientDomain') getClientDomain!: Function;
   @Action('actionLinkTo') actionLinkTo!: Function;
+  // @Action('getHostnames') getHostnames!: Function;
 
   @Getter('getSiteConfig') siteConfig!: ISiteConfig;
   @Getter('getCDN') cdnPath!: string;
@@ -65,7 +66,8 @@ export default class NoService extends Vue {
   created() {
     this.getPlayer().then((res) => {
       this.getCommonList();
-      this.getHostnames();
+      this.getClientDomain();
+
       if (res && res.status !== '000' && res.data.extra) {
         // msg: "您所在的区域不在我们服务允许范围内(x.x.x.x)"
         this.extraMsg = res.data.msg;
