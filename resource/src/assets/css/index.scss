@@ -72,8 +72,15 @@ iframe {
 .swiper-pagination-bullet {
   display: inline-block !important;
   background-color: #9aa4c2 !important;
-  width: 12px;
-  height: 3.5px;
+  border-radius: 2px;
+  width: 8px;
+  height: 4px;
+  transition: all linear 0.3s;
+  -webkit-transition: all linear 0.3s;
+}
+
+.swiper-pagination-bullet-active {
+  width: 16px;
 }
 
 .swiper-pagination {

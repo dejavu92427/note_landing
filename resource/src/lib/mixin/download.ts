@@ -1,11 +1,11 @@
 import { Action, Getter } from 'vuex-class';
 import { ICommonConfig, IDownloadConfig, ISiteConfig } from '../interface';
-import { Options, Vue } from 'vue-class-component';
 import Swiper, { Pagination } from 'swiper';
 import { isAndroid, isIOS, isMobile, isSafari } from '../isMobile';
 
 import ProgressBar from 'progressbar.js';
 import { SwiperOptions } from 'swiper';
+import { Vue } from 'vue-class-component';
 
 interface DownloadItem {
   text: string;
@@ -13,9 +13,6 @@ interface DownloadItem {
   platform: string;
 }
 
-@Options({
-  components: {},
-})
 export default class DownloadMixin extends Vue {
   @Action('getPlayer') getPlayer!: Function;
   @Action('getLCFSystemConfig') getLCFSystemConfig!: Function;
@@ -72,6 +69,7 @@ export default class DownloadMixin extends Vue {
   downloadText = '正在下载...'; // 一键信任
   showModal = false;
 
+  // computed
   get verison() {
     return this.version;
   }
@@ -104,10 +102,6 @@ export default class DownloadMixin extends Vue {
     return true;
   }
 
-  beforeUnmount() {
-    // window.removeEventListener('focus');
-  }
-
   created() {
     console.log('isMobile:', isMobile());
     this.getLCFSystemConfig();
@@ -117,16 +111,18 @@ export default class DownloadMixin extends Vue {
       return;
     }
 
-    if (isMobile()) {
-      // 是否保留推廣代碼
-      // this.$router.push('/download');
-    } else {
-      this.$router.push('/pc');
-    }
+    // if (isMobile()) {
+    //   // 是否保留推廣代碼
+    //   // this.$router.push('/download');
+    // } else {
+    //   this.$router.push('/pc');
+    // }
   }
 
   mounted() {
     const swiperOptions: SwiperOptions = {
+      observer: true,
+      observeParents: true,
       loop: true,
       pagination: {
         el: '.swiper-pagination',
@@ -138,10 +134,9 @@ export default class DownloadMixin extends Vue {
 
     Swiper.use([Pagination]);
     const swiper = new Swiper('#swiper-container', swiperOptions);
-
     this.$nextTick(() => {
       if (swiper && swiper.pagination) {
-        swiper.update();
+        swiper.updateSlides();
         swiper.pagination.update();
       }
     });

@@ -23,63 +23,64 @@
               <img :src="`${cdnPath}${require('@/assets/img/porn1/sports_main.png')}`" />
             </div>
           </div>
-
-          <template v-if="['aobo1'].includes(siteConfig.routerTpl)">
-            <div class="swiper-slide">
-              <div class="swiper-slide-img">
-                <img :src="`${cdnPath}${require('@/assets/img/aobo1/main_01.png')}`" />
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="swiper-slide-img">
-                <img :src="`${cdnPath}${require('@/assets/img/aobo1/main_02.png')}`" />
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="swiper-slide-img">
-                <img :src="`${cdnPath}${require('@/assets/img/aobo1/main_03.png')}`" />
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="swiper-slide-img">
-                <img :src="`${cdnPath}${require('@/assets/img/aobo1/main_04.png')}`" />
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="swiper-slide-img">
-                <img :src="`${cdnPath}${require('@/assets/img/aobo1/main_05.png')}`" />
-              </div>
-            </div>
-          </template>
-
-          <template v-if="['sp1'].includes(siteConfig.routerTpl)">
-            <div class="swiper-slide">
-              <div class="swiper-slide-img">
-                <img :src="`${cdnPath}${require('@/assets/img/sp1/main_01.png')}`" />
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="swiper-slide-img">
-                <img :src="`${cdnPath}${require('@/assets/img/sp1/main_02.png')}`" />
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="swiper-slide-img">
-                <img :src="`${cdnPath}${require('@/assets/img/sp1/main_03.png')}`" />
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="swiper-slide-img">
-                <img :src="`${cdnPath}${require('@/assets/img/sp1/main_04.png')}`" />
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="swiper-slide-img">
-                <img :src="`${cdnPath}${require('@/assets/img/sp1/main_05.png')}`" />
-              </div>
-            </div>
-          </template>
         </div>
+
+        <div v-if="['aobo1'].includes(siteConfig.routerTpl)" class="swiper-wrapper">
+          <div class="swiper-slide">
+            <div class="swiper-slide-img">
+              <img :src="`${cdnPath}${require('@/assets/img/aobo1/main_01.png')}`" />
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="swiper-slide-img">
+              <img :src="`${cdnPath}${require('@/assets/img/aobo1/main_02.png')}`" />
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="swiper-slide-img">
+              <img :src="`${cdnPath}${require('@/assets/img/aobo1/main_03.png')}`" />
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="swiper-slide-img">
+              <img :src="`${cdnPath}${require('@/assets/img/aobo1/main_04.png')}`" />
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="swiper-slide-img">
+              <img :src="`${cdnPath}${require('@/assets/img/aobo1/main_05.png')}`" />
+            </div>
+          </div>
+        </div>
+
+        <div v-if="['sp1'].includes(siteConfig.routerTpl)">
+          <div class="swiper-slide">
+            <div class="swiper-slide-img">
+              <img :src="`${cdnPath}${require('@/assets/img/sp1/main_01.png')}`" />
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="swiper-slide-img">
+              <img :src="`${cdnPath}${require('@/assets/img/sp1/main_02.png')}`" />
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="swiper-slide-img">
+              <img :src="`${cdnPath}${require('@/assets/img/sp1/main_03.png')}`" />
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="swiper-slide-img">
+              <img :src="`${cdnPath}${require('@/assets/img/sp1/main_04.png')}`" />
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="swiper-slide-img">
+              <img :src="`${cdnPath}${require('@/assets/img/sp1/main_05.png')}`" />
+            </div>
+          </div>
+        </div>
+
         <div class="swiper-pagination"></div>
       </div>
     </div>

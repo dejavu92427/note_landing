@@ -59,8 +59,6 @@ import { isMobile } from '../lib/isMobile';
     })();
   },
 })
-export default class RootMobile extends Vue {
-  // created() {}
-}
+export default class RootMobile extends Vue {}
 </script>
 <style lang="scss"></style>

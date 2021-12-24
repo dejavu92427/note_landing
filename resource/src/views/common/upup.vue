@@ -45,7 +45,9 @@ import { store } from '../../store';
         // 取得廳設定
         await store.dispatch('initSiteInfo');
         next();
-      } catch (e) {}
+      } catch (e) {
+        console.log(e);
+      }
     })();
   },
 })

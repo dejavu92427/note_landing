@@ -33,36 +33,39 @@ export default class ModalBox extends Vue {
   -webkit-overflow-scrolling: none;
 
   .modal_box {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%, -50%);
-    z-index: 100;
-    width: 100%;
-    max-width: 70%;
     background-color: #fff;
     border-radius: 7px;
+    left: 50%;
+    max-width: 70%;
+    padding: 10px;
+    position: absolute;
     text-align: center;
-    padding-top: 1px;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    z-index: 100;
   }
 
   p {
     color: #a5a9b3;
     font-size: 14px;
+    height: 30px;
+    line-height: 30px;
     text-align: center;
   }
 
   button {
-    display: block;
-    padding: 0;
+    background: transparent;
     border: none;
-    width: 100%;
+    color: var(--popup_text);
+    display: block;
+    font-size: 16px;
     height: 36px;
     line-height: 36px;
-    font-size: 16px;
-    background: transparent;
-    color: #d2b79c;
+    margin-top: 5px;
+    padding: 0;
+    width: 100%;
   }
 }
 </style>
