@@ -16,8 +16,8 @@
 
     <div class="swiper-wrap">
       <div id="swiper-container">
-        <div class="swiper-wrapper">
-          <div v-if="['porn1'].includes(siteConfig.routerTpl)" class="swiper-slide">
+        <div v-if="['porn1'].includes(siteConfig.routerTpl)" class="swiper-wrapper">
+          <div class="swiper-slide">
             <div class="swiper-slide-img">
               <!-- <img :src="`${cdnPath}${(item.src)}`" /> -->
               <img :src="`${cdnPath}${require('@/assets/img/porn1/sports_main.png')}`" />

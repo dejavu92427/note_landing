@@ -63,3 +63,19 @@ iframe {
     transform: scale3d(1, 1, 1);
   }
 }
+
+// swiper
+.swiper-pagination-bullet:only-child {
+  display: inline-block !important;
+}
+
+.swiper-pagination-bullet {
+  display: inline-block !important;
+  background-color: #9aa4c2 !important;
+  width: 12px;
+  height: 3.5px;
+}
+
+.swiper-pagination {
+  bottom: 2px !important;
+}

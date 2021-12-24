@@ -20,6 +20,5 @@ export default class DownloadPorn1 extends mixins(DownloadMixin) {
 </script>
 
 <style lang="scss">
-@import '~@/assets/css/mobile/index.scss';
 @import '~@/assets/css/variable/porn1.scss';
 </style>
