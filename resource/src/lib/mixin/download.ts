@@ -120,26 +120,28 @@ export default class DownloadMixin extends Vue {
   }
 
   mounted() {
-    const swiperOptions: SwiperOptions = {
-      observer: true,
-      observeParents: true,
-      loop: true,
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-        type: 'bullets',
-      },
-      slidesPerView: 'auto',
-    };
+    if (document.getElementById('swiper-container')) {
+      const swiperOptions: SwiperOptions = {
+        observer: true,
+        observeParents: true,
+        loop: true,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+          type: 'bullets',
+        },
+        slidesPerView: 'auto',
+      };
+      Swiper.use([Pagination]);
 
-    Swiper.use([Pagination]);
-    const swiper = new Swiper('#swiper-container', swiperOptions);
-    this.$nextTick(() => {
-      if (swiper && swiper.pagination) {
-        swiper.updateSlides();
-        swiper.pagination.update();
-      }
-    });
+      const swiper = new Swiper('#swiper-container', swiperOptions);
+      this.$nextTick(() => {
+        if (swiper && swiper.pagination) {
+          swiper.updateSlides();
+          swiper.pagination.update();
+        }
+      });
+    }
   }
 
   showDownloadItem(target: DownloadItem): boolean {

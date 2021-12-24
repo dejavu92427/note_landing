@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" :style="{ 'background-image': `url(${cdnPath}${require(`@/assets/img/${siteConfig.routerTpl}/bg.png`)})` }">
     <!-- 圖片需放/assets/img 底下 img.hash.png -->
     <!-- <div>
       <img class="swiper-slide-img" src="@/assets/img/sports_main.png" />

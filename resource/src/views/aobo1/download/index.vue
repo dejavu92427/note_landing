@@ -3,20 +3,15 @@
 </template>
 
 <script lang="ts">
-import { Options, mixins } from 'vue-class-component';
-import DownloadMixin from '../../../lib/mixin/download';
+import { Options, Vue } from 'vue-class-component';
 import DownloadCommon from '../../common/download.vue';
 
 @Options({
   components: {
     downloadCommon: DownloadCommon,
   },
-  // mixins: [DownloadMixin],
 })
-export default class DownloadAobo1 extends mixins(DownloadMixin) {
-  // created() {}
-  // mounted() {}
-}
+export default class DownloadAobo1 extends Vue {}
 </script>
 
 <style lang="scss">

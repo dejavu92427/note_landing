@@ -1,9 +1,14 @@
 .container {
   font-size: 14px;
+  min-height: 100vh;
   overflow-x: hidden;
   padding: 0 14px;
   position: relative;
   width: 100%;
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .swiper-wrap {
