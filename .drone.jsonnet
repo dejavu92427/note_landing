@@ -85,9 +85,6 @@ env="qa",deployName="yaboxxx-landing-page-qa",nginxConfig="yaboxxx-landing-page-
     ],
     trigger:
         conditionTrigger(name,shortProduct)
-    // trigger:
-    //     ref: ["refs/heads/master"],
-    //     event: ["tag"],
 };
 
 
@@ -96,22 +93,40 @@ env="qa",deployName="yaboxxx-landing-page-qa",nginxConfig="yaboxxx-landing-page-
 //     (name="QA"（環境),cluster="xbb-common"（叢集),zone="asia-east1-a"(區域),
 // env="qa"(GKE的label),deployName="yaboxxx-landing-page-qa"(GKE的名稱),nginxConfig="nginx"(GKE的configMap,nginx設定檔名稱),
 // imageName="yaboxxx-landingpage"(GCR映像檔名稱),shortProduct（產品縮寫)="yb",nodePool(選擇節點)="",nodePoolName(節點值)="")
-    # istio
+    
+    # note:  
+    # allQA/Prod 的時候，image的標籤會變成allTag ，將可能導致佈署時發生問題
+    
+    # istio yabo
     Pipeline("QA","yaboxxx-test","asia-east1-b"
     ,"qa","yabo-landingpage-qa","yabo-landingpage-nginx-qa"
-    ,"yaboxxx-landingpage","porn1","env","qa"),
+    ,"yaboxxx-landingpage","yabo","env","qa"),
     
     Pipeline("Beta","yaboxxx-prod","asia-east1-b",
     "beta","yabo-landingpage-beta","yabo-landingpage-nginx-beta"
-    ,"yaboxxx-landingpage","porn1","env","prod"),
+    ,"yaboxxx-landingpage","yabo","env","prod"),
  
     Pipeline("Demo","yaboxxx-prod","asia-east1-b"
     ,"demo","yabo-landingpage-demo","yabo-landingpage-nginx-demo"
-    ,"yaboxxx-landingpage","porn1","env","prod"),
+    ,"yaboxxx-landingpage","yabo","env","prod"),
 
     Pipeline("Prod","yaboxxx-prod","asia-east1-b"
     ,"prod","yabo-landingpage-prod","yabo-landingpage-nginx-prod"
-    ,"yaboxxx-landingpage","porn1","env","prod"),
+    ,"yaboxxx-landingpage","yabo","env","prod"),
 
+
+    # istio aubo
+    Pipeline("QA","yaboxxx-test","asia-east1-b"
+    ,"qa","aubo-landingpage-qa","aubo-landingpage-nginx-qa"
+    ,"yaboxxx-landingpage","aubo","env","qa"),
+    
+ 
+    Pipeline("Demo","yaboxxx-prod","asia-east1-b"
+    ,"demo","aubo-landingpage-demo","aubo-landingpage-nginx-demo"
+    ,"yaboxxx-landingpage","aubo","env","prod"),
+
+    Pipeline("Prod","yaboxxx-prod","asia-east1-b"
+    ,"prod","aubo-landingpage-prod","aubo-landingpage-nginx-prod"
+    ,"yaboxxx-landingpage","aubo","env","prod"),
 
 ]
