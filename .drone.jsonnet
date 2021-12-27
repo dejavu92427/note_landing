@@ -116,7 +116,7 @@ local onlyGKE(name="QA",cluster="xbb-common",zone="asia-east1-a"
         
 };
 
-local buildall(name="QA",imageName="yaboxxx-landingpage",shortProduct="yb")={
+local buildall(name="QA",shortProduct="yb")={
     kind: "pipeline",
     name: "AllPipeline("+ name +")",
     steps:[
@@ -126,7 +126,7 @@ local buildall(name="QA",imageName="yaboxxx-landingpage",shortProduct="yb")={
             image: "plugins/gcr",
             depends_on: ["clone"],
             settings: {
-                repo: "gcr.io/rd7-project/"+imageName,
+                repo: "gcr.io/rd7-project/yaboxxx-landingpage",
                 tags: ["latest","${DRONE_COMMIT}","${DRONE_TAG}"],
                 json_key: { "from_secret":"GOOGLE_CREDENTIALS"},
                 build_args: ["website="+shortProduct],
@@ -186,9 +186,9 @@ local buildall(name="QA",imageName="yaboxxx-landingpage",shortProduct="yb")={
 // imageName="yaboxxx-landingpage"(GCR映像檔名稱),shortProduct（產品縮寫)="yb",nodePool(選擇節點)="",nodePoolName(節點值)="")
     
     # note:  
-    buildall("QA","yaboxxx-web","all"),
-    buildall("Beta","yaboxxx-web","all"),
-    buildall("Prod","yaboxxx-web","all"),
+    buildall("QA","all"),
+    buildall("Beta","all"),
+    buildall("Prod","all"),
 
     # istio yabo
     Pipeline("QA","yaboxxx-test","asia-east1-b"

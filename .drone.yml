@@ -14,7 +14,7 @@ steps:
     - website=all
     json_key:
       from_secret: GOOGLE_CREDENTIALS
-    repo: gcr.io/rd7-project/yaboxxx-web
+    repo: gcr.io/rd7-project/yaboxxx-landingpage
     tags:
     - latest
     - ${DRONE_COMMIT}
@@ -84,7 +84,7 @@ steps:
     - website=all
     json_key:
       from_secret: GOOGLE_CREDENTIALS
-    repo: gcr.io/rd7-project/yaboxxx-web
+    repo: gcr.io/rd7-project/yaboxxx-landingpage
     tags:
     - latest
     - ${DRONE_COMMIT}
@@ -134,7 +134,7 @@ steps:
     - website=all
     json_key:
       from_secret: GOOGLE_CREDENTIALS
-    repo: gcr.io/rd7-project/yaboxxx-web
+    repo: gcr.io/rd7-project/yaboxxx-landingpage
     tags:
     - latest
     - ${DRONE_COMMIT}
