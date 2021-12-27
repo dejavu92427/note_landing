@@ -93,7 +93,7 @@ local onlyGKE(name="QA",cluster="xbb-common",zone="asia-east1-a"
     
     name: shortProduct + "GKE-"+ name,
     image: "nytimes/drone-gke",
-    depends_on: (if env=="prod" || env =="demo" then ["push2GCR-"+name]),
+    depends_on:  ["push2GCR-"+name],
     environment:{
         TOKEN: {"from_secret": "GOOGLE_CREDENTIALS"},                
     },
