@@ -91,7 +91,7 @@ local onlyGKE(name="QA",cluster="xbb-common",zone="asia-east1-a"
 ,env="qa",deployName="yaboxxx-landing-page-qa",nginxConfig="yaboxxx-landing-page-nginx"
 ,imageName="yaboxxx-landingpage",shortProduct="yabo",nodePool="",nodePoolName="")={
     
-    name: "deploy2GKE-"+name,
+    name: shortProduct + "GKE-"+ name,
     image: "nytimes/drone-gke",
     depends_on: (if env=="prod" || env =="demo" then ["push2GCR-"+name]),
     environment:{
