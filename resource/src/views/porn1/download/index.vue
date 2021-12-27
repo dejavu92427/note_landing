@@ -3,8 +3,7 @@
 </template>
 
 <script lang="ts">
-import { Options, mixins } from 'vue-class-component';
-import DownloadMixin from '../../../lib/mixin/download';
+import { Options, Vue } from 'vue-class-component';
 import DownloadCommon from '../../common/download.vue';
 
 @Options({
@@ -13,16 +12,12 @@ import DownloadCommon from '../../common/download.vue';
   },
   // mixins: [DownloadMixin],
 })
-export default class DownloadPorn1 extends mixins(DownloadMixin) {
+export default class DownloadPorn1 extends Vue {
   // created() {}
   // mounted() {}
 }
 </script>
 
 <style lang="scss">
-@import '~@/assets/css/mobile/index.scss';
 @import '~@/assets/css/variable/porn1.scss';
-</style>
-<style lang="scss" scoped>
-@import '~@/assets/css/mobile/download.scss';
 </style>

@@ -37,4 +37,7 @@ export const mutations = {
   [Types.SET_HOSTNAME](state: State, payload: any) {
     state.hostnames = payload;
   },
+  [Types.SET_CLIENTDOMIAN](state: State, payload: any) {
+    state.clientDomain = payload;
+  },
 };

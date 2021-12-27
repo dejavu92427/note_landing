@@ -7,6 +7,7 @@ export interface State {
   downloadConfig: IDownloadConfig;
   commonList: ICommonConfig;
   hostnames: string[];
+  clientDomain: string;
   version: {};
 }
 
@@ -55,5 +56,6 @@ export const state: State = {
   },
   // 客端網址
   hostnames: [],
+  clientDomain: '',
   version: {},
 };

@@ -14,9 +14,10 @@ import { isMobile } from '../lib/isMobile';
       try {
         // 取得廳設定
         await store.dispatch('initSiteInfo');
+        await store.dispatch('getClientDomain');
         await store.dispatch('getPlayer').then((response) => {
           store.dispatch('getCommonList');
-          store.dispatch('getHostnames');
+          // store.dispatch('getHostnames');
 
           if (response && response.data.status !== '000') {
             switch (response.data.code) {
@@ -59,8 +60,6 @@ import { isMobile } from '../lib/isMobile';
     })();
   },
 })
-export default class RootMobile extends Vue {
-  // created() {}
-}
+export default class RootMobile extends Vue {}
 </script>
 <style lang="scss"></style>

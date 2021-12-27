@@ -1,10 +1,11 @@
 import { Action, Getter } from 'vuex-class';
 import { ICommonConfig, IDownloadConfig, ISiteConfig } from '../interface';
-import { Options, Vue } from 'vue-class-component';
-import Swiper, { SwiperOptions } from 'swiper';
+import Swiper, { Pagination } from 'swiper';
 import { isAndroid, isIOS, isMobile, isSafari } from '../isMobile';
 
 import ProgressBar from 'progressbar.js';
+import { SwiperOptions } from 'swiper';
+import { Vue } from 'vue-class-component';
 
 interface DownloadItem {
   text: string;
@@ -12,9 +13,6 @@ interface DownloadItem {
   platform: string;
 }
 
-@Options({
-  components: {},
-})
 export default class DownloadMixin extends Vue {
   @Action('getPlayer') getPlayer!: Function;
   @Action('getLCFSystemConfig') getLCFSystemConfig!: Function;
@@ -25,7 +23,6 @@ export default class DownloadMixin extends Vue {
   @Getter('getDonwloadConfig') downloadConfig!: IDownloadConfig;
   @Getter('getSiteConfig') siteConfig!: ISiteConfig;
   @Getter('getCommonList') commonList!: ICommonConfig;
-  @Getter('getHostnames') hostnames!: string[];
   @Getter('getCDN') cdnPath!: string;
   @Getter('getVersion') version!: string;
 
@@ -63,16 +60,6 @@ export default class DownloadMixin extends Vue {
     //   platform:'',
     // }
   ];
-  swiper?: Swiper;
-  swiperOpts: SwiperOptions = {
-    loop: true,
-    pagination: {
-      type: 'bullets',
-      el: '.swiper-pagination',
-      clickable: true,
-    },
-    slidesPerView: 'auto',
-  };
 
   isIOSDownloadStatus = false;
   isDownloadPub = false;
@@ -81,6 +68,7 @@ export default class DownloadMixin extends Vue {
   downloadText = '正在下载...'; // 一键信任
   showModal = false;
 
+  // computed
   get verison() {
     return this.version;
   }
@@ -113,10 +101,6 @@ export default class DownloadMixin extends Vue {
     return true;
   }
 
-  beforeUnmount() {
-    // window.removeEventListener('focus');
-  }
-
   created() {
     console.log('isMobile:', isMobile());
     this.getLCFSystemConfig();
@@ -126,21 +110,37 @@ export default class DownloadMixin extends Vue {
       return;
     }
 
-    if (isMobile()) {
-      // 是否保留推廣代碼
-      // this.$router.push('/download');
-    } else {
-      this.$router.push('/pc');
-    }
+    // if (isMobile()) {
+    //   // 是否保留推廣代碼
+    //   // this.$router.push('/download');
+    // } else {
+    //   this.$router.push('/pc');
+    // }
   }
 
   mounted() {
-    this.$nextTick(() => {
-      const swiperDom: any = document.getElementById('swiper');
-      if (swiperDom && swiperDom.swiper) {
-        swiperDom.swiper.update();
-      }
-    });
+    if (document.getElementById('swiper-container')) {
+      const swiperOptions: SwiperOptions = {
+        observer: true,
+        observeParents: true,
+        loop: true,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+          type: 'bullets',
+        },
+        slidesPerView: 'auto',
+      };
+      Swiper.use([Pagination]);
+
+      const swiper = new Swiper('#swiper-container', swiperOptions);
+      this.$nextTick(() => {
+        if (swiper && swiper.pagination) {
+          swiper.updateSlides();
+          swiper.pagination.update();
+        }
+      });
+    }
   }
 
   showDownloadItem(target: DownloadItem): boolean {

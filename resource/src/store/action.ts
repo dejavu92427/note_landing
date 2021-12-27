@@ -166,6 +166,29 @@ export const actions = {
       });
   },
 
+  getClientDomain({ state, commit }: { state: State; commit: Function }): any {
+    return axios
+      .get(`${state.siteConfig.golangApiDomain}/cxbb/System/clientDomain`, {
+        headers: {
+          'x-domain': state.siteConfig.domain,
+          kind: 'h',
+        },
+        params: {
+          lang: 'zh-cn',
+        },
+      })
+      .then((res) => {
+        if (res && res.data && res.data.data && res.data.status === '000') {
+          const result = res.data?.data[0]?.value || '';
+          commit(Types.SET_CLIENTDOMIAN, result);
+        }
+      })
+      .catch((err) => {
+        const response = err && err.response;
+        return response;
+      });
+  },
+
   getLCFSystemConfig({ state, commit }: { state: State; commit: Function }, data = 'lcf'): any {
     if (state && state.siteConfig && state.siteConfig.golangApiDomain) {
       return axios
@@ -267,12 +290,18 @@ export const actions = {
   },
 
   actionLinkTo({ state }: { state: State }, target = ''): any {
+    console.log(state.clientDomain);
+
     switch (target) {
       // 客端靜態客服頁面
       case 'clientService':
-        if (state.hostnames && state.hostnames[0]) {
-          window.location.href = `https://${state.hostnames[0]}/custom/service`;
+        if (state.clientDomain) {
+          window.location.href = `${state.clientDomain.startsWith('http') ? state.clientDomain : `https://${state.clientDomain}/custom/service`}`;
         }
+
+        // if (state.hostnames && state.hostnames[0]) {
+        //   window.location.href = `https://${state.hostnames[0]}/custom/service`;
+        // }
         break;
 
       // 客端客服連結
