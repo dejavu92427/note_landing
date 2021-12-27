@@ -66,7 +66,7 @@ env="qa",deployName="yaboxxx-landing-page-qa",nginxConfig="yaboxxx-landing-page-
             settings:{
                 project: "rd7-project",
                 template:
-                    ".istio-kube.yml",
+                    "configs/"+ shortProduct+"/.istio-kube.yml",
                 vars:
                     {"deployName":deployName,
                     "env":env,
