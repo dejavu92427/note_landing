@@ -130,6 +130,7 @@ export default class DownloadMixin extends Vue {
           type: 'bullets',
         },
         slidesPerView: 'auto',
+        spaceBetween: 25,
       };
       Swiper.use([Pagination]);
 

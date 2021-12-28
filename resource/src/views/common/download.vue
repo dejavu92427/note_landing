@@ -28,27 +28,27 @@
         <div v-if="['aobo1'].includes(siteConfig.routerTpl)" class="swiper-wrapper">
           <div class="swiper-slide">
             <div class="swiper-slide-img">
-              <img :src="`${cdnPath}${require('@/assets/img/aobo1/main_01.png')}`" />
+              <img :src="`${cdnPath}${require('@/assets/img/aobo1/img_01.png')}`" />
             </div>
           </div>
           <div class="swiper-slide">
             <div class="swiper-slide-img">
-              <img :src="`${cdnPath}${require('@/assets/img/aobo1/main_02.png')}`" />
+              <img :src="`${cdnPath}${require('@/assets/img/aobo1/img_02.png')}`" />
             </div>
           </div>
           <div class="swiper-slide">
             <div class="swiper-slide-img">
-              <img :src="`${cdnPath}${require('@/assets/img/aobo1/main_03.png')}`" />
+              <img :src="`${cdnPath}${require('@/assets/img/aobo1/img_03.png')}`" />
             </div>
           </div>
           <div class="swiper-slide">
             <div class="swiper-slide-img">
-              <img :src="`${cdnPath}${require('@/assets/img/aobo1/main_04.png')}`" />
+              <img :src="`${cdnPath}${require('@/assets/img/aobo1/img_04.png')}`" />
             </div>
           </div>
           <div class="swiper-slide">
             <div class="swiper-slide-img">
-              <img :src="`${cdnPath}${require('@/assets/img/aobo1/main_05.png')}`" />
+              <img :src="`${cdnPath}${require('@/assets/img/aobo1/img_05.png')}`" />
             </div>
           </div>
         </div>

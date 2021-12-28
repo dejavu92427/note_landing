@@ -30,7 +30,8 @@
 }
 
 .title {
-  color: #5e626d;
+  color: #9ca3bf;
+  color: var(--status_text_color);
   font-size: 30px;
   font-weight: 700;
   margin-top: 12px;
@@ -52,12 +53,12 @@
   font-size: 12px;
   font-weight: 400;
   line-height: 19px;
-  margin: 20px auto;
+  margin: 10px auto;
   text-align: center;
   width: 100%;
 
   .time {
-    color: #f70;
+    color: #db6372;
     white-space: nowrap;
   }
 }
@@ -73,12 +74,14 @@
 
   #serviceBtn {
     color: #6aaaf5;
+    background-color: unset;
+    border: unset;
+    outline: none;
   }
 }
 
 .mail {
   color: #6aaaf5;
-  padding: 8px 0;
   margin: unset;
 }
 

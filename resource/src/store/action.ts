@@ -313,9 +313,11 @@ export const actions = {
 
       // 客端去逛逛
       case 'visit':
-        if (state.hostnames && state.hostnames[0]) {
+        if (state.clientDomain) {
           const refCode = localStorage.getItem('code'); // 推廣代碼
-          window.location.href = `https://${state.hostnames[0]}${refCode ? `/a/${refCode}` : ''}`;
+          window.location.href = `${
+            state.clientDomain.startsWith('http') ? `${state.clientDomain}/a/${refCode}` : `https://${state.clientDomain}/a/${refCode}`
+          }`;
         }
         break;
     }
