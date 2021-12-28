@@ -18,7 +18,8 @@ RUN node -v
 # RUN npm install --save-dev @babel/plugin-proposal-class-static-block
 RUN  yarn install
 # RUN yarn add @babel/plugin-proposal-class-static-block
-RUN  yarn build --site=${website}
+# RUN  yarn build --site=${website}
+RUN  yarn build 
 
 
 FROM nginx
