@@ -1,21 +1,21 @@
 <template>
-  <upup />
+  <noService />
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import Upup from '../../common/upup.vue';
+import NoService from '../../common/noService.vue';
 
 @Options({
   components: {
-    upup: Upup,
+    noService: NoService,
   },
 })
-export default class UpupAobo1 extends Vue {}
+export default class NosServicSp1 extends Vue {}
 </script>
 
 <style lang="scss">
-@import '~@/assets/css/variable/aobo1.scss';
+@import '~@/assets/css/variable/sp1.scss';
 </style>
 
 <style lang="scss" scoped></style>

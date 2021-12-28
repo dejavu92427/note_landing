@@ -11,11 +11,11 @@ import Upup from '../../common/upup.vue';
     upup: Upup,
   },
 })
-export default class UpupAobo1 extends Vue {}
+export default class UpupSg1 extends Vue {}
 </script>
 
 <style lang="scss">
-@import '~@/assets/css/variable/aobo1.scss';
+@import '~@/assets/css/variable/sg1.scss';
 </style>
 
 <style lang="scss" scoped></style>

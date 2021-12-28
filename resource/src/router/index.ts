@@ -6,7 +6,6 @@ import Home from '../views/index.vue';
 import { Porn1Router } from './tpl/porn1Router';
 import { Sg1Router } from './tpl/sg1Router';
 import { Sp1Router } from './tpl/sp1Router';
-import error403 from '../views/common/noService.vue';
 import error404 from '../views/common/404.vue';
 import { initRouterReferralCode } from '@/lib/referralCode';
 
@@ -16,7 +15,6 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Home',
     component: Home,
     beforeEnter: (to, from, next) => {
-      console.log(to);
       initRouterReferralCode(to);
       next();
 
@@ -47,14 +45,19 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/no_service/:type?',
     name: 'no_service',
-    component: error403,
+    component: () => import(`@/views/${window.SITE_NAME}/noService/index.vue`),
     // component: () => import('@/views/common/403.vue')
     // { path: '403', name: '403', },
   },
 
   { path: '/maintain', name: 'maintain', redirect: 'upup' },
   { path: '/maintain.html', name: 'maintain.html', redirect: 'upup' },
-  { path: '/upup/:type?', name: 'upup', component: () => import('@/views/common/upup.vue') },
+  {
+    path: '/upup/:type?',
+    name: 'upup',
+    component: () => import(`@/views/${window.SITE_NAME}/upup/index.vue`),
+  },
+
   {
     // path: '/:pathMatch(.*)*',
     path: '/404',
