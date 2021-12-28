@@ -30,7 +30,7 @@
 }
 
 .title {
-  color: #5e626d;
+  color: var(--status_text_color);
   font-size: 30px;
   font-weight: 700;
   margin-top: 12px;
@@ -73,6 +73,9 @@
 
   #serviceBtn {
     color: #6aaaf5;
+    background-color: unset;
+    border: unset;
+    outline: none;
   }
 }
 

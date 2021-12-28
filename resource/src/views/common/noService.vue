@@ -28,7 +28,7 @@
 
       <div class="service">
         如需帮助，请
-        <a id="serviceBtn" type="button" @click="linkTo">联系客服</a>
+        <a id="serviceBtn" @click="linkTo">联系客服</a>
       </div>
     </div>
   </div>
