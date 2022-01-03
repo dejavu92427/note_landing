@@ -296,7 +296,9 @@ export const actions = {
       // 客端靜態客服頁面
       case 'clientService':
         if (state.clientDomain) {
-          window.location.href = `${state.clientDomain.startsWith('http') ? state.clientDomain : `https://${state.clientDomain}/custom/service`}`;
+          window.location.href = `${
+            state.clientDomain.startsWith('http') ? `${state.clientDomain}/custom/service` : `https://${state.clientDomain}/custom/service`
+          }`;
         }
 
         // if (state.hostnames && state.hostnames[0]) {
