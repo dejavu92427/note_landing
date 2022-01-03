@@ -296,7 +296,9 @@ export const actions = {
       // 客端靜態客服頁面
       case 'clientService':
         if (state.clientDomain) {
-          window.location.href = `${state.clientDomain.startsWith('http') ? state.clientDomain : `https://${state.clientDomain}/custom/service`}`;
+          window.location.href = `${
+            state.clientDomain.startsWith('http') ? `${state.clientDomain}/custom/service` : `https://${state.clientDomain}/custom/service`
+          }`;
         }
 
         // if (state.hostnames && state.hostnames[0]) {
@@ -315,9 +317,14 @@ export const actions = {
       case 'visit':
         if (state.clientDomain) {
           const refCode = localStorage.getItem('code'); // 推廣代碼
-          window.location.href = `${
-            state.clientDomain.startsWith('http') ? `${state.clientDomain}/a/${refCode}` : `https://${state.clientDomain}/a/${refCode}`
-          }`;
+          let href = '';
+          if (refCode && refCode !== 'null' && refCode !== 'undefined') {
+            href = `${state.clientDomain.startsWith('http') ? `${state.clientDomain}/a/${refCode}` : `https://${state.clientDomain}/a/${refCode}`}`;
+          } else {
+            href = `${state.clientDomain.startsWith('http') ? `${state.clientDomain}` : `https://${state.clientDomain}`}`;
+          }
+
+          window.location.href = href;
         }
         break;
     }
