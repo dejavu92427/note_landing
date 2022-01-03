@@ -57,7 +57,7 @@ export default class NoService extends Vue {
       case 'porn1':
         return 'cs@bifa8.co';
       case 'aobo1':
-        return 'juzi8872@outlook.com';
+        return 'asd1523642@gmail.com';
       case 'sg1':
         return 'cs@paocs.co';
       case 'sp1':
