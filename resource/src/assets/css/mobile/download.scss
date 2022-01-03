@@ -28,7 +28,7 @@
 // 下載按鈕
 .download-wrap {
   width: 100%;
-
+  margin-top: 5px;
   display: flex;
   position: relative;
 }
@@ -98,9 +98,18 @@
 .donwload-tip {
   font-size: 12px;
   line-height: 18px;
-  color: var(--main_text_color);
-  text-align: center;
   padding: 14px 7px;
+  text-align: center;
+  color: var(--main_text_color);
+
+  &.title {
+    color: var(--tip_text_color);
+    padding: 0;
+  }
+
+  .recommend-text {
+    color: var(--main_text_color);
+  }
 
   .link {
     font-family: Microsoft JhengHei, Microsoft JhengHei-Regular;
@@ -110,11 +119,6 @@
 
   > div:nth-child(2) {
     margin-top: 12px;
-  }
-
-  &.text {
-    padding: 0;
-    color: var(--main_text_color);
   }
 }
 
