@@ -28,5 +28,7 @@ export function isSafari() {
     iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i),
     webkit = !!ua.match(/WebKit/i);
 
+  // return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
   return iOS && webkit && !ua.match(/CriOS/i);
 }

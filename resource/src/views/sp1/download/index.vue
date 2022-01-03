@@ -15,6 +15,5 @@ export default class DownloadSp1 extends Vue {}
 </script>
 
 <style lang="scss">
-@import '~@/assets/css/mobile/index.scss';
 @import '~@/assets/css/variable/sp1.scss';
 </style>
