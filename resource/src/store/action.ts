@@ -315,9 +315,14 @@ export const actions = {
       case 'visit':
         if (state.clientDomain) {
           const refCode = localStorage.getItem('code'); // 推廣代碼
-          window.location.href = `${
-            state.clientDomain.startsWith('http') ? `${state.clientDomain}/a/${refCode}` : `https://${state.clientDomain}/a/${refCode}`
-          }`;
+          let href = '';
+          if (refCode && refCode !== 'null' && refCode !== 'undefined') {
+            href = `${state.clientDomain.startsWith('http') ? `${state.clientDomain}/a/${refCode}` : `https://${state.clientDomain}/a/${refCode}`}`;
+          } else {
+            href = `${state.clientDomain.startsWith('http') ? `${state.clientDomain}` : `https://${state.clientDomain}`}`;
+          }
+
+          window.location.href = href;
         }
         break;
     }
