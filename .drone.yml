@@ -142,7 +142,7 @@ steps:
   depends_on:
   - clone
 
-- name: yaboGKE-Demo
+- name: yaboGKE-Prod
   image: nytimes/drone-gke
   settings:
     cluster: yaboxxx-prod
@@ -160,7 +160,7 @@ steps:
     TOKEN:
       from_secret: GOOGLE_CREDENTIALS
   depends_on:
-  - push2GCR-Demo
+  - push2GCR-Prod
 
 - name: yaboGKE-Prod
   image: nytimes/drone-gke
@@ -182,7 +182,7 @@ steps:
   depends_on:
   - push2GCR-Prod
 
-- name: auboGKE-Demo
+- name: auboGKE-Prod
   image: nytimes/drone-gke
   settings:
     cluster: yaboxxx-prod
@@ -200,7 +200,7 @@ steps:
     TOKEN:
       from_secret: GOOGLE_CREDENTIALS
   depends_on:
-  - push2GCR-Demo
+  - push2GCR-Prod
 
 - name: auboGKE-Prod
   image: nytimes/drone-gke

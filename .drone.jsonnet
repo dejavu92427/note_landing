@@ -153,7 +153,7 @@ local buildall(name="QA",shortProduct="yb")={
             
     ]else if name=="Prod" then [
         # yabo
-        onlyGKE("Demo","yaboxxx-prod","asia-east1-b"
+        onlyGKE("Prod","yaboxxx-prod","asia-east1-b"
         ,"demo","yabo-landingpage-demo","yabo-landingpage-nginx-demo"
         ,"yaboxxx-landingpage","yabo","env","prod"),
 
@@ -162,7 +162,7 @@ local buildall(name="QA",shortProduct="yb")={
         ,"yaboxxx-landingpage","yabo","env","prod"),
    
         # istio-aubo
-        onlyGKE("Demo","yaboxxx-prod","asia-east1-b"
+        onlyGKE("Prod","yaboxxx-prod","asia-east1-b"
         ,"demo","aubo-landingpage-demo","aubo-landingpage-nginx-demo"
         ,"yaboxxx-landingpage","aubo","env","prod"),
 
