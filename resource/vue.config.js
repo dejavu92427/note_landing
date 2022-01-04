@@ -123,11 +123,20 @@ module.exports = {
   //     display: 'standalone',
   //     theme_color: '#FFFFFF',
   //   },
+  //   // iconPaths: {
+  //   //   faviconSVG: `img/${siteConfig.find((i) => i.ROUTER_TPL === buildSite).ROUTER_TPL}/favicon.svg`,
+  //   //   favicon32: null,
+  //   //   favicon16: null,
+  //   //   appleTouchIcon: `img/${siteConfig.find((i) => i.ROUTER_TPL === buildSite).ROUTER_TPL}/icon-192x192.png`,
+  //   //   maskIcon: null,
+  //   //   msTileImage: null,
+  //   // },
+
   //   iconPaths: {
-  //     faviconSVG: `img/${siteConfig.find((i) => i.ROUTER_TPL === buildSite).ROUTER_TPL}/favicon.svg`,
+  //     faviconSVG: null,
   //     favicon32: null,
   //     favicon16: null,
-  //     appleTouchIcon: `img/${siteConfig.find((i) => i.ROUTER_TPL === buildSite).ROUTER_TPL}/icon-192x192.png`,
+  //     appleTouchIcon: null,
   //     maskIcon: null,
   //     msTileImage: null,
   //   },
