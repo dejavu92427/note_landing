@@ -13,26 +13,24 @@ function getCDNHost() {
       return response.json();
     })
     .then(function (data) {
-      let target = siteConfigJson.find((i) => i.DOMAIN === data.domain);
+      // let target = siteConfigJson.find((i) => i.DOMAIN === data.domain);
 
-      if (target && target.CDN_HEADER) {
-        cdnHost = h.get(`${target.CDN_HEADER}`);
-      }
+      // if (data && data.cdn) {
+      //   cdnHost = data.cdn;
+      // }
 
       const isDev = process.env.NODE_ENV === 'development';
-      console.log('header:', target.CDN_HEADER);
-      console.log('__webpack_public_path__:', cdnHost);
-
       window.SITE_NAME = data.site;
       window.SITE_DOMAIN = data.domain;
-      window.CDN = '';
 
       const path = cdnHost ? `https://${cdnHost}/` : '';
-
       if (!isDev && path) {
-        window.CDN = path;
+        console.log(path);
         process.env.cdn = path;
-        __webpack_public_path__ = path;
+
+        // resource cdn
+        //  __webpack_public_path__ = path;
+        // console.log('__webpack_public_path__:', cdnHost);
       }
     })
     .catch((e) => {
