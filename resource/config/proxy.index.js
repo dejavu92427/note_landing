@@ -11,6 +11,10 @@
 // client
 // 币发BIFA 500015
 const clientProxy = 'https://yb01.66boxing.com/';
+// 币发BIFA 10003
+// const clientProxy = 'https://ybbe0-io.777vendor.com/';
+// 币发BIFA 67
+// const clientProxy = 'https://bf0168q.com/';
 
 // 亿元 500023
 // const clientProxy = "https://eyt.66boxing.com/";
@@ -20,6 +24,8 @@ const clientProxy = 'https://yb01.66boxing.com/';
 
 // 澳博国际 QA 9999894
 // const clientProxy = 'https://auqa1.66boxing.com/';
+// 澳博国际 PROD 94
+// const clientProxy = 'https://7959vip001.com/';
 
 // 51国际 QA 9999905
 // const clientProxy = 'https://spqa1.66boxing.com/';

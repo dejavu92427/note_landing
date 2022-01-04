@@ -1,7 +1,7 @@
 import { IAplusQueueItem, aplusQueueList as aplusQueueConfig, aplusQueueList } from '../config/aplusQueue.config';
-import { IDownloadConfig, ISiteConfig } from '@/lib/interface';
 import { IGTagItem, gTagList, gTagList as gtagConfig } from '../config/gtag.config';
 
+import { IDownloadConfig } from '@/lib/interface';
 import { State } from './state';
 import { Types } from './mutations_type';
 import axios from 'axios';
@@ -27,11 +27,14 @@ export const actions = {
       .get('/conf/domain')
       .then((res) => {
         if (res && res.data && res.status === 200) {
-          const result: ISiteConfig = res.data;
+          const result = res.data;
           const targetSite = sitConfigJson.find((i) => i.DOMAIN === result.domain);
           if (targetSite) {
-            commit(Types.SET_CDN, window.CDN);
             commit(Types.SET_SITE_CONFIG, targetSite);
+
+            if (result.cdn && targetSite.PROD) {
+              commit(Types.SET_CDN, result.cdn.startsWith('http') ? result.cdn : `https://${result.cdn}`);
+            }
 
             document.title = targetSite.SITE_NAME;
             const link = document.createElement('link');
@@ -52,7 +55,10 @@ export const actions = {
             // gtag 友盟
             if (targetSite.PROD) {
               window.SET_GTAG(gtagConfig[targetSite.ROUTER_TPL].id);
-              window.SET_YM(aplusQueueConfig[targetSite.ROUTER_TPL].id);
+
+              if (aplusQueueConfig[targetSite.ROUTER_TPL]) {
+                window.SET_YM(aplusQueueConfig[targetSite.ROUTER_TPL].id);
+              }
             }
           } else {
             window.location.href = '/404';
