@@ -142,7 +142,7 @@ steps:
   depends_on:
   - clone
 
-- name: yaboGKE-Prod
+- name: yaboGKE-Demo
   image: nytimes/drone-gke
   settings:
     cluster: yaboxxx-prod
@@ -182,7 +182,7 @@ steps:
   depends_on:
   - push2GCR-Prod
 
-- name: auboGKE-Prod
+- name: auboGKE-Demo
   image: nytimes/drone-gke
   settings:
     cluster: yaboxxx-prod

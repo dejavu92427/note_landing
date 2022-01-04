@@ -93,7 +93,9 @@ local onlyGKE(name="QA",cluster="xbb-common",zone="asia-east1-a"
     
     name: shortProduct + "GKE-"+ name,
     image: "nytimes/drone-gke",
-    depends_on:  ["push2GCR-"+name],
+    depends_on:  (if name=="Prod" || name =="Demo" then ["push2GCR-Prod"]
+                    else ["push2GCR-"+name]
+    ),
     environment:{
         TOKEN: {"from_secret": "GOOGLE_CREDENTIALS"},                
     },
@@ -153,7 +155,7 @@ local buildall(name="QA",shortProduct="yb")={
             
     ]else if name=="Prod" then [
         # yabo
-        onlyGKE("Prod","yaboxxx-prod","asia-east1-b"
+        onlyGKE("Demo","yaboxxx-prod","asia-east1-b"
         ,"demo","yabo-landingpage-demo","yabo-landingpage-nginx-demo"
         ,"yaboxxx-landingpage","yabo","env","prod"),
 
@@ -162,7 +164,7 @@ local buildall(name="QA",shortProduct="yb")={
         ,"yaboxxx-landingpage","yabo","env","prod"),
    
         # istio-aubo
-        onlyGKE("Prod","yaboxxx-prod","asia-east1-b"
+        onlyGKE("Demo","yaboxxx-prod","asia-east1-b"
         ,"demo","aubo-landingpage-demo","aubo-landingpage-nginx-demo"
         ,"yaboxxx-landingpage","aubo","env","prod"),
 
