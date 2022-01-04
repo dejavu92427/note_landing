@@ -37,11 +37,11 @@ export const actions = {
             const link = document.createElement('link');
             link.rel = 'icon';
             document.head.appendChild(link);
-            link.href = `./img/${targetSite.ROUTER_TPL}/favicon.ico`;
+            link.href = `/img/${targetSite.ROUTER_TPL}/favicon.ico`;
 
             const appleTouchIcon = document.createElement('link');
             appleTouchIcon.rel = 'apple-touch-icon';
-            link.href = `./img/${targetSite.ROUTER_TPL}/icon-192x192.png`;
+            link.href = `/img/${targetSite.ROUTER_TPL}/icon-192x192.png`;
             link.setAttribute('sizes', '192x192');
 
             commit(Types.SET_VERSION, versionJson.VERSION);
