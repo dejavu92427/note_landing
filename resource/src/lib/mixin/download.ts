@@ -19,6 +19,7 @@ export default class DownloadMixin extends Vue {
   @Action('getDownloadUri') getDownloadUri!: Function;
   @Action('actionLinkTo') actionLinkTo!: Function;
   @Action('actionSentAnalysis') actionSentAnalysis!: Function;
+  @Action('getHostnames') getHostnames!: Function;
 
   @Getter('getCommonList') commonList!: ICommonConfig;
   @Getter('getCDN') cdnPath!: string;
@@ -98,7 +99,7 @@ export default class DownloadMixin extends Vue {
   created() {
     console.log('isMobile:', isMobile());
     this.getLCFSystemConfig();
-
+    this.getHostnames();
     // 泡泡無PC版頁面
     if (this.siteConfig.routerTpl === 'sg1') {
       return;

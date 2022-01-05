@@ -321,13 +321,13 @@ export const actions = {
 
       // 客端去逛逛
       case 'visit':
-        if (state.clientDomain) {
+        if (state.hostnames) {
           const refCode = localStorage.getItem('code'); // 推廣代碼
           let href = '';
           if (refCode && refCode !== 'null' && refCode !== 'undefined') {
-            href = `${state.clientDomain.startsWith('http') ? `${state.clientDomain}/a/${refCode}` : `https://${state.clientDomain}/a/${refCode}`}`;
+            href = `${state.hostnames[0].startsWith('http') ? `${state.hostnames[0]}/a/${refCode}` : `https://${state.hostnames[0]}/a/${refCode}`}`;
           } else {
-            href = `${state.clientDomain.startsWith('http') ? `${state.clientDomain}` : `https://${state.clientDomain}`}`;
+            href = `${state.hostnames[0].startsWith('http') ? `${state.hostnames[0]}` : `https://${state.hostnames[0]}`}`;
           }
 
           window.location.href = href;
