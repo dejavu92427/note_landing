@@ -131,16 +131,16 @@
     <div v-if="['aobo1', 'sp1'].includes(siteConfig.routerTpl)" class="download-tip-extra">
       <div class="donwload-tip title">
         下滑查看安装教程
-        <img class="donwload-tip-arrow" :src="`${cdnPath}${require('@/assets/img/jiantou.png')}`" />
+        <img class="donwload-tip-arrow" :src="`${require(`@/assets/img/jiantou.png`)}`" />
       </div>
 
       <div v-if="isIOSMobile" class="download_img">
-        <div class="apple-icon"><img :src="`${cdnPath}${require('@/assets/img/apple.png')}`" /></div>
+        <div class="apple-icon"><img :src="`${require(`@/assets/img/apple.png`)}`" /></div>
         <img class="tutorial" :src="`${cdnPath}${require(`@/assets/img/${siteConfig.routerTpl}/tutorial_ios.png`)}`" />
       </div>
 
       <div v-if="isAndroidMobile" class="download_img">
-        <div class="apple-icon"><img :src="`${cdnPath}${require('@/assets/img/android.png')}`" /></div>
+        <div class="apple-icon"><img :src="`${require('@/assets/img/android.png')}`" /></div>
         <img class="tutorial" :src="`${cdnPath}${require(`@/assets/img/${siteConfig.routerTpl}/tutorial_and.png`)}`" />
       </div>
     </div>
