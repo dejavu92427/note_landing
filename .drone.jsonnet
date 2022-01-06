@@ -145,11 +145,24 @@ local buildall(name="QA",shortProduct="yb")={
         ,"qa","aubo-landingpage-qa","aubo-landingpage-nginx-qa"
         ,"yaboxxx-landingpage","aubo","env","qa"),
 
+        onlyGKE("QA","yaboxxx-test","asia-east1-b"
+        ,"qa","sp51-landingpage-qa","sp51-landingpage-nginx-qa"
+        ,"yaboxxx-landingpage","sp51","env","qa"),        
+
+        onlyGKE("QA","yaboxxx-test","asia-east1-b"
+        ,"qa","sigua-landingpage-qa","sigua-landingpage-nginx-qa"
+        ,"yaboxxx-landingpage","sigua","env","qa"),
+
+
     ]else if name=="Beta" then  [
         # yabo
         onlyGKE("Beta","yaboxxx-prod","asia-east1-b",
         "beta","yabo-landingpage-beta","yabo-landingpage-nginx-beta"
         ,"yaboxxx-landingpage","yabo","env","prod"),
+
+        onlyGKE("Beta","yaboxxx-test","asia-east1-b"
+        ,"beta","sigua-landingpage-beta","sigua-landingpage-nginx-beta"
+        ,"yaboxxx-landingpage","sigua","env","qa"),
             
     ]else if name=="Prod" then [
         # yabo
@@ -170,7 +183,24 @@ local buildall(name="QA",shortProduct="yb")={
         ,"prod","aubo-landingpage-prod","aubo-landingpage-nginx-prod"
         ,"yaboxxx-landingpage","aubo","env","prod"),
 
- 
+        # istio-sp51
+        onlyGKE("Demo","yaboxxx-prod","asia-east1-b"
+        ,"demo","sp51-landingpage-demo","sp51-landingpage-nginx-demo"
+        ,"yaboxxx-landingpage","sp51","env","prod"),
+
+        onlyGKE("Prod","yaboxxx-prod","asia-east1-b"
+        ,"prod","sp51-landingpage-prod","sp51-landingpage-nginx-prod"
+        ,"yaboxxx-landingpage","sp51","env","prod"),
+
+        # istio-sigua
+        onlyGKE("Demo","yaboxxx-prod","asia-east1-b"
+        ,"demo","sigua-landingpage-demo","sigua-landingpage-nginx-demo"
+        ,"yaboxxx-landingpage","sigua","env","prod"),
+
+        onlyGKE("Prod","yaboxxx-prod","asia-east1-b"
+        ,"prod","sigua-landingpage-prod","sigua-landingpage-nginx-prod"
+        ,"yaboxxx-landingpage","sigua","env","prod"),
+        
     ],
     trigger:
         conditionTrigger(name,shortProduct)
@@ -221,5 +251,39 @@ local buildall(name="QA",shortProduct="yb")={
     Pipeline("Prod","yaboxxx-prod","asia-east1-b"
     ,"prod","aubo-landingpage-prod","aubo-landingpage-nginx-prod"
     ,"yaboxxx-landingpage","aubo","env","prod"),
+
+
+
+    # istio sp51
+    Pipeline("QA","yaboxxx-test","asia-east1-b"
+    ,"qa","sp51-landingpage-qa","sp51-landingpage-nginx-qa"
+    ,"yaboxxx-landingpage","sp51","env","qa"),
+    
+ 
+    Pipeline("Demo","yaboxxx-prod","asia-east1-b"
+    ,"demo","sp51-landingpage-demo","sp51-landingpage-nginx-demo"
+    ,"yaboxxx-landingpage","sp51","env","prod"),
+
+    Pipeline("Prod","yaboxxx-prod","asia-east1-b"
+    ,"prod","sp51-landingpage-prod","sp51-landingpage-nginx-prod"
+    ,"yaboxxx-landingpage","sp51","env","prod"),
+ 
+    # istio sigua
+    Pipeline("QA","yaboxxx-test","asia-east1-b"
+    ,"qa","sigua-landingpage-qa","sigua-landingpage-nginx-qa"
+    ,"yaboxxx-landingpage","sigua","env","qa"),
+
+    Pipeline("Beta","yaboxxx-test","asia-east1-b"
+    ,"beta","sigua-landingpage-beta","sigua-landingpage-nginx-beta"
+    ,"yaboxxx-landingpage","sigua","env","qa"),
+    
+ 
+    Pipeline("Demo","yaboxxx-prod","asia-east1-b"
+    ,"demo","sigua-landingpage-demo","sigua-landingpage-nginx-demo"
+    ,"yaboxxx-landingpage","sigua","env","prod"),
+
+    Pipeline("Prod","yaboxxx-prod","asia-east1-b"
+    ,"prod","sigua-landingpage-prod","sigua-landingpage-nginx-prod"
+    ,"yaboxxx-landingpage","sigua","env","prod"),
 
 ]

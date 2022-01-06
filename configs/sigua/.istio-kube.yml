@@ -1,0 +1,74 @@
+# Nginx.conf 需更改configmap
+# nginxssl.crt ,nginxssl.key 需更改secret
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: istio-sigua
+  labels:
+    app: sigua-landingpage-{{.env}}
+    base: sigua-landingpage
+    version: v1
+  name: {{.deployName}}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sigua-landingpage-{{.env}}
+      base: sigua-landingpage
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: sigua-landingpage-{{.env}}
+        base: sigua-landingpage
+        version: v1
+    spec:
+      containers:
+      - image: {{.imageName}}
+        imagePullPolicy: Always
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /healthz
+            port: 80
+            scheme: HTTP
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        name: rd7-frontend-proxy
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /healthz
+            port: 80
+            scheme: HTTP
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources:
+          requests:
+            cpu: 25m
+            memory: 50Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /etc/nginx/nginx.conf
+          name: nginx-config
+          subPath: nginx.conf
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: {{.k8sNginxConfigMap}}
+        name: nginx-config
+      nodeSelector:
+        {{.nodePool}}: {{.nodePoolName}}         
+
