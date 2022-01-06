@@ -62,6 +62,46 @@ steps:
   depends_on:
   - push2GCR-QA
 
+- name: sp51GKE-QA
+  image: nytimes/drone-gke
+  settings:
+    cluster: yaboxxx-test
+    project: rd7-project
+    template: configs/sp51/.istio-kube.yml
+    vars:
+      deployName: sp51-landingpage-qa
+      env: qa
+      imageName: gcr.io/rd7-project/yaboxxx-landingpage:${DRONE_TAG}
+      k8sNginxConfigMap: sp51-landingpage-nginx-qa
+      nodePool: env
+      nodePoolName: qa
+    zone: asia-east1-b
+  environment:
+    TOKEN:
+      from_secret: GOOGLE_CREDENTIALS
+  depends_on:
+  - push2GCR-QA
+
+- name: siguaGKE-QA
+  image: nytimes/drone-gke
+  settings:
+    cluster: yaboxxx-test
+    project: rd7-project
+    template: configs/sigua/.istio-kube.yml
+    vars:
+      deployName: sigua-landingpage-qa
+      env: qa
+      imageName: gcr.io/rd7-project/yaboxxx-landingpage:${DRONE_TAG}
+      k8sNginxConfigMap: sigua-landingpage-nginx-qa
+      nodePool: env
+      nodePoolName: qa
+    zone: asia-east1-b
+  environment:
+    TOKEN:
+      from_secret: GOOGLE_CREDENTIALS
+  depends_on:
+  - push2GCR-QA
+
 trigger:
   event:
   - tag
@@ -105,6 +145,26 @@ steps:
       k8sNginxConfigMap: yabo-landingpage-nginx-beta
       nodePool: env
       nodePoolName: prod
+    zone: asia-east1-b
+  environment:
+    TOKEN:
+      from_secret: GOOGLE_CREDENTIALS
+  depends_on:
+  - push2GCR-Beta
+
+- name: siguaGKE-Beta
+  image: nytimes/drone-gke
+  settings:
+    cluster: yaboxxx-test
+    project: rd7-project
+    template: configs/sigua/.istio-kube.yml
+    vars:
+      deployName: sigua-landingpage-beta
+      env: beta
+      imageName: gcr.io/rd7-project/yaboxxx-landingpage:${DRONE_TAG}
+      k8sNginxConfigMap: sigua-landingpage-nginx-beta
+      nodePool: env
+      nodePoolName: qa
     zone: asia-east1-b
   environment:
     TOKEN:
@@ -213,6 +273,86 @@ steps:
       env: prod
       imageName: gcr.io/rd7-project/yaboxxx-landingpage:${DRONE_TAG}
       k8sNginxConfigMap: aubo-landingpage-nginx-prod
+      nodePool: env
+      nodePoolName: prod
+    zone: asia-east1-b
+  environment:
+    TOKEN:
+      from_secret: GOOGLE_CREDENTIALS
+  depends_on:
+  - push2GCR-Prod
+
+- name: sp51GKE-Demo
+  image: nytimes/drone-gke
+  settings:
+    cluster: yaboxxx-prod
+    project: rd7-project
+    template: configs/sp51/.istio-kube.yml
+    vars:
+      deployName: sp51-landingpage-demo
+      env: demo
+      imageName: gcr.io/rd7-project/yaboxxx-landingpage:${DRONE_TAG}
+      k8sNginxConfigMap: sp51-landingpage-nginx-demo
+      nodePool: env
+      nodePoolName: prod
+    zone: asia-east1-b
+  environment:
+    TOKEN:
+      from_secret: GOOGLE_CREDENTIALS
+  depends_on:
+  - push2GCR-Prod
+
+- name: sp51GKE-Prod
+  image: nytimes/drone-gke
+  settings:
+    cluster: yaboxxx-prod
+    project: rd7-project
+    template: configs/sp51/.istio-kube.yml
+    vars:
+      deployName: sp51-landingpage-prod
+      env: prod
+      imageName: gcr.io/rd7-project/yaboxxx-landingpage:${DRONE_TAG}
+      k8sNginxConfigMap: sp51-landingpage-nginx-prod
+      nodePool: env
+      nodePoolName: prod
+    zone: asia-east1-b
+  environment:
+    TOKEN:
+      from_secret: GOOGLE_CREDENTIALS
+  depends_on:
+  - push2GCR-Prod
+
+- name: siguaGKE-Demo
+  image: nytimes/drone-gke
+  settings:
+    cluster: yaboxxx-prod
+    project: rd7-project
+    template: configs/sigua/.istio-kube.yml
+    vars:
+      deployName: sigua-landingpage-demo
+      env: demo
+      imageName: gcr.io/rd7-project/yaboxxx-landingpage:${DRONE_TAG}
+      k8sNginxConfigMap: sigua-landingpage-nginx-demo
+      nodePool: env
+      nodePoolName: prod
+    zone: asia-east1-b
+  environment:
+    TOKEN:
+      from_secret: GOOGLE_CREDENTIALS
+  depends_on:
+  - push2GCR-Prod
+
+- name: siguaGKE-Prod
+  image: nytimes/drone-gke
+  settings:
+    cluster: yaboxxx-prod
+    project: rd7-project
+    template: configs/sigua/.istio-kube.yml
+    vars:
+      deployName: sigua-landingpage-prod
+      env: prod
+      imageName: gcr.io/rd7-project/yaboxxx-landingpage:${DRONE_TAG}
+      k8sNginxConfigMap: sigua-landingpage-nginx-prod
       nodePool: env
       nodePoolName: prod
     zone: asia-east1-b
@@ -565,5 +705,343 @@ trigger:
   - tag
   ref:
   - refs/tags/auboProd-*
+
+---
+kind: pipeline
+name: yaboLandingPipeline(sp51QA)
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: push2GCR-QA
+  image: plugins/gcr
+  settings:
+    build_args:
+    - website=sp51
+    json_key:
+      from_secret: GOOGLE_CREDENTIALS
+    repo: gcr.io/rd7-project/yaboxxx-landingpage
+    tags:
+    - latest
+    - qa-${DRONE_COMMIT}
+    - ${DRONE_TAG}
+
+- name: deploy2GKE-QA
+  image: nytimes/drone-gke
+  settings:
+    cluster: yaboxxx-test
+    project: rd7-project
+    template: configs/sp51/.istio-kube.yml
+    vars:
+      deployName: sp51-landingpage-qa
+      env: qa
+      imageName: gcr.io/rd7-project/yaboxxx-landingpage:${DRONE_TAG}
+      k8sNginxConfigMap: sp51-landingpage-nginx-qa
+      nodePool: env
+      nodePoolName: qa
+    zone: asia-east1-b
+  environment:
+    TOKEN:
+      from_secret: GOOGLE_CREDENTIALS
+
+trigger:
+  event:
+  - tag
+  ref:
+  - refs/tags/sp51QA-*
+
+---
+kind: pipeline
+name: yaboLandingPipeline(sp51Demo)
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: push2GCR-Demo
+  image: plugins/gcr
+  settings:
+    build_args:
+    - website=sp51
+    json_key:
+      from_secret: GOOGLE_CREDENTIALS
+    repo: gcr.io/rd7-project/yaboxxx-landingpage
+    tags:
+    - latest
+    - demo-${DRONE_COMMIT}
+    - ${DRONE_TAG}
+  depends_on:
+  - clone
+
+- name: deploy2GKE-Demo
+  image: nytimes/drone-gke
+  settings:
+    cluster: yaboxxx-prod
+    project: rd7-project
+    template: configs/sp51/.istio-kube.yml
+    vars:
+      deployName: sp51-landingpage-demo
+      env: demo
+      imageName: gcr.io/rd7-project/yaboxxx-landingpage:${DRONE_TAG}
+      k8sNginxConfigMap: sp51-landingpage-nginx-demo
+      nodePool: env
+      nodePoolName: prod
+    zone: asia-east1-b
+  environment:
+    TOKEN:
+      from_secret: GOOGLE_CREDENTIALS
+  depends_on:
+  - push2GCR-Demo
+
+trigger:
+  event:
+  - tag
+  ref:
+  - refs/tags/sp51Demo-*
+
+---
+kind: pipeline
+name: yaboLandingPipeline(sp51Prod)
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: push2GCR-Prod
+  image: plugins/gcr
+  settings:
+    build_args:
+    - website=sp51
+    json_key:
+      from_secret: GOOGLE_CREDENTIALS
+    repo: gcr.io/rd7-project/yaboxxx-landingpage
+    tags:
+    - latest
+    - prod-${DRONE_COMMIT}
+    - ${DRONE_TAG}
+  depends_on:
+  - clone
+
+- name: deploy2GKE-Prod
+  image: nytimes/drone-gke
+  settings:
+    cluster: yaboxxx-prod
+    project: rd7-project
+    template: configs/sp51/.istio-kube.yml
+    vars:
+      deployName: sp51-landingpage-prod
+      env: prod
+      imageName: gcr.io/rd7-project/yaboxxx-landingpage:${DRONE_TAG}
+      k8sNginxConfigMap: sp51-landingpage-nginx-prod
+      nodePool: env
+      nodePoolName: prod
+    zone: asia-east1-b
+  environment:
+    TOKEN:
+      from_secret: GOOGLE_CREDENTIALS
+  depends_on:
+  - push2GCR-Prod
+
+trigger:
+  event:
+  - tag
+  ref:
+  - refs/tags/sp51Prod-*
+
+---
+kind: pipeline
+name: yaboLandingPipeline(siguaQA)
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: push2GCR-QA
+  image: plugins/gcr
+  settings:
+    build_args:
+    - website=sigua
+    json_key:
+      from_secret: GOOGLE_CREDENTIALS
+    repo: gcr.io/rd7-project/yaboxxx-landingpage
+    tags:
+    - latest
+    - qa-${DRONE_COMMIT}
+    - ${DRONE_TAG}
+
+- name: deploy2GKE-QA
+  image: nytimes/drone-gke
+  settings:
+    cluster: yaboxxx-test
+    project: rd7-project
+    template: configs/sigua/.istio-kube.yml
+    vars:
+      deployName: sigua-landingpage-qa
+      env: qa
+      imageName: gcr.io/rd7-project/yaboxxx-landingpage:${DRONE_TAG}
+      k8sNginxConfigMap: sigua-landingpage-nginx-qa
+      nodePool: env
+      nodePoolName: qa
+    zone: asia-east1-b
+  environment:
+    TOKEN:
+      from_secret: GOOGLE_CREDENTIALS
+
+trigger:
+  event:
+  - tag
+  ref:
+  - refs/tags/siguaQA-*
+
+---
+kind: pipeline
+name: yaboLandingPipeline(siguaBeta)
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: push2GCR-Beta
+  image: plugins/gcr
+  settings:
+    build_args:
+    - website=sigua
+    json_key:
+      from_secret: GOOGLE_CREDENTIALS
+    repo: gcr.io/rd7-project/yaboxxx-landingpage
+    tags:
+    - latest
+    - beta-${DRONE_COMMIT}
+    - ${DRONE_TAG}
+
+- name: deploy2GKE-Beta
+  image: nytimes/drone-gke
+  settings:
+    cluster: yaboxxx-test
+    project: rd7-project
+    template: configs/sigua/.istio-kube.yml
+    vars:
+      deployName: sigua-landingpage-beta
+      env: beta
+      imageName: gcr.io/rd7-project/yaboxxx-landingpage:${DRONE_TAG}
+      k8sNginxConfigMap: sigua-landingpage-nginx-beta
+      nodePool: env
+      nodePoolName: qa
+    zone: asia-east1-b
+  environment:
+    TOKEN:
+      from_secret: GOOGLE_CREDENTIALS
+
+trigger:
+  event:
+  - tag
+  ref:
+  - refs/tags/siguaBeta-*
+
+---
+kind: pipeline
+name: yaboLandingPipeline(siguaDemo)
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: push2GCR-Demo
+  image: plugins/gcr
+  settings:
+    build_args:
+    - website=sigua
+    json_key:
+      from_secret: GOOGLE_CREDENTIALS
+    repo: gcr.io/rd7-project/yaboxxx-landingpage
+    tags:
+    - latest
+    - demo-${DRONE_COMMIT}
+    - ${DRONE_TAG}
+  depends_on:
+  - clone
+
+- name: deploy2GKE-Demo
+  image: nytimes/drone-gke
+  settings:
+    cluster: yaboxxx-prod
+    project: rd7-project
+    template: configs/sigua/.istio-kube.yml
+    vars:
+      deployName: sigua-landingpage-demo
+      env: demo
+      imageName: gcr.io/rd7-project/yaboxxx-landingpage:${DRONE_TAG}
+      k8sNginxConfigMap: sigua-landingpage-nginx-demo
+      nodePool: env
+      nodePoolName: prod
+    zone: asia-east1-b
+  environment:
+    TOKEN:
+      from_secret: GOOGLE_CREDENTIALS
+  depends_on:
+  - push2GCR-Demo
+
+trigger:
+  event:
+  - tag
+  ref:
+  - refs/tags/siguaDemo-*
+
+---
+kind: pipeline
+name: yaboLandingPipeline(siguaProd)
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: push2GCR-Prod
+  image: plugins/gcr
+  settings:
+    build_args:
+    - website=sigua
+    json_key:
+      from_secret: GOOGLE_CREDENTIALS
+    repo: gcr.io/rd7-project/yaboxxx-landingpage
+    tags:
+    - latest
+    - prod-${DRONE_COMMIT}
+    - ${DRONE_TAG}
+  depends_on:
+  - clone
+
+- name: deploy2GKE-Prod
+  image: nytimes/drone-gke
+  settings:
+    cluster: yaboxxx-prod
+    project: rd7-project
+    template: configs/sigua/.istio-kube.yml
+    vars:
+      deployName: sigua-landingpage-prod
+      env: prod
+      imageName: gcr.io/rd7-project/yaboxxx-landingpage:${DRONE_TAG}
+      k8sNginxConfigMap: sigua-landingpage-nginx-prod
+      nodePool: env
+      nodePoolName: prod
+    zone: asia-east1-b
+  environment:
+    TOKEN:
+      from_secret: GOOGLE_CREDENTIALS
+  depends_on:
+  - push2GCR-Prod
+
+trigger:
+  event:
+  - tag
+  ref:
+  - refs/tags/siguaProd-*
 
 ...
