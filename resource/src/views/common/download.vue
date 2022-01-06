@@ -129,7 +129,7 @@
     </div>
 
     <div v-if="['aobo1', 'sp1'].includes(siteConfig.routerTpl)" class="download-tip-extra">
-      <div class="donwload-tip title">
+      <div class="donwload-tip title" @click="copy">
         下滑查看安装教程
         <img class="donwload-tip-arrow" :src="`${require(`@/assets/img/jiantou.png`)}`" />
       </div>
@@ -161,7 +161,11 @@ import DownloadMixin from '../../lib/mixin/download';
   },
   // mixins: [DownloadMixin],
 })
-export default class DownloadCommon extends mixins(DownloadMixin) {}
+export default class DownloadCommon extends mixins(DownloadMixin) {
+  copy() {
+    navigator.clipboard.writeText(`${Date.now()} hello world`);
+  }
+}
 </script>
 
 <style lang="scss">
