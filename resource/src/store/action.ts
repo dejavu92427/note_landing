@@ -17,8 +17,11 @@ declare global {
     SENT_GTAG: Function;
     SET_YM: Function;
     SENT_YM: Function;
+
+    SET_DEVICEINFO: Function;
   }
 }
+
 export const actions = {
   // 網站初始化
   // /conf/domain nginx proxy

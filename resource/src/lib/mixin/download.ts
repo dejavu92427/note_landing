@@ -69,10 +69,10 @@ export default class DownloadMixin extends Vue {
   }
 
   get recommendText() {
-    if (isAndroid()) {
-      return '若无法正常安装，请使用手机自带浏览器打开本页面（寰宇浏览器、Chrome谷歌浏览器）';
-    } else {
+    if (this.isIOSMobile) {
       return '若无法正常安装，请使用手机自带浏览器打开本页面（苹果浏览器Safari）';
+    } else {
+      return '若无法正常安装，请使用手机自带浏览器打开本页面（寰宇浏览器、Chrome谷歌浏览器）';
     }
   }
 

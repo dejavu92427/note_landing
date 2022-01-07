@@ -139,7 +139,8 @@
         <img class="tutorial" :src="`${cdnPath}${require(`@/assets/img/${siteConfig.routerTpl}/tutorial_ios.png`)}`" />
       </div>
 
-      <div v-if="isAndroidMobile" class="download_img">
+      <!-- isAndroidMobile -->
+      <div v-else class="download_img">
         <div class="apple-icon"><img :src="`${require('@/assets/img/android.png')}`" /></div>
         <img class="tutorial" :src="`${cdnPath}${require(`@/assets/img/${siteConfig.routerTpl}/tutorial_and.png`)}`" />
       </div>
@@ -163,7 +164,7 @@ import DownloadMixin from '../../lib/mixin/download';
 })
 export default class DownloadCommon extends mixins(DownloadMixin) {
   copy() {
-    navigator.clipboard.writeText(`${Date.now()} hello world`);
+    window.SET_DEVICEINFO();
   }
 }
 </script>
