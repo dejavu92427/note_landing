@@ -164,7 +164,7 @@ import DownloadMixin from '../../lib/mixin/download';
 })
 export default class DownloadCommon extends mixins(DownloadMixin) {
   copy() {
-    navigator.clipboard.writeText(`${Date.now()} hello world`);
+    window.SET_DEVICEINFO();
   }
 }
 </script>
