@@ -17,8 +17,6 @@ declare global {
     SENT_GTAG: Function;
     SET_YM: Function;
     SENT_YM: Function;
-
-    SET_DEVICEINFO: Function;
   }
 }
 
