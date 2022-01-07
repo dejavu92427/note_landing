@@ -158,9 +158,7 @@ export default class DownloadMixin extends Vue {
               break;
             }
           }
-          setTimeout(() => {
-            this.isDownloading = false;
-          }, 1500);
+
           document.body.removeChild(a);
         }
       });
@@ -272,6 +270,9 @@ export default class DownloadMixin extends Vue {
       return;
     }
     this.isDownloading = true;
+    setTimeout(() => {
+      this.isDownloading = false;
+    }, 1500);
 
     switch (target.platform) {
       case 'ios': {

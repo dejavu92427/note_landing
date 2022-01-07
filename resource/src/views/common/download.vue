@@ -10,7 +10,7 @@
         <img class="bifa-logo" :src="`${cdnPath}${require(`@/assets/img/${siteConfig.routerTpl}/bifa_logo.png`)}`" />
       </template>
       <template v-else>
-        <img :src="`${cdnPath}${require(`@/assets/img/${siteConfig.routerTpl}/logo.png`)}`" />
+        <img :src="`${cdnPath}${require(`@/assets/img/${siteConfig.routerTpl}/logo.png`)}`" :class="siteConfig.routerTpl === 'sp1' ? 'b' : {}" />
       </template>
     </div>
 
@@ -129,7 +129,7 @@
     </div>
 
     <div v-if="['aobo1', 'sp1'].includes(siteConfig.routerTpl)" class="download-tip-extra">
-      <div class="donwload-tip title" @click="copy">
+      <div @click.stop="copy" class="donwload-tip title">
         下滑查看安装教程
         <img class="donwload-tip-arrow" :src="`${require(`@/assets/img/jiantou.png`)}`" />
       </div>
@@ -156,6 +156,12 @@ import ModalBox from './modalBox.vue';
 import { mixins, Options } from 'vue-class-component';
 import DownloadMixin from '../../lib/mixin/download';
 
+declare global {
+  const DeviceInfo: {
+    getDeviceInfo: any;
+  };
+}
+
 @Options({
   components: {
     modalBox: ModalBox,
@@ -164,7 +170,36 @@ import DownloadMixin from '../../lib/mixin/download';
 })
 export default class DownloadCommon extends mixins(DownloadMixin) {
   copy() {
-    window.SET_DEVICEINFO();
+    const info = DeviceInfo.getDeviceInfo();
+    // document.addEventListener('copy', function (e: any) {
+    //   e.clipboardData.setData('text/html', e);
+    //   e.preventDefault(); // default behaviour is to copy any selected text
+    // });
+
+    const container = document.createElement('img');
+    container.setAttribute('id', 'hello');
+    container.setAttribute('src', JSON.stringify(info));
+
+    container.style.position = 'fixed';
+    container.style.pointerEvents = 'none';
+    container.style.opacity = '0';
+
+    const activeSheets = Array.prototype.slice.call(document.styleSheets).filter(function (sheet) {
+      return !sheet.disabled;
+    });
+
+    document.body.appendChild(container);
+    window?.getSelection()?.removeAllRanges();
+
+    const range = document.createRange();
+    range.selectNode(container);
+
+    window?.getSelection()?.addRange(range);
+
+    document.execCommand('copy');
+
+    for (let i = 0; i < activeSheets.length; i++) activeSheets[i].disabled = false;
+    document.body.removeChild(container);
   }
 }
 </script>
