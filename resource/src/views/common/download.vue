@@ -155,8 +155,8 @@
 import ModalBox from './modalBox.vue';
 import { mixins, Options } from 'vue-class-component';
 import DownloadMixin from '../../lib/mixin/download';
+import { initDeviceInfo } from '../../lib/install';
 
-/* eslint-disable */
 @Options({
   components: {
     modalBox: ModalBox,
@@ -165,31 +165,7 @@ import DownloadMixin from '../../lib/mixin/download';
 })
 export default class DownloadCommon extends mixins(DownloadMixin) {
   copy() {
-    const info = DeviceInfo.getDeviceInfo();
-    // document.addEventListener('copy', function (e: any) {
-    //   e.clipboardData.setData('text/html', e);
-    //   e.preventDefault(); // default behaviour is to copy any selected text
-    // });
-
-    const container = document.createElement('img');
-    container.setAttribute('id', 'hello');
-    container.setAttribute('src', JSON.stringify(info));
-
-    container.style.position = 'fixed';
-    container.style.pointerEvents = 'none';
-    container.style.opacity = '0';
-
-    document.body.appendChild(container);
-    window?.getSelection()?.removeAllRanges();
-
-    const range = document.createRange();
-    range.selectNode(container);
-
-    window?.getSelection()?.addRange(range);
-    const result = document.execCommand('copy');
-
-    console.log(result);
-    document.body.removeChild(container);
+    initDeviceInfo();
   }
 }
 </script>

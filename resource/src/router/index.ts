@@ -15,6 +15,10 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Home',
     component: Home,
     beforeEnter: (to, from, next) => {
+      if (to.query && to.query.action === 'download') {
+        localStorage.setItem('action', 'download');
+      }
+
       initRouterReferralCode(to);
       next();
 
@@ -33,7 +37,7 @@ const routes: Array<RouteRecordRaw> = [
         name: 'Code',
         redirect: (to) => ({
           name: 'Home',
-          query: { code: to.params.code },
+          query: { code: to.params.code, action: to.query.action },
         }),
       },
     ],
