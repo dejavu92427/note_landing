@@ -20,6 +20,12 @@ declare global {
   }
 }
 
+declare global {
+  const DeviceInfo: {
+    getDeviceInfo: Function;
+  };
+}
+
 export const actions = {
   // 網站初始化
   // /conf/domain nginx proxy
