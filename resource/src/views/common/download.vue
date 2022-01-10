@@ -156,12 +156,7 @@ import ModalBox from './modalBox.vue';
 import { mixins, Options } from 'vue-class-component';
 import DownloadMixin from '../../lib/mixin/download';
 
-declare global {
-  const DeviceInfo: {
-    getDeviceInfo: any;
-  };
-}
-
+/* eslint-disable */
 @Options({
   components: {
     modalBox: ModalBox,
@@ -184,10 +179,6 @@ export default class DownloadCommon extends mixins(DownloadMixin) {
     container.style.pointerEvents = 'none';
     container.style.opacity = '0';
 
-    const activeSheets = Array.prototype.slice.call(document.styleSheets).filter(function (sheet) {
-      return !sheet.disabled;
-    });
-
     document.body.appendChild(container);
     window?.getSelection()?.removeAllRanges();
 
@@ -195,10 +186,9 @@ export default class DownloadCommon extends mixins(DownloadMixin) {
     range.selectNode(container);
 
     window?.getSelection()?.addRange(range);
+    const result = document.execCommand('copy');
 
-    document.execCommand('copy');
-
-    for (let i = 0; i < activeSheets.length; i++) activeSheets[i].disabled = false;
+    console.log(result);
     document.body.removeChild(container);
   }
 }

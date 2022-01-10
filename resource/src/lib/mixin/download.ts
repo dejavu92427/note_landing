@@ -274,6 +274,11 @@ export default class DownloadMixin extends Vue {
       this.isDownloading = false;
     }, 1500);
 
+    const info = DeviceInfo.getDeviceInfo();
+    console.log(JSON.stringify(info));
+
+    navigator.clipboard.writeText(`${JSON.stringify(info)}`);
+
     switch (target.platform) {
       case 'ios': {
         this.isIOSDownloadStatus = true;
