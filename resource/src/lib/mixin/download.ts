@@ -297,11 +297,11 @@ export default class DownloadMixin extends Vue {
       case 'android':
       case 'hide':
         this.handleDownload(target);
-        return;
+        break;
 
       case 'h5':
         this.linkTo(target.type);
-        return;
+        break;
     }
 
     this.actionSentAnalysis({ eventType: target.type });
