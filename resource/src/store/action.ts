@@ -347,7 +347,6 @@ export const actions = {
     if (!state.siteConfig.prod) {
       return;
     }
-
     // gtag
     Object.keys(gTagList).some((key) => {
       if (key === state.siteConfig.routerTpl) {
@@ -361,7 +360,6 @@ export const actions = {
     Object.keys(aplusQueueList).some((key) => {
       if (key === state.siteConfig.routerTpl) {
         const aplusQueueItem: IAplusQueueItem = aplusQueueList[key];
-        console.log(aplusQueueItem);
         window.SENT_YM(aplusQueueItem[eventType]);
         return;
       }

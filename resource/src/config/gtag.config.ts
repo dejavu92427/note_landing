@@ -34,10 +34,10 @@ export const gTagList: IGTagList = {
   sp1: {
     // UA-213963200-1
     id: 'UA-132265281-13',
-    visit: { event: 'Visit H5 Click', event_category: 'Click', event_label: 'event_label', value: '1' },
-    downloadPWA: { event: 'Download Click', event_category: 'Click', event_label: 'event_label', value: '1' },
-    downloadIOS: { event: 'Download Click', event_category: 'Click', event_label: 'event_label', value: '1' },
-    downloadANDROID: { event: 'Download Click', event_category: 'Click', event_label: 'event_label', value: '1' },
+    visit: { event: 'Visit H5 Click', event_category: 'Click', event_label: 'Visit_H5_SP', value: '1' },
+    downloadPWA: { event: 'Download Click', event_category: 'Click', event_label: 'Download_PWA_SP', value: '1' },
+    downloadIOS: { event: 'Download Click', event_category: 'Click', event_label: 'Download_iOS_SP', value: '1' },
+    downloadANDROID: { event: 'Download Click', event_category: 'Click', event_label: 'Download_Android_SP', value: '1' },
   },
   aobo1: {
     id: 'UA-132265281-13',
