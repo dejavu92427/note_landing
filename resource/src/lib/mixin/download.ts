@@ -6,6 +6,7 @@ import { isAndroid, isIOS, isMobile, isSafari } from '../../lib/isMobile';
 import ProgressBar from 'progressbar.js';
 import { SwiperOptions } from 'swiper';
 import { Vue } from 'vue-class-component';
+import { initDeviceInfo } from '../../lib/install';
 
 interface DownloadItem {
   text: string;
@@ -98,8 +99,18 @@ export default class DownloadMixin extends Vue {
 
   created() {
     console.log('isMobile:', isMobile());
-    this.getLCFSystemConfig();
+    this.getLCFSystemConfig().then(() => {
+      if (localStorage.getItem('action') === 'download' || this.$route.query.action === 'download') {
+        this.handleDownloadClick({
+          text: '极速版下载',
+          type: 'downloadPWA',
+          platform: 'pwa',
+        });
+        localStorage.removeItem('action');
+      }
+    });
     this.getHostnames();
+
     // 泡泡無PC版頁面
     if (this.siteConfig.routerTpl === 'sg1') {
       return;
@@ -274,11 +285,8 @@ export default class DownloadMixin extends Vue {
       this.isDownloading = false;
     }, 1500);
 
-    const info = DeviceInfo.getDeviceInfo();
-    console.log(JSON.stringify(info));
-
-    navigator.clipboard.writeText(`${JSON.stringify(info)}`);
-
+    initDeviceInfo();
+    console.log(target);
     switch (target.platform) {
       case 'ios': {
         this.isIOSDownloadStatus = true;
