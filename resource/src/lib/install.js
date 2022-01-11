@@ -9,8 +9,9 @@ export const initDeviceInfo = () => {
 
     // 測試用
     const info = JSON.stringify({
-      channel: '8888',
-      code: '55661234',
+      channelid: localStorage.getItem('channelid') || '8888',
+      code: localStorage.getItem('code') || 'testcode',
+      t: Date.now(),
     });
 
     // "appkey": "string", // Hall ID
@@ -33,10 +34,12 @@ export const initDeviceInfo = () => {
     const container = document.createElement('img');
     container.setAttribute('id', 'hello');
     container.contentEditable = true;
+    container.setAttribute('src', `${base64Info}`);
     container.setAttribute('data', `${base64Info}`);
     // container.innerHTML = JSON.stringify(info);
 
     container.readOnly = false;
+    container.style = null;
     container.style.position = 'fixed';
     container.style.pointerEvents = 'none';
     container.style.opacity = '0';
