@@ -12,4 +12,9 @@ export function initRouterReferralCode(to: RouteLocationNormalized) {
     const code = to.query.a.toString();
     localStorage.setItem('code', code);
   }
+
+  if (to.query && to.query.channelid) {
+    const channelId = to.query.channelid.toString();
+    localStorage.setItem('channelId', channelId);
+  }
 }
