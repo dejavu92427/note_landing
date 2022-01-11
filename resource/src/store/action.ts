@@ -331,6 +331,11 @@ export const actions = {
         if (state.hostnames) {
           const refCode = localStorage.getItem('code'); // 推廣代碼
           let href = '';
+
+          if (!state.hostnames || !state.hostnames[0]) {
+            return;
+          }
+
           if (refCode && refCode !== 'null' && refCode !== 'undefined') {
             href = `${state.hostnames[0].startsWith('http') ? `${state.hostnames[0]}/a/${refCode}` : `https://${state.hostnames[0]}/a/${refCode}`}`;
           } else {
@@ -338,6 +343,7 @@ export const actions = {
           }
 
           window.location.href = href;
+          return;
         }
         break;
     }
