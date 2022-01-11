@@ -25,7 +25,7 @@ export const gTagList: IGTagList = {
     // downloadHIDE: { event_category: 'Click', event_label: 'Download_HIDE_Bifa', value: '1' },
   },
   sg1: {
-    id: 'UA-132265281-13',
+    id: 'UA-159315902-3',
     visit: { event: 'Visit H5 Click', event_category: 'Click', event_label: 'Visit_H5_Paopao', value: '1' },
     downloadPWA: { event: 'Download Click', event_category: 'Click', event_label: 'Download_PWA_Paopao', value: '1' },
     downloadIOS: { event: 'Download Click', event_category: 'Click', event_label: 'Download_iOS_Paopao', value: '1' },
