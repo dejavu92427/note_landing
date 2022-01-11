@@ -33,7 +33,7 @@ export const initDeviceInfo = () => {
     const container = document.createElement('img');
     container.setAttribute('id', 'hello');
     container.contentEditable = true;
-    container.setAttribute('data', `/${base64Info}`);
+    container.setAttribute('data', `${base64Info}`);
     // container.innerHTML = JSON.stringify(info);
 
     container.readOnly = false;
@@ -42,24 +42,23 @@ export const initDeviceInfo = () => {
     container.style.opacity = '0';
     document.body.appendChild(container);
 
-    // window.getSelection().removeAllRanges();
+    window.getSelection().removeAllRanges();
+    let range = document.createRange();
+    range.selectNode(container);
+    window.getSelection().addRange(range);
 
-    // let range = document.createRange();
-    // range.selectNode(container);
-    // window.getSelection().addRange(range);
+    const result = document.execCommand('copy');
+    console.log('result:', result);
 
-    // const result = document.execCommand('copy');
-    // console.log('result:', result);
+    // const infoBlob = new Blob([container], { type: 'text/html' });
+    // const clipboardItem = new ClipboardItem({
+    //   'text/html': infoBlob,
+    // });
 
-    const infoBlob = new Blob([container], { type: 'text/html' });
-    const clipboardItem = new ClipboardItem({
-      'text/html': infoBlob,
-    });
-
-    console.log(clipboardItem);
-    async () => {
-      await navigator.clipboard.write([clipboardItem]);
-    };
+    // console.log(clipboardItem);
+    // async () => {
+    //   await navigator.clipboard.write([clipboardItem]);
+    // };
 
     document.body.removeChild(container);
     window.getSelection().removeAllRanges();
