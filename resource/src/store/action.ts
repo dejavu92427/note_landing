@@ -1,7 +1,7 @@
+import { IAgentChannel, IDownloadConfig } from '@/lib/interface';
 import { IAplusQueueItem, aplusQueueList as aplusQueueConfig, aplusQueueList } from '../config/aplusQueue.config';
 import { IGTagItem, gTagList, gTagList as gtagConfig } from '../config/gtag.config';
 
-import { IDownloadConfig } from '@/lib/interface';
 import { State } from './state';
 import { Types } from './mutations_type';
 import axios from 'axios';
@@ -370,5 +370,36 @@ export const actions = {
         return;
       }
     });
+  },
+
+  setAgentDeviceInfo({ state, commit }: { state: State; commit: Function }, params: any): any {
+    console.log('params:', params);
+    return axios
+      .put(
+        `https://vgqa2.777vendor.com/api-v2/cxbb/AgentChannel/AgentDeviceInfo`,
+        {
+          rsa: params.data,
+        },
+        {
+          headers: {
+            'x-domain': state.siteConfig.domain,
+            kind: 'h',
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      .then((res) => {
+        if (res && res.data && res.data.data && res.data.status === '000') {
+          let result: IAgentChannel = res.data.data;
+          result.channelid = result.channelid || localStorage.getItem('channelid') || '';
+          result.code = result.code || localStorage.getItem('code') || '';
+
+          commit(Types.SET_AGENT_CHANNEL, res.data.data);
+        }
+      })
+      .catch((err) => {
+        const response = err && err.response;
+        return response;
+      });
   },
 };

@@ -1,12 +1,12 @@
 import { Action, Getter } from 'vuex-class';
-import { ICommonConfig, IDownloadConfig, ISiteConfig } from '../interface';
+import { EncryptInfo, InitInstallInfo } from '../../lib/install';
+import { IAgentChannel, ICommonConfig, IDownloadConfig, ISiteConfig } from '../interface';
 import Swiper, { Pagination } from 'swiper';
 import { isAndroid, isIOS, isMobile, isSafari } from '../../lib/isMobile';
 
 import ProgressBar from 'progressbar.js';
 import { SwiperOptions } from 'swiper';
 import { Vue } from 'vue-class-component';
-import { initDeviceInfo } from '../../lib/install';
 
 interface DownloadItem {
   text: string;
@@ -21,12 +21,14 @@ export default class DownloadMixin extends Vue {
   @Action('actionLinkTo') actionLinkTo!: Function;
   @Action('actionSentAnalysis') actionSentAnalysis!: Function;
   @Action('getHostnames') getHostnames!: Function;
+  @Action('setAgentDeviceInfo') setAgentDeviceInfo!: Function;
 
   @Getter('getCommonList') commonList!: ICommonConfig;
   @Getter('getCDN') cdnPath!: string;
   @Getter('getVersion') version!: string;
   @Getter('getDonwloadConfig') downloadConfig!: IDownloadConfig;
   @Getter('getSiteConfig') siteConfig!: ISiteConfig;
+  @Getter('getAgentChannel') agentChannel!: IAgentChannel;
 
   isIOSDownloadStatus = false;
   isDownloadPub = false;
@@ -86,9 +88,10 @@ export default class DownloadMixin extends Vue {
   }
 
   get hasAPPDownalod() {
-    if (localStorage.getItem('code')) {
-      return false;
-    }
+    // 渠道碼
+    // if (localStorage.getItem('code')) {
+    //   return false;
+    // }
 
     if (!this.downloadConfig.android.show || !this.downloadConfig.ios.show || !this.downloadConfig.pwa.show) {
       return false;
@@ -125,6 +128,11 @@ export default class DownloadMixin extends Vue {
   }
 
   mounted() {
+    const encrypted = EncryptInfo(this.siteConfig.domain);
+    this.setAgentDeviceInfo({ data: encrypted }).then(() => {
+      console.log(this.agentChannel);
+    });
+
     if (document.getElementById('swiper-container')) {
       const swiperOptions: SwiperOptions = {
         observer: true,
@@ -260,10 +268,10 @@ export default class DownloadMixin extends Vue {
       return this.downloadConfig['h5'].show;
     }
 
-    // 推廣代碼不顯示下載APP
-    if (localStorage.getItem('code')) {
-      return false;
-    }
+    // 渠道碼
+    // if (localStorage.getItem('code')) {
+    //   return false;
+    // }
 
     if ((isAndroid() && target.platform === 'android') || (isIOS() && target.platform === 'pwa') || (isIOS() && target.platform === 'ios')) {
       return this.downloadConfig[target.platform as keyof IDownloadConfig].show;
@@ -285,7 +293,7 @@ export default class DownloadMixin extends Vue {
       this.isDownloading = false;
     }, 1500);
 
-    initDeviceInfo();
+    InitInstallInfo(this.agentChannel);
 
     switch (target.platform) {
       case 'ios': {
