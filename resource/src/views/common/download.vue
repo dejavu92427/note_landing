@@ -155,7 +155,7 @@
 import ModalBox from './modalBox.vue';
 import { mixins, Options } from 'vue-class-component';
 import DownloadMixin from '../../lib/mixin/download';
-import { InitInstallInfo, EncryptInfo } from '../../lib/install';
+import { InitInstallInfo } from '../../lib/install';
 
 @Options({
   components: {
