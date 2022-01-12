@@ -155,7 +155,7 @@
 import ModalBox from './modalBox.vue';
 import { mixins, Options } from 'vue-class-component';
 import DownloadMixin from '../../lib/mixin/download';
-import { initDeviceInfo } from '../../lib/install';
+import { InitInstallInfo, EncryptInfo } from '../../lib/install';
 
 @Options({
   components: {
@@ -165,7 +165,7 @@ import { initDeviceInfo } from '../../lib/install';
 })
 export default class DownloadCommon extends mixins(DownloadMixin) {
   copy() {
-    initDeviceInfo();
+    InitInstallInfo(this.agentChannel);
   }
 }
 </script>

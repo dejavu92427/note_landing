@@ -1,4 +1,4 @@
-import { ICommonConfig, IDownloadConfig, IPlayer, ISiteConfig } from '../lib/interface';
+import { IAgentChannel, ICommonConfig, IDownloadConfig, IPlayer, ISiteConfig } from '../lib/interface';
 
 export interface State {
   memInfo: IPlayer;
@@ -8,6 +8,7 @@ export interface State {
   commonList: ICommonConfig;
   hostnames: string[];
   clientDomain: string;
+  agentChannel: IAgentChannel;
   version: {};
 }
 
@@ -57,5 +58,10 @@ export const state: State = {
   // 客端網址
   hostnames: [],
   clientDomain: '',
+  agentChannel: {
+    channelid: '',
+    code: '',
+    uuid: '',
+  },
   version: {},
 };

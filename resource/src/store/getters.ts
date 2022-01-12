@@ -9,4 +9,5 @@ export const getters = {
   getCommonList: (state: State) => state.commonList,
   getHostnames: (state: State) => state.hostnames,
   getClientDomain: (state: State) => state.clientDomain,
+  getAgentChannel: (state: State) => state.agentChannel,
 };

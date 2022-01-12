@@ -1,36 +1,23 @@
 /* eslint-disable */
-import ClipboardJS from 'clipboard';
-import { isIOS } from './isMobile';
+import JSEncrypt from 'jsencrypt';
 
-export const initDeviceInfo = () => {
+const pubkey =
+  'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArBE0IS/CagjTMVo4xRpZ86/zDPJpvEicB3Q2Kntd+n/oR2BeitffEvF/BcKyLq5cksqFk+0twJcNO0nSVdJK5MlwtBF83Xkugf0vtz9Bf8tB3l2dpRTqrRzeFbggd9uldaiptbmzKRkwMmG9/pBXY/NVdvan2DhO66ND3ArPa+lzZHmnU6HYu/cgM6kHvQObhDpMTFgW4UvBP8uLhc0i8hvh/80AABztFuq8/0ZdEBRIXL2cG8KGjm5xuIRZBlefEbHpNo3S2pZQGz1vYHCl4eAF8D+cxtG+myJ72f21UIKGLy3WuAyysxJNYyPBT4pXXI2znHKDJGpZpSa6ODP18QIDAQAB';
+export const InitInstallInfo = (data) => {
+  // if (!localStorage.getItem('channelid')) {
+  //   return;
+  // }
   try {
-    // let devInfo = DeviceInfo.getDeviceInfo();
-    // const info = JSON.stringify(DeviceInfo.getDeviceInfo());
-
     // 測試用
     const info = JSON.stringify({
-      channelid: localStorage.getItem('channelid') || '8888',
-      code: localStorage.getItem('code') || 'testcode',
-      t: Date.now(),
+      ...data,
+      timestamp: new Date().toISOString(),
     });
 
-    // "appkey": "string", // Hall ID
-    // "channelId": 0,
-    // "gr": "string", // GPU Model
-    // "gv": "string", // GPU Vendor
-    // "imei": "string", // UUID
-    // "ip_nat": "string", // internal ip
-    // "os": "string", // Android / iOS
-    // "osver": "string", // OS Version
-    // "promotionCode": "string",
-    // "sh": 0, // Screen Heigh
-    // "sp": "string", // Scaled Pixels
-    // "sw": 0, // Screen Width
-    // "uuid": "string", // Server Generate
-    // "ver": "string" // SDK Version
+    console.log(info);
 
     let base64Info = Buffer.from(info).toString('base64');
-    console.log(base64Info);
+
     const container = document.createElement('img');
     container.setAttribute('id', 'hello');
     container.contentEditable = true;
@@ -51,8 +38,7 @@ export const initDeviceInfo = () => {
     window.getSelection().addRange(range);
 
     const result = document.execCommand('copy');
-    console.log('result:', result);
-
+    console.log('copy result:', result);
     // const infoBlob = new Blob([container], { type: 'text/html' });
     // const clipboardItem = new ClipboardItem({
     //   'text/html': infoBlob,
@@ -68,4 +54,55 @@ export const initDeviceInfo = () => {
   } catch (e) {
     console.log(e);
   }
+};
+
+export const EncryptInfo = (domain) => {
+  const info = DeviceInfo.getDeviceInfo();
+  const devInfo = {
+    appkey: domain,
+    channelid: localStorage.getItem('channelid') || '',
+    gr: info.gpu,
+    gv: info.gpu,
+    imei: '',
+    ip_nat: '',
+    os: info.OS,
+    osver: info.OSVersion,
+    code: localStorage.getItem('code') || '',
+    sh: info.screenHeight.toString(),
+    sp: window.devicePixelRatio.toString(),
+    sw: info.screenWidth.toString(),
+    uudi: '',
+    ver: '',
+    useragent: info.userAgent,
+    date: info.date,
+    deviceType: info.deviceType,
+    browserInfo: info.browserInfo,
+  };
+
+  console.log(devInfo);
+
+  // "appkey": "string", // Hall ID
+  // "channelid": 0,
+  // "gr": "string", // GPU Model
+  // "gv": "string", // GPU Vendor
+  // "imei": "string", // UUID
+  // "ip_nat": "string", // internal ip
+  // "os": "string", // Android / iOS
+  // "osver": "string", // OS Version
+  // "promotionCode": "string",
+  // "sh": 0, // Screen Heigh
+  // "sp": "string", // Scaled Pixels
+  // "sw": 0, // Screen Width
+  // "uuid": "string", // Server Generate
+  // "ver": "string" // SDK Version
+
+  const encrypt = new JSEncrypt();
+  encrypt.setPublicKey(pubkey);
+  const encrypted = encrypt.encrypt(devInfo);
+
+  return encrypted;
+
+  // const decrypt = new JSEncrypt();
+  // decrypt.setPrivateKey(pubkey);
+  // const uncrypted = decrypt.decrypt(encrypted);
 };

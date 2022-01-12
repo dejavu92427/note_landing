@@ -12,8 +12,8 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
-    "clipboard": "^2.0.8",
     "core-js": "^3.9.1",
+    "jsencrypt": "^3.2.1",
     "lodash": "^4.17.21",
     "progressbar.js": "^1.1.0",
     "qrcode.vue": "^3.3.3",

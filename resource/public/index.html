@@ -83,21 +83,6 @@
       }
     }
 
-    window.SET_DEVICEINFO = function () {
-      const type = "text/plain";
-      const blob = new Blob([DeviceInfo.getDeviceInfo()], { type });
-      const data = [new ClipboardItem({ [type]: blob })];
-
-      localStorage.setItem('deviceInfo', JSON.stringify(DeviceInfo.getDeviceInfo()))
-      navigator.clipboard.write(data).then(
-        function () {
-          /* success */
-        },
-        function (error) {
-          console.log(error);
-        }
-      );
-    }
   </script>
   <div id="app"></div>
   <!-- built files will be auto injected -->
