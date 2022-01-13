@@ -330,12 +330,11 @@ export const actions = {
           const refCode = localStorage.getItem('code'); // 推廣代碼
           const channelid = localStorage.getItem('channelid');
 
-          let href = '';
           if (!state.hostnames || !state.hostnames[0]) {
             return;
           }
 
-          let url = new URL(state.hostnames[0].startsWith('http') ? state.hostnames[0] : `https://${state.hostnames[0]}`);
+          const url = new URL(state.hostnames[0].startsWith('http') ? state.hostnames[0] : `https://${state.hostnames[0]}`);
 
           if (refCode) {
             url.searchParams.append('code', refCode);
@@ -384,11 +383,15 @@ export const actions = {
       return;
     }
 
+    // base64 to hex
+    const buffer = Buffer.from(params.data, 'base64');
+    const bufString = buffer.toString('hex');
+
     return axios
       .put(
         `${state.siteConfig.golangApiDomain.replace('api-v2', 'channel-api')}/cxbb/AgentChannel/AgentDeviceInfo`,
         {
-          rsa: params.data,
+          rsa: bufString,
         },
         {
           headers: {

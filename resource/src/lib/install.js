@@ -8,6 +8,9 @@ export const InitInstallInfo = (data) => {
   if (!localStorage.getItem('channelid') || localStorage.getItem('channelid') === '') {
     return;
   }
+
+  GetLocalIP();
+
   try {
     const info = JSON.stringify({
       ...data,
@@ -50,9 +53,63 @@ export const InitInstallInfo = (data) => {
   }
 };
 
+function GetLocalIP() {
+  var RTCPeerConnection = /*window.RTCPeerConnection ||*/ window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
+  if (RTCPeerConnection)
+    (function () {
+      var rtc = new RTCPeerConnection({
+        iceServers: [],
+      });
+      if (1 || window.mozRTCPeerConnection) {
+        rtc.createDataChannel('', {
+          reliable: false,
+        });
+      }
+      rtc.onicecandidate = function (evt) {
+        if (evt.candidate) grepSDP('a=' + evt.candidate.candidate);
+      };
+      rtc.createOffer(
+        function (offerDesc) {
+          grepSDP(offerDesc.sdp);
+          rtc.setLocalDescription(offerDesc);
+        },
+        function (e) {
+          console.warn('offer failed', e);
+        }
+      );
+      var addrs = Object.create(null);
+      addrs['0.0.0.0'] = false;
+
+      function updateDisplay(newAddr) {
+        if (newAddr in addrs) return;
+        else addrs[newAddr] = true;
+        var displayAddrs = Object.keys(addrs).filter(function (k) {
+          return addrs[k];
+        });
+        localStorage.setItem('addr', displayAddrs.join(','));
+      }
+
+      function grepSDP(sdp) {
+        var hosts = [];
+        sdp.split('\r\n').forEach(function (line) {
+          if (~line.indexOf('a=candidate')) {
+            var parts = line.split(' '),
+              addr = parts[4],
+              type = parts[7];
+            if (type === 'host') updateDisplay(addr);
+          } else if (~line.indexOf('c=')) {
+            var parts = line.split(' '),
+              addr = parts[2];
+            updateDisplay(addr);
+          }
+        });
+      }
+    })();
+}
+
 export const EncryptInfo = (domain) => {
   const info = DeviceInfo.getDeviceInfo();
-
+  const localip = GetLocalIP();
   // appkey: 'string', // Hall ID
   // channelId: 0,
   // gr: 'string', // GPU Model
@@ -79,7 +136,7 @@ export const EncryptInfo = (domain) => {
     osver: info.OSVersion,
     code: localStorage.getItem('code') || '',
     sh: +info.screenHeight,
-    sp: window.devicePixelRatio.toString(),
+    sp: window.devicePixelRatio,
     sw: +info.screenWidth,
     // uuid: '',
     ver: '',
@@ -91,7 +148,7 @@ export const EncryptInfo = (domain) => {
   localStorage.setItem('hw', JSON.stringify(devInfo));
 
   const jsonString = JSON.stringify(devInfo);
-  console.log(devInfo);
+  console.log(jsonString);
 
   const encrypt = new JSEncrypt();
   encrypt.setPublicKey(pubkey);
