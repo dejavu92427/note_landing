@@ -25,7 +25,7 @@ export const InitInstallInfo = (data) => {
       container.removeAttribute('readonly');
       container.setAttribute('id', 'ddd');
 
-      container.innerHTML = `<a value='${base64Info}' href=''>&nbsp;</a>`;
+      container.innerHTML = `<a value='${base64Info}'>&nbsp;</a>`;
       document.body.appendChild(container);
 
       execCopy(container);
@@ -45,18 +45,6 @@ export const InitInstallInfo = (data) => {
 
       execCopy(container);
     }
-
-    // const infoBlob = new Blob([container], { type: 'text/html' });
-    // const clipboardItem = new ClipboardItem({
-    //   'text/html': infoBlob,
-    // });
-
-    // console.log(clipboardItem);
-    // async () => {
-    //   await navigator.clipboard.write([clipboardItem]);
-    // };
-
-    // document.body.removeChild(container);
   } catch (e) {
     console.log(e);
   }

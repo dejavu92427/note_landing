@@ -303,8 +303,6 @@ export const actions = {
   },
 
   actionLinkTo({ state }: { state: State }, target = ''): any {
-    console.log(state.clientDomain);
-
     switch (target) {
       // 客端靜態客服頁面
       case 'clientService':
@@ -330,19 +328,25 @@ export const actions = {
       case 'visit':
         if (state.hostnames) {
           const refCode = localStorage.getItem('code'); // 推廣代碼
-          let href = '';
+          const channelid = localStorage.getItem('channelid');
 
+          let href = '';
           if (!state.hostnames || !state.hostnames[0]) {
             return;
           }
 
-          if (refCode && refCode !== 'null' && refCode !== 'undefined') {
-            href = `${state.hostnames[0].startsWith('http') ? `${state.hostnames[0]}/a/${refCode}` : `https://${state.hostnames[0]}/a/${refCode}`}`;
-          } else {
-            href = `${state.hostnames[0].startsWith('http') ? `${state.hostnames[0]}` : `https://${state.hostnames[0]}`}`;
+          let url = new URL(state.hostnames[0].startsWith('http') ? state.hostnames[0] : `https://${state.hostnames[0]}`);
+
+          if (refCode) {
+            url.searchParams.append('code', refCode);
           }
 
-          window.location.href = href;
+          if (channelid) {
+            url.searchParams.append('channelid', channelid);
+          }
+
+          // console.log(url.href);
+          window.location.href = url.href;
           return;
         }
         break;
@@ -382,7 +386,7 @@ export const actions = {
 
     return axios
       .put(
-        `https://vgqa2.777vendor.com/api-v2/cxbb/AgentChannel/AgentDeviceInfo`,
+        `${state.siteConfig.golangApiDomain.replace('api-v2', 'channel-api')}/cxbb/AgentChannel/AgentDeviceInfo`,
         {
           rsa: params.data,
         },
