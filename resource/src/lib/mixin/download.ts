@@ -130,7 +130,9 @@ export default class DownloadMixin extends Vue {
   mounted() {
     const encrypted = EncryptInfo(this.siteConfig.domain);
     this.setAgentDeviceInfo({ data: encrypted }).then(() => {
-      console.log(this.agentChannel);
+      if (this.agentChannel && this.agentChannel.uuid) {
+        console.log(this.agentChannel);
+      }
     });
 
     if (document.getElementById('swiper-container')) {

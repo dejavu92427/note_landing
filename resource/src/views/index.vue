@@ -45,8 +45,12 @@ import { isMobile } from '../lib/isMobile';
             if (to.name === 'download' || to.name === 'pc') {
               next();
             } else {
+              console.log(to);
               if (isMobile()) {
-                next('download');
+                next({
+                  name: 'download',
+                  query: { code: to.query.code, action: to.query.action, channelid: to.query.channelid },
+                });
               } else {
                 next('pc');
               }

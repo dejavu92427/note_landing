@@ -37,7 +37,7 @@ const routes: Array<RouteRecordRaw> = [
         name: 'Code',
         redirect: (to) => ({
           name: 'Home',
-          query: { code: to.params.code, action: to.query.action },
+          query: { code: to.params.code, action: to.query.action, channelid: to.query.channelid },
         }),
       },
     ],
