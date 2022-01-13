@@ -374,6 +374,12 @@ export const actions = {
 
   setAgentDeviceInfo({ state, commit }: { state: State; commit: Function }, params: any): any {
     console.log('params:', params);
+
+    // 無渠道ID時不執行
+    if (!localStorage.getItem('channelid') || localStorage.getItem('channelid') === '') {
+      return;
+    }
+
     return axios
       .put(
         `https://vgqa2.777vendor.com/api-v2/cxbb/AgentChannel/AgentDeviceInfo`,
@@ -390,11 +396,11 @@ export const actions = {
       )
       .then((res) => {
         if (res && res.data && res.data.data && res.data.status === '000') {
-          let result: IAgentChannel = res.data.data;
+          const result: IAgentChannel = res.data.data;
           result.channelid = result.channelid || localStorage.getItem('channelid') || '';
           result.code = result.code || localStorage.getItem('code') || '';
 
-          commit(Types.SET_AGENT_CHANNEL, res.data.data);
+          return commit(Types.SET_AGENT_CHANNEL, res.data.data);
         }
       })
       .catch((err) => {
