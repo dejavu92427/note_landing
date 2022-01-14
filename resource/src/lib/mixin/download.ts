@@ -7,6 +7,7 @@ import { isAndroid, isIOS, isMobile, isSafari } from '../../lib/isMobile';
 import ProgressBar from 'progressbar.js';
 import { SwiperOptions } from 'swiper';
 import { Vue } from 'vue-class-component';
+import { initRouterReferralCode } from '../referralCode';
 
 interface DownloadItem {
   text: string;
@@ -44,11 +45,6 @@ export default class DownloadMixin extends Vue {
       platform: 'h5',
     },
     {
-      text: '极速版下载',
-      type: 'downloadPWA',
-      platform: 'pwa',
-    },
-    {
       text: 'IOS版下载',
       type: 'downloadIOS',
       platform: 'ios',
@@ -57,6 +53,11 @@ export default class DownloadMixin extends Vue {
       text: 'ANDROID版下载',
       type: 'downloadANDROID',
       platform: 'android',
+    },
+    {
+      text: '极速版下载',
+      type: 'downloadPWA',
+      platform: 'pwa',
     },
     // {
     //   show: false,
@@ -102,14 +103,28 @@ export default class DownloadMixin extends Vue {
 
   created() {
     console.log('isMobile:', isMobile());
+
+    if (this.$route.query) {
+      initRouterReferralCode(this.$route.query);
+    }
+
     this.getLCFSystemConfig().then(() => {
       if (localStorage.getItem('action') === 'download' || this.$route.query.action === 'download') {
-        this.handleDownloadClick({
-          text: '极速版下载',
-          type: 'downloadPWA',
-          platform: 'pwa',
-        });
         localStorage.removeItem('action');
+
+        let target: DownloadItem = {
+          text: '',
+          type: '',
+          platform: '',
+        };
+
+        if (isSafari()) {
+          target = this.downloadList[3];
+        } else if (this.isAndroidMobile) {
+          target = this.downloadList[2];
+        }
+
+        this.handleDownloadClick(target);
       }
     });
     this.getHostnames();
@@ -287,9 +302,10 @@ export default class DownloadMixin extends Vue {
   }
 
   handleDownloadClick(target: DownloadItem) {
-    if (this.isDownloading) {
+    if (this.isDownloading || !this.downloadConfig[target.platform as keyof IDownloadConfig].show) {
       return;
     }
+
     this.isDownloading = true;
     setTimeout(() => {
       this.isDownloading = false;

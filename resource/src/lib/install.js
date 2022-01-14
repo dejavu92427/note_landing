@@ -54,60 +54,30 @@ export const InitInstallInfo = (data) => {
 };
 
 function GetLocalIP() {
-  var RTCPeerConnection = /*window.RTCPeerConnection ||*/ window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
-  if (RTCPeerConnection)
-    (function () {
-      var rtc = new RTCPeerConnection({
-        iceServers: [],
-      });
-      if (1 || window.mozRTCPeerConnection) {
-        rtc.createDataChannel('', {
-          reliable: false,
-        });
-      }
-      rtc.onicecandidate = function (evt) {
-        if (evt.candidate) grepSDP('a=' + evt.candidate.candidate);
-      };
-      rtc.createOffer(
-        function (offerDesc) {
-          grepSDP(offerDesc.sdp);
-          rtc.setLocalDescription(offerDesc);
-        },
-        function (e) {
-          console.warn('offer failed', e);
-        }
-      );
-      var addrs = Object.create(null);
-      addrs['0.0.0.0'] = false;
-
-      function updateDisplay(newAddr) {
-        if (newAddr in addrs) return;
-        else addrs[newAddr] = true;
-        var displayAddrs = Object.keys(addrs).filter(function (k) {
-          return addrs[k];
-        });
-        localStorage.setItem('addr', displayAddrs.join(','));
-      }
-
-      function grepSDP(sdp) {
-        var hosts = [];
-        sdp.split('\r\n').forEach(function (line) {
-          if (~line.indexOf('a=candidate')) {
-            var parts = line.split(' '),
-              addr = parts[4],
-              type = parts[7];
-            if (type === 'host') updateDisplay(addr);
-          } else if (~line.indexOf('c=')) {
-            var parts = line.split(' '),
-              addr = parts[2];
-            updateDisplay(addr);
-          }
-        });
-      }
-    })();
+  try {
+    window.RTCPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection; //compatibility for firefox and chrome
+    var pc = new RTCPeerConnection({ iceServers: [] }),
+      noop = function () {};
+    pc.createDataChannel(''); //create a bogus data channel
+    pc.createOffer(pc.setLocalDescription.bind(pc), noop); // create offer and set local description
+    pc.onicecandidate = function (ice) {
+      //listen for candidate events
+      if (!ice || !ice.candidate || !ice.candidate.candidate) return;
+      var myIP = /([0-9]{1,3}(.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/.exec(ice.candidate.candidate)[1];
+      localStorage.setItem('addr', myIP);
+      pc.onicecandidate = noop;
+    };
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 export const EncryptInfo = (domain) => {
+  // 無渠道ID時不執行
+  if (!localStorage.getItem('channelid') || localStorage.getItem('channelid') === '') {
+    return;
+  }
+
   const info = DeviceInfo.getDeviceInfo();
   const localip = GetLocalIP();
   // appkey: 'string', // Hall ID
@@ -131,7 +101,7 @@ export const EncryptInfo = (domain) => {
     gr: info.gpu,
     gv: info.gpu,
     imei: '',
-    ip_nat: '',
+    ip_nat: localStorage.getItem('addr') || '',
     os: info.OS,
     osver: info.OSVersion,
     code: localStorage.getItem('code') || '',
