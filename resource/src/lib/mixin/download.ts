@@ -37,7 +37,7 @@ export default class DownloadMixin extends Vue {
   progessDone = false;
   downloadText = '正在下载...'; // 一键信任
   showModal = false;
-
+  apphref = '';
   downloadList: DownloadItem[] = [
     {
       text: '去逛逛',
@@ -317,10 +317,13 @@ export default class DownloadMixin extends Vue {
       case 'ios': {
         this.isIOSDownloadStatus = true;
 
+        // 正在下載進度
         if (this.progessDone) {
           this.downloadPubMobile();
           return;
         }
+
+        this.openAPP(target);
         this.handleDownload(target);
         break;
       }
@@ -335,15 +338,40 @@ export default class DownloadMixin extends Vue {
       }
 
       case 'android':
-      case 'hide':
+        this.openAPP(target);
         this.handleDownload(target);
         break;
 
       case 'h5':
         this.linkTo(target.type);
         break;
+
+      case 'hide':
+        this.handleDownload(target);
+        break;
     }
 
     this.actionSentAnalysis({ eventType: target.type });
+  }
+
+  openAPP(target: DownloadItem) {
+    // open app
+    const now = new Date().valueOf();
+
+    if (target.platform === 'android') {
+      this.apphref = `${this.siteConfig.andAppSchema}open?code=${localStorage.getItem('b')}`;
+    } else if (target.platform === 'ios') {
+      this.apphref = `${this.siteConfig.iosAppSchema}open?code=${localStorage.getItem('b')}`;
+    }
+
+    localStorage.removeItem('b');
+
+    setTimeout(() => {
+      if (new Date().valueOf() - now > 100) return;
+    }, 500);
+
+    this.$nextTick(() => {
+      document.getElementById('startApp')?.click();
+    });
   }
 }

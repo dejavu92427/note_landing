@@ -2,7 +2,8 @@
 import JSEncrypt from 'jsencrypt';
 import { isAndroid } from './isMobile';
 const pubkey =
-  'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArBE0IS/CagjTMVo4xRpZ86/zDPJpvEicB3Q2Kntd+n/oR2BeitffEvF/BcKyLq5cksqFk+0twJcNO0nSVdJK5MlwtBF83Xkugf0vtz9Bf8tB3l2dpRTqrRzeFbggd9uldaiptbmzKRkwMmG9/pBXY/NVdvan2DhO66ND3ArPa+lzZHmnU6HYu/cgM6kHvQObhDpMTFgW4UvBP8uLhc0i8hvh/80AABztFuq8/0ZdEBRIXL2cG8KGjm5xuIRZBlefEbHpNo3S2pZQGz1vYHCl4eAF8D+cxtG+myJ72f21UIKGLy3WuAyysxJNYyPBT4pXXI2znHKDJGpZpSa6ODP18QIDAQAB';
+  'MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAvjQox5Om5gNOmynn8WaSv/s8dyWTSVvLCmdiV+W9r1iUs/wHhBg6EVYCQn9pBJPfdXsCjln+EStlDow6JJtcoYekM0O0yhKsbH7Y6a54N50lTqGzSYUPRDg4W6PrERn6udLAqeVELy6s+giFYIUeoAkYCLESPnTno/mQb5IDlc8kcq63hbNEOzMfCd/tp7217WpuKR4Lve0rI4ooQhdO/GbxDrzfsrGLlpJT8inhQd7mzjdwiCAOXV/H/UKkvkmIvL1R+qrIr14ZDjX28NRKSkNXtZxl6ZoaqN5wlJHj8/Qxb+ME6d1yRU6I3k/dS4uH08fKAol34nvDmrzD8i3VH2ShXjmqcmMzRWQHSMTle3gchAnUeVeCpdYLVQtGU2DqQSGmQFkyETMxqH4AEnI/6+IlDClMj2/PixGbU9wybK5BnCZETjf1D/V9jW/l4RxFn4mk7+z9s7cOKvlYdpPIORkhCTJRHfkC04JBYnEj+f7uMz6Zuj6H6nX9Ve9ldCnBXb9Tp6CS39/P7XcGR0PIbAeFJU14RCzusA0Z80TFzVraK6NE8Y768jcM/sWs1+wL8I5KnQ1E7Mfu39GQgxoHNJX/JZ9/1hSLoDwUBmHiFXLuYeGOcx7rcE4CcIXULKxNT5AQawnlo3h2KoTu5ou73xhKXdvS4RYJMw1C5o+c4pECAwEAAQ==';
+
 export const InitInstallInfo = (data) => {
   // 無渠道ID時不執行
   if (!localStorage.getItem('channelid') || localStorage.getItem('channelid') === '') {
@@ -19,6 +20,8 @@ export const InitInstallInfo = (data) => {
 
     console.log(info);
     let base64Info = Buffer.from(info).toString('base64');
+
+    localStorage.setItem('b', base64Info);
 
     if (isAndroid()) {
       let container = document.createElement('div');
@@ -47,6 +50,10 @@ export const InitInstallInfo = (data) => {
       document.body.appendChild(container);
 
       execCopy(container);
+
+      setTimeout(() => {
+        document.body.removeChild(container);
+      }, 50);
     }
   } catch (e) {
     console.log(e);
@@ -79,7 +86,7 @@ export const EncryptInfo = (domain) => {
   }
 
   const info = DeviceInfo.getDeviceInfo();
-  const localip = GetLocalIP();
+
   // appkey: 'string', // Hall ID
   // channelId: 0,
   // gr: 'string', // GPU Model

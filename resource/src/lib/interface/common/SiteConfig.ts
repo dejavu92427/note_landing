@@ -5,4 +5,6 @@ export interface ISiteConfig {
   siteName: string;
   golangApiDomain: string;
   prod: boolean;
+  andAppSchema: string;
+  iosAppSchema: string;
 }

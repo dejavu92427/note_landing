@@ -22,6 +22,8 @@ export const state: State = {
     siteName: '',
     golangApiDomain: '',
     prod: false,
+    andAppSchema: '',
+    iosAppSchema: '',
   },
   // 前端網站配置客服連結
   commonList: {
