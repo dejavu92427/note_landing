@@ -71,7 +71,9 @@
     "THEME_TPL": "aobo1",
     "SITE_NAME": "澳博国际",
     "GOLANG_API_DOMAIN": "https://yaboapi.bbin-asia.com/api-v2",
-    "PROD": false
+    "PROD": false,
+    "IOS_APP_SCHEMA": "cyiosdev0001.aoboCasino.qa://",
+    "AND_APP_SCHEMA": "openapp://agentchannel/aobo/qa:9527"
   },
   {
     "DOMAIN": "93",
@@ -79,7 +81,9 @@
     "THEME_TPL": "aobo1",
     "SITE_NAME": "澳博国际",
     "GOLANG_API_DOMAIN": "https://yaboapi.dormousepie.com/api-v2",
-    "PROD": false
+    "PROD": false,
+    "IOS_APP_SCHEMA": "cyiosdev0001.aoboCasino.demo://",
+    "AND_APP_SCHEMA": "openapp://agentchannel/aobo/demo:9527"
   },
   {
     "DOMAIN": "92",
@@ -88,7 +92,9 @@
     "SITE_NAME": "澳博国际",
     "GOLANG_API_DOMAIN": "https://yaboapi.dormousepie.com/api-v2",
     "PROD": true,
-    "CDN_HEADER": "x_cdn_ab_landing"
+    "CDN_HEADER": "x_cdn_ab_landing",
+    "IOS_APP_SCHEMA": "cyiosdev0001.aoboCasino.prod://",
+    "AND_APP_SCHEMA": "openapp://agentchannel/aobo/release:9527"
   },
   {
     "DOMAIN": "9999905",

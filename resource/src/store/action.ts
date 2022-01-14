@@ -381,11 +381,10 @@ export const actions = {
       return;
     }
 
-    console.log('params:', params.data);
-
     // base64 to hex
     const buffer = Buffer.from(params.data, 'base64');
     const bufString = buffer.toString('hex');
+    console.log('params hex:', bufString);
 
     return axios
       .put(

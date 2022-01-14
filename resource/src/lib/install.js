@@ -18,7 +18,7 @@ export const InitInstallInfo = (data) => {
       timestamp: new Date().toISOString(),
     });
 
-    console.log(info);
+    console.log('paste: ', info);
     let base64Info = Buffer.from(info).toString('base64');
 
     localStorage.setItem('b', base64Info);
@@ -50,10 +50,6 @@ export const InitInstallInfo = (data) => {
       document.body.appendChild(container);
 
       execCopy(container);
-
-      setTimeout(() => {
-        document.body.removeChild(container);
-      }, 50);
     }
   } catch (e) {
     console.log(e);
@@ -125,9 +121,8 @@ export const EncryptInfo = (domain) => {
   localStorage.setItem('hw', JSON.stringify(devInfo));
 
   const jsonString = JSON.stringify(devInfo);
-  console.log(jsonString);
-
   const encrypt = new JSEncrypt();
+
   encrypt.setPublicKey(pubkey);
   const encrypted = encrypt.encrypt(jsonString);
 
@@ -148,4 +143,8 @@ function execCopy(el) {
   const result = document.execCommand('Copy');
   console.log('copy result:', result);
   window.getSelection().removeAllRanges();
+
+  setTimeout(() => {
+    document.body.removeChild(el);
+  }, 50);
 }

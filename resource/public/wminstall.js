@@ -658,7 +658,6 @@ var DeviceInfo = (function () {
         _this = this;
         var u = VariableLibrary.navigator.userAgent || {};
 
-        console.log(u);
         _this.model = 'PC';
         if (u.indexOf('iPhone') > -1) {
           _this.model = 'iPhone';
