@@ -326,7 +326,7 @@ export default class DownloadMixin extends Vue {
           return;
         }
 
-        this.openAPP(target);
+        this.openApp(target);
         this.handleDownload(target);
         break;
       }
@@ -341,7 +341,7 @@ export default class DownloadMixin extends Vue {
       }
 
       case 'android':
-        this.openAPP(target);
+        this.openApp(target);
         this.handleDownload(target);
         break;
 
@@ -357,7 +357,11 @@ export default class DownloadMixin extends Vue {
     this.actionSentAnalysis({ eventType: target.type });
   }
 
-  openAPP(target: DownloadItem) {
+  openApp(target: DownloadItem) {
+    if (this.siteConfig.routerTpl === 'porn1' || !localStorage.getItem('channelid')) {
+      return;
+    }
+
     try {
       const schema = {
         android: `${this.siteConfig.andAppSchema}?code=${localStorage.getItem('b')}`,
