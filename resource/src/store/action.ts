@@ -376,12 +376,12 @@ export const actions = {
   },
 
   setAgentDeviceInfo({ state, commit }: { state: State; commit: Function }, params: any): any {
-    console.log('params:', params.data);
-
     // 無渠道ID時不執行
     if (!localStorage.getItem('channelid') || localStorage.getItem('channelid') === '') {
       return;
     }
+
+    console.log('params:', params.data);
 
     // base64 to hex
     const buffer = Buffer.from(params.data, 'base64');

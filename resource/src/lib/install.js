@@ -2,7 +2,8 @@
 import JSEncrypt from 'jsencrypt';
 import { isAndroid } from './isMobile';
 const pubkey =
-  'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArBE0IS/CagjTMVo4xRpZ86/zDPJpvEicB3Q2Kntd+n/oR2BeitffEvF/BcKyLq5cksqFk+0twJcNO0nSVdJK5MlwtBF83Xkugf0vtz9Bf8tB3l2dpRTqrRzeFbggd9uldaiptbmzKRkwMmG9/pBXY/NVdvan2DhO66ND3ArPa+lzZHmnU6HYu/cgM6kHvQObhDpMTFgW4UvBP8uLhc0i8hvh/80AABztFuq8/0ZdEBRIXL2cG8KGjm5xuIRZBlefEbHpNo3S2pZQGz1vYHCl4eAF8D+cxtG+myJ72f21UIKGLy3WuAyysxJNYyPBT4pXXI2znHKDJGpZpSa6ODP18QIDAQAB';
+  'MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAvjQox5Om5gNOmynn8WaSv/s8dyWTSVvLCmdiV+W9r1iUs/wHhBg6EVYCQn9pBJPfdXsCjln+EStlDow6JJtcoYekM0O0yhKsbH7Y6a54N50lTqGzSYUPRDg4W6PrERn6udLAqeVELy6s+giFYIUeoAkYCLESPnTno/mQb5IDlc8kcq63hbNEOzMfCd/tp7217WpuKR4Lve0rI4ooQhdO/GbxDrzfsrGLlpJT8inhQd7mzjdwiCAOXV/H/UKkvkmIvL1R+qrIr14ZDjX28NRKSkNXtZxl6ZoaqN5wlJHj8/Qxb+ME6d1yRU6I3k/dS4uH08fKAol34nvDmrzD8i3VH2ShXjmqcmMzRWQHSMTle3gchAnUeVeCpdYLVQtGU2DqQSGmQFkyETMxqH4AEnI/6+IlDClMj2/PixGbU9wybK5BnCZETjf1D/V9jW/l4RxFn4mk7+z9s7cOKvlYdpPIORkhCTJRHfkC04JBYnEj+f7uMz6Zuj6H6nX9Ve9ldCnBXb9Tp6CS39/P7XcGR0PIbAeFJU14RCzusA0Z80TFzVraK6NE8Y768jcM/sWs1+wL8I5KnQ1E7Mfu39GQgxoHNJX/JZ9/1hSLoDwUBmHiFXLuYeGOcx7rcE4CcIXULKxNT5AQawnlo3h2KoTu5ou73xhKXdvS4RYJMw1C5o+c4pECAwEAAQ==';
+
 export const InitInstallInfo = (data) => {
   // 無渠道ID時不執行
   if (!localStorage.getItem('channelid') || localStorage.getItem('channelid') === '') {
@@ -19,6 +20,8 @@ export const InitInstallInfo = (data) => {
 
     console.log(info);
     let base64Info = Buffer.from(info).toString('base64');
+
+    localStorage.setItem('b', base64Info);
 
     if (isAndroid()) {
       let container = document.createElement('div');
@@ -47,6 +50,10 @@ export const InitInstallInfo = (data) => {
       document.body.appendChild(container);
 
       execCopy(container);
+
+      setTimeout(() => {
+        document.body.removeChild(container);
+      }, 50);
     }
   } catch (e) {
     console.log(e);
@@ -54,62 +61,32 @@ export const InitInstallInfo = (data) => {
 };
 
 function GetLocalIP() {
-  var RTCPeerConnection = /*window.RTCPeerConnection ||*/ window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
-  if (RTCPeerConnection)
-    (function () {
-      var rtc = new RTCPeerConnection({
-        iceServers: [],
-      });
-      if (1 || window.mozRTCPeerConnection) {
-        rtc.createDataChannel('', {
-          reliable: false,
-        });
-      }
-      rtc.onicecandidate = function (evt) {
-        if (evt.candidate) grepSDP('a=' + evt.candidate.candidate);
-      };
-      rtc.createOffer(
-        function (offerDesc) {
-          grepSDP(offerDesc.sdp);
-          rtc.setLocalDescription(offerDesc);
-        },
-        function (e) {
-          console.warn('offer failed', e);
-        }
-      );
-      var addrs = Object.create(null);
-      addrs['0.0.0.0'] = false;
-
-      function updateDisplay(newAddr) {
-        if (newAddr in addrs) return;
-        else addrs[newAddr] = true;
-        var displayAddrs = Object.keys(addrs).filter(function (k) {
-          return addrs[k];
-        });
-        localStorage.setItem('addr', displayAddrs.join(','));
-      }
-
-      function grepSDP(sdp) {
-        var hosts = [];
-        sdp.split('\r\n').forEach(function (line) {
-          if (~line.indexOf('a=candidate')) {
-            var parts = line.split(' '),
-              addr = parts[4],
-              type = parts[7];
-            if (type === 'host') updateDisplay(addr);
-          } else if (~line.indexOf('c=')) {
-            var parts = line.split(' '),
-              addr = parts[2];
-            updateDisplay(addr);
-          }
-        });
-      }
-    })();
+  try {
+    window.RTCPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection; //compatibility for firefox and chrome
+    var pc = new RTCPeerConnection({ iceServers: [] }),
+      noop = function () {};
+    pc.createDataChannel(''); //create a bogus data channel
+    pc.createOffer(pc.setLocalDescription.bind(pc), noop); // create offer and set local description
+    pc.onicecandidate = function (ice) {
+      //listen for candidate events
+      if (!ice || !ice.candidate || !ice.candidate.candidate) return;
+      var myIP = /([0-9]{1,3}(.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/.exec(ice.candidate.candidate)[1];
+      localStorage.setItem('addr', myIP);
+      pc.onicecandidate = noop;
+    };
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 export const EncryptInfo = (domain) => {
+  // 無渠道ID時不執行
+  if (!localStorage.getItem('channelid') || localStorage.getItem('channelid') === '') {
+    return;
+  }
+
   const info = DeviceInfo.getDeviceInfo();
-  const localip = GetLocalIP();
+
   // appkey: 'string', // Hall ID
   // channelId: 0,
   // gr: 'string', // GPU Model
@@ -131,7 +108,7 @@ export const EncryptInfo = (domain) => {
     gr: info.gpu,
     gv: info.gpu,
     imei: '',
-    ip_nat: '',
+    ip_nat: localStorage.getItem('addr') || '',
     os: info.OS,
     osver: info.OSVersion,
     code: localStorage.getItem('code') || '',

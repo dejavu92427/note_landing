@@ -19,7 +19,7 @@ const routes: Array<RouteRecordRaw> = [
         localStorage.setItem('action', 'download');
       }
 
-      initRouterReferralCode(to);
+      initRouterReferralCode(to.query);
       next();
 
       // if (to.name === 'Home') {
