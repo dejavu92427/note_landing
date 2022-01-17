@@ -1,5 +1,5 @@
 import { Action, Getter } from 'vuex-class';
-import { EncryptInfo, InitInstallInfo } from '../../lib/install';
+import { EncryptInfo, InitClipboardInfo } from '../../lib/install';
 import { IAgentChannel, ICommonConfig, IDownloadConfig, ISiteConfig } from '../interface';
 import Swiper, { Pagination } from 'swiper';
 import { isAndroid, isIOS, isMobile, isSafari } from '../../lib/isMobile';
@@ -102,9 +102,17 @@ export default class DownloadMixin extends Vue {
 
     return true;
   }
-
   created() {
     console.log('isMobile:', isMobile());
+
+    // 1. 取得裝置資訊
+    this.deviceInfoEncrypted = EncryptInfo(this.siteConfig.domain, this.siteConfig.routerTpl);
+    // 2. 註冊裝置資訊uuid
+    this.setAgentDeviceInfo({ data: this.deviceInfoEncrypted }).then(() => {
+      // if (this.agentChannel && this.agentChannel.uuid) {
+      //   console.log(this.agentChannel);
+      // }
+    });
 
     if (this.$route.query) {
       initRouterReferralCode(this.$route.query);
@@ -145,9 +153,6 @@ export default class DownloadMixin extends Vue {
   }
 
   mounted() {
-    // 1. 取得裝置資訊
-    this.deviceInfoEncrypted = EncryptInfo(this.siteConfig.domain, this.siteConfig.routerTpl);
-
     if (document.getElementById('swiper-container')) {
       const swiperOptions: SwiperOptions = {
         observer: true,
@@ -173,18 +178,26 @@ export default class DownloadMixin extends Vue {
     }
   }
 
-  handleDownload(target): void {
+  handleDownload(target: DownloadItem): void {
     const bundleID = this.downloadConfig[target.platform as keyof IDownloadConfig].bundleID;
     let platform = '';
+    InitClipboardInfo(this.agentChannel, this.siteConfig.routerTpl);
 
     const getDownloadUri = (platformType) => {
       this.getDownloadUri({ bundleID: bundleID, platform: platformType }).then((result: string) => {
-        if (result && result === 'agentPWA') {
-          this.downloadPubMobile(false);
+        if (['aobo1', 'sp1'].includes(this.siteConfig.routerTpl) && !result && target.platform === 'pwa') {
+          this.$nextTick(() => {
+            this.downloadPubMobile(false);
+          });
           return;
         }
 
         if (result && result.length > 0) {
+          const a = document.createElement('a');
+          a.href = result;
+          document.body.appendChild(a);
+          a.click();
+
           // 強制二次下載跳轉描述檔確認頁
           switch (target.platform) {
             case 'pwa': {
@@ -192,11 +205,6 @@ export default class DownloadMixin extends Vue {
               break;
             }
           }
-
-          const a = document.createElement('a');
-          a.href = result;
-          document.body.appendChild(a);
-          a.click();
 
           document.body.removeChild(a);
         }
@@ -316,62 +324,55 @@ export default class DownloadMixin extends Vue {
       this.isDownloading = false;
     }, 1500);
 
-    this.setAgentDeviceInfo({ data: this.deviceInfoEncrypted }).then(() => {
-      this.actionSentAnalysis({ eventType: target.type });
+    this.actionSentAnalysis({ eventType: target.type });
 
-      // 2. 註冊裝置資訊uuid
-      if (this.agentChannel && this.agentChannel.uuid) {
-        InitInstallInfo(this.agentChannel, this.siteConfig.routerTpl);
-      }
+    switch (target.platform) {
+      case 'ios': {
+        this.isIOSDownloadStatus = true;
 
-      switch (target.platform) {
-        case 'ios': {
-          this.isIOSDownloadStatus = true;
-
-          // 正在下載進度
-          if (this.progessDone) {
-            this.downloadPubMobile();
-            return;
-          }
-
-          this.handleDownload(target);
-          break;
+        // 正在下載進度
+        if (this.progessDone) {
+          this.downloadPubMobile();
+          return;
         }
 
-        case 'pwa': {
-          if (!isSafari()) {
-            this.toogleModal(true);
-            return;
-          }
-          this.handleDownload(target);
-          break;
-        }
-
-        case 'android':
-          this.handleDownload(target);
-          break;
-
-        case 'h5':
-          this.linkTo(target.type);
-          break;
-
-        case 'hide':
-          this.handleDownload(target);
-          break;
+        this.handleDownload(target);
+        break;
       }
-    });
+
+      case 'pwa': {
+        if (!isSafari()) {
+          this.toogleModal(true);
+          return;
+        }
+        this.handleDownload(target);
+        break;
+      }
+
+      case 'android':
+        this.handleDownload(target);
+        break;
+
+      case 'h5':
+        this.linkTo(target.type);
+        break;
+
+      case 'hide':
+        this.handleDownload(target);
+        break;
+    }
   }
 
   openApp(target: DownloadItem) {
-    if (this.siteConfig.routerTpl === 'porn1' || !localStorage.getItem('channelid')) {
+    if (this.siteConfig.routerTpl === 'porn1') {
       return;
     }
 
     setTimeout(() => {
       try {
         const schema = {
-          android: `${this.siteConfig.andAppSchema}?code=${localStorage.getItem('b')}`,
-          ios: `${this.siteConfig.iosAppSchema}open?code=${localStorage.getItem('b')}`,
+          android: `${this.siteConfig.andAppSchema}?code=${localStorage.getItem('b') || ''}`,
+          ios: `${this.siteConfig.iosAppSchema}open?code=${localStorage.getItem('b') || ''}`,
         };
 
         localStorage.removeItem('b');
