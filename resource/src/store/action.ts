@@ -178,13 +178,20 @@ export const actions = {
       })
         .then((res) => {
           const url = window.URL.createObjectURL(new Blob([res.data]));
-          const link = document.createElement('a');
-          link.href = url;
-          link.setAttribute('download', `${agentChannel.code}#${Date.now()}.mobileconfig`);
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          return 'agentPWA';
+
+          let fileName = `${agentChannel.code}.mobileconfig`;
+          if (url && url.split('/') && url.split('/')[3]) {
+            fileName = `${url.split('/')[3]}.mobileconfig`;
+          }
+
+          const blob = new Blob([res.data], { type: 'application/x-apple-aspen-config' });
+          const a = document.createElement('a');
+          a.download = fileName;
+          a.href = window.URL.createObjectURL(blob);
+          a.click();
+          document.body.removeChild(a);
+
+          return Promise.resolve('agentPWA');
         })
         .catch((err) => {
           const response = err && err.response;

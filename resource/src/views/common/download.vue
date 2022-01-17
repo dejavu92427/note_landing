@@ -156,7 +156,7 @@
 import ModalBox from './modalBox.vue';
 import { mixins, Options } from 'vue-class-component';
 import DownloadMixin from '../../lib/mixin/download';
-import { InitInstallInfo } from '../../lib/install';
+import { InitClipboardInfo } from '../../lib/install';
 
 @Options({
   components: {
@@ -166,7 +166,7 @@ import { InitInstallInfo } from '../../lib/install';
 })
 export default class DownloadCommon extends mixins(DownloadMixin) {
   copy() {
-    InitInstallInfo(this.agentChannel, this.siteConfig.routerTpl);
+    InitClipboardInfo(this.agentChannel, this.siteConfig.routerTpl);
   }
 }
 </script>

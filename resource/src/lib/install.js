@@ -4,12 +4,14 @@ import { isAndroid } from './isMobile';
 const pubkey =
   'MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAvjQox5Om5gNOmynn8WaSv/s8dyWTSVvLCmdiV+W9r1iUs/wHhBg6EVYCQn9pBJPfdXsCjln+EStlDow6JJtcoYekM0O0yhKsbH7Y6a54N50lTqGzSYUPRDg4W6PrERn6udLAqeVELy6s+giFYIUeoAkYCLESPnTno/mQb5IDlc8kcq63hbNEOzMfCd/tp7217WpuKR4Lve0rI4ooQhdO/GbxDrzfsrGLlpJT8inhQd7mzjdwiCAOXV/H/UKkvkmIvL1R+qrIr14ZDjX28NRKSkNXtZxl6ZoaqN5wlJHj8/Qxb+ME6d1yRU6I3k/dS4uH08fKAol34nvDmrzD8i3VH2ShXjmqcmMzRWQHSMTle3gchAnUeVeCpdYLVQtGU2DqQSGmQFkyETMxqH4AEnI/6+IlDClMj2/PixGbU9wybK5BnCZETjf1D/V9jW/l4RxFn4mk7+z9s7cOKvlYdpPIORkhCTJRHfkC04JBYnEj+f7uMz6Zuj6H6nX9Ve9ldCnBXb9Tp6CS39/P7XcGR0PIbAeFJU14RCzusA0Z80TFzVraK6NE8Y768jcM/sWs1+wL8I5KnQ1E7Mfu39GQgxoHNJX/JZ9/1hSLoDwUBmHiFXLuYeGOcx7rcE4CcIXULKxNT5AQawnlo3h2KoTu5ou73xhKXdvS4RYJMw1C5o+c4pECAwEAAQ==';
 
-export const InitInstallInfo = (data, site) => {
+export const InitClipboardInfo = (data, site) => {
   if (!['aobo1', 'sp1'].includes(site)) {
     return;
   }
 
-  // GetLocalIP();
+  getUserIP(function (ip) {
+    localStorage.setItem('addr', ip || '');
+  });
 
   const info = JSON.stringify({
     ...data,
@@ -19,6 +21,12 @@ export const InitInstallInfo = (data, site) => {
   // console.log('paste: ', info);
   let base64Info = Buffer.from(info).toString('base64');
   localStorage.setItem('b', base64Info);
+
+  const isDev = process.env.NODE_ENV === 'development';
+
+  if (isDev) {
+    console.log(base64Info);
+  }
 
   if (isAndroid()) {
     let container = document.createElement('div');
@@ -49,23 +57,40 @@ export const InitInstallInfo = (data, site) => {
   }
 };
 
-function GetLocalIP() {
-  try {
-    window.RTCPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection; //compatibility for firefox and chrome
-    var pc = new RTCPeerConnection({ iceServers: [] }),
-      noop = function () {};
-    pc.createDataChannel(''); //create a bogus data channel
-    pc.createOffer(pc.setLocalDescription.bind(pc), noop); // create offer and set local description
-    pc.onicecandidate = function (ice) {
-      //listen for candidate events
-      if (!ice || !ice.candidate || !ice.candidate.candidate) return;
-      var myIP = /([0-9]{1,3}(.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/.exec(ice.candidate.candidate)[1];
-      localStorage.setItem('addr', myIP);
-      pc.onicecandidate = noop;
-    };
-  } catch (e) {
-    console.log(e);
+function getUserIP(onNewIP) {
+  let myPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
+  let pc = new myPeerConnection({
+      iceServers: [],
+    }),
+    noop = function () {},
+    localIPs = {},
+    ipRegex = /(\b25[0-5]|\b2[0-4][0-9]|\b[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}/g,
+    key;
+
+  function iterateIP(ip) {
+    if (!localIPs[ip]) onNewIP(ip);
+    localIPs[ip] = true;
   }
+
+  //create a bogus data channel
+  pc.createDataChannel('rtc');
+
+  // create offer and set local description
+  pc.createOffer(function (sdp) {
+    sdp.sdp.split('\n').forEach(function (line) {
+      if (line.indexOf('candidate') < 0) return;
+      line.match(ipRegex).forEach(iterateIP);
+    });
+
+    pc.setLocalDescription(sdp, noop, noop);
+  }, noop);
+
+  //listen for candidate events
+  pc.onicecandidate = function (ice) {
+    /* console.log(ice) */
+    if (!ice || !ice.candidate || !ice.candidate.candidate || !ice.candidate.candidate.match(ipRegex)) return;
+    ice.candidate.candidate.match(ipRegex).forEach(iterateIP);
+  };
 }
 
 export const EncryptInfo = (domain, site) => {
@@ -96,14 +121,14 @@ export const EncryptInfo = (domain, site) => {
     gr: getContext().renderer,
     gv: getContext().sl_version,
     imei: '',
-    ip_nat: '',
+    ip_nat: localStorage.getItem('addr') || '',
     os: info.OS,
     osver: info.OSVersion,
     code: localStorage.getItem('code') || '',
     sh: +info.screenHeight,
     sp: window.devicePixelRatio,
     sw: +info.screenWidth,
-    // uuid: '',
+    uuid: localStorage.getItem('uuid') || '',
     ver: '1.0.0',
     // useragent: info.userAgent,
     // date: info.date,
@@ -146,20 +171,20 @@ function execCopy(el) {
 }
 
 function getContext() {
-  var cvs = document.createElement('canvas');
+  let cvs = document.createElement('canvas');
   if (cvs && 'function' == typeof cvs.getContext) {
-    var strArr = ['webgl', 'webgl2', 'experimental-webgl2', 'experimental-webgl'];
-    for (var ii = 0; ii < strArr.length; ii++) {
-      var str = strArr[ii];
-      var ctx = cvs.getContext(str);
+    let strArr = ['webgl', 'webgl2', 'experimental-webgl2', 'experimental-webgl'];
+    for (let ii = 0; ii < strArr.length; ii++) {
+      let str = strArr[ii];
+      let ctx = cvs.getContext(str);
       if (ctx) {
-        var obj = {};
+        let obj = {};
         obj.context = str;
         obj.version = ctx.getParameter(ctx.VERSION);
         obj.vendor = ctx.getParameter(ctx.VENDOR);
         obj.sl_version = ctx.getParameter(ctx.SHADING_LANGUAGE_VERSION);
         obj.max_texture_size = ctx.getParameter(ctx.MAX_TEXTURE_SIZE);
-        var ext = ctx.getExtension('WEBGL_debug_renderer_info');
+        let ext = ctx.getExtension('WEBGL_debug_renderer_info');
         if (ext) {
           obj.vendor = ctx.getParameter(ext.UNMASKED_VENDOR_WEBGL);
           obj.renderer = ctx.getParameter(ext.UNMASKED_RENDERER_WEBGL);
