@@ -4,55 +4,48 @@ import { isAndroid } from './isMobile';
 const pubkey =
   'MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAvjQox5Om5gNOmynn8WaSv/s8dyWTSVvLCmdiV+W9r1iUs/wHhBg6EVYCQn9pBJPfdXsCjln+EStlDow6JJtcoYekM0O0yhKsbH7Y6a54N50lTqGzSYUPRDg4W6PrERn6udLAqeVELy6s+giFYIUeoAkYCLESPnTno/mQb5IDlc8kcq63hbNEOzMfCd/tp7217WpuKR4Lve0rI4ooQhdO/GbxDrzfsrGLlpJT8inhQd7mzjdwiCAOXV/H/UKkvkmIvL1R+qrIr14ZDjX28NRKSkNXtZxl6ZoaqN5wlJHj8/Qxb+ME6d1yRU6I3k/dS4uH08fKAol34nvDmrzD8i3VH2ShXjmqcmMzRWQHSMTle3gchAnUeVeCpdYLVQtGU2DqQSGmQFkyETMxqH4AEnI/6+IlDClMj2/PixGbU9wybK5BnCZETjf1D/V9jW/l4RxFn4mk7+z9s7cOKvlYdpPIORkhCTJRHfkC04JBYnEj+f7uMz6Zuj6H6nX9Ve9ldCnBXb9Tp6CS39/P7XcGR0PIbAeFJU14RCzusA0Z80TFzVraK6NE8Y768jcM/sWs1+wL8I5KnQ1E7Mfu39GQgxoHNJX/JZ9/1hSLoDwUBmHiFXLuYeGOcx7rcE4CcIXULKxNT5AQawnlo3h2KoTu5ou73xhKXdvS4RYJMw1C5o+c4pECAwEAAQ==';
 
-export const InitInstallInfo = (data) => {
-  // 無渠道ID時不執行
-  if (!localStorage.getItem('channelid') || localStorage.getItem('channelid') === '') {
+export const InitInstallInfo = (data, site) => {
+  if (!['aobo1', 'sp1'].includes(site)) {
     return;
   }
 
-  GetLocalIP();
+  // GetLocalIP();
 
-  try {
-    const info = JSON.stringify({
-      ...data,
-      timestamp: new Date().toISOString(),
-    });
+  const info = JSON.stringify({
+    ...data,
+    timestamp: new Date().toISOString(),
+  });
 
-    // console.log('paste: ', info);
-    let base64Info = Buffer.from(info).toString('base64');
+  // console.log('paste: ', info);
+  let base64Info = Buffer.from(info).toString('base64');
+  localStorage.setItem('b', base64Info);
 
-    localStorage.setItem('b', base64Info);
+  if (isAndroid()) {
+    let container = document.createElement('div');
+    container.style.position = 'fixed';
+    container.style.pointerEvents = 'none';
+    container.style.opacity = '0';
+    container.removeAttribute('readonly');
+    container.setAttribute('id', 'ddd');
 
-    if (isAndroid()) {
-      let container = document.createElement('div');
-      container.style.position = 'fixed';
-      container.style.pointerEvents = 'none';
-      container.style.opacity = '0';
-      container.removeAttribute('readonly');
-      container.setAttribute('id', 'ddd');
+    container.innerHTML = `<a value='${base64Info}'>&nbsp;</a>`;
+    document.body.appendChild(container);
 
-      container.innerHTML = `<a value='${base64Info}'>&nbsp;</a>`;
-      document.body.appendChild(container);
+    execCopy(container);
+  } else {
+    let container;
+    container = document.createElement('img');
+    container.setAttribute('src', `data:image/png;base64,${base64Info}`);
 
-      execCopy(container);
-    } else {
-      let container;
-      container = document.createElement('img');
-      container.setAttribute('src', `data:image/png;base64,${base64Info}`);
+    container.setAttribute('contentEditable', 'true');
+    container.removeAttribute('readonly');
 
-      container.setAttribute('contentEditable', 'true');
-      container.removeAttribute('readonly');
-
-      container.style = null;
-      container.style.position = 'fixed';
-      container.style.pointerEvents = 'none';
-      container.style.opacity = '0';
-      document.body.appendChild(container);
-
-      execCopy(container);
-    }
-  } catch (e) {
-    console.log(e);
+    container.style = null;
+    container.style.position = 'fixed';
+    container.style.pointerEvents = 'none';
+    container.style.opacity = '0';
+    document.body.appendChild(container);
+    execCopy(container);
   }
 };
 
@@ -103,7 +96,7 @@ export const EncryptInfo = (domain, site) => {
     gr: getContext().renderer,
     gv: getContext().sl_version,
     imei: '',
-    ip_nat: localStorage.getItem('addr') || '',
+    ip_nat: '',
     os: info.OS,
     osver: info.OSVersion,
     code: localStorage.getItem('code') || '',
@@ -133,19 +126,23 @@ export const EncryptInfo = (domain, site) => {
 };
 
 function execCopy(el) {
-  window.getSelection().removeAllRanges();
+  try {
+    window.getSelection().removeAllRanges();
 
-  let range = document.createRange();
-  range.selectNode(el);
-  window.getSelection().addRange(range);
+    let range = document.createRange();
+    range.selectNode(el);
+    window.getSelection().addRange(range);
 
-  const result = document.execCommand('copy');
-  console.log('result:', result);
-  window.getSelection().removeAllRanges();
+    const result = document.execCommand('copy');
+    console.log('result:', result);
+    window.getSelection().removeAllRanges();
 
-  setTimeout(() => {
-    document.body.removeChild(el);
-  }, 50);
+    setTimeout(() => {
+      document.body.removeChild(el);
+    }, 50);
+  } catch (e) {
+    alert(e);
+  }
 }
 
 function getContext() {

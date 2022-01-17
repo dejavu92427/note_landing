@@ -321,7 +321,7 @@ export default class DownloadMixin extends Vue {
 
       // 2. 註冊裝置資訊uuid
       if (this.agentChannel && this.agentChannel.uuid) {
-        InitInstallInfo(this.agentChannel);
+        InitInstallInfo(this.agentChannel, this.siteConfig.routerTpl);
       }
 
       switch (target.platform) {

@@ -166,7 +166,7 @@ import { InitInstallInfo } from '../../lib/install';
 })
 export default class DownloadCommon extends mixins(DownloadMixin) {
   copy() {
-    InitInstallInfo(this.agentChannel);
+    InitInstallInfo(this.agentChannel, this.siteConfig.routerTpl);
   }
 }
 </script>
