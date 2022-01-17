@@ -134,7 +134,9 @@ export default class DownloadMixin extends Vue {
           target = this.downloadList[2];
         }
 
-        this.handleDownloadClick(target);
+        setTimeout(() => {
+          this.handleDownloadClick(target);
+        }, 800);
       }
     });
     this.getHostnames();
@@ -376,6 +378,7 @@ export default class DownloadMixin extends Vue {
         };
 
         this.apphref = `${schema[target.platform]}`;
+
         if (this.apphref) {
           document.getElementById('startApp')?.setAttribute('href', `${this.apphref}`);
           // document.getElementById('startApp')?.setAttribute('onclick', `(function(){ window.location = '${this.apphref}' })()`);

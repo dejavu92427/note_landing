@@ -98,6 +98,10 @@ export const EncryptInfo = (domain, site) => {
     return;
   }
 
+  if (typeof DeviceInfo === 'undefined') {
+    return;
+  }
+
   const info = DeviceInfo.getDeviceInfo();
 
   // appkey: 'string', // Hall ID
