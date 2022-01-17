@@ -146,7 +146,7 @@ export default class DownloadMixin extends Vue {
 
   mounted() {
     // 1. 取得裝置資訊
-    this.deviceInfoEncrypted = EncryptInfo(this.siteConfig.domain);
+    this.deviceInfoEncrypted = EncryptInfo(this.siteConfig.domain, this.siteConfig.routerTpl);
 
     if (document.getElementById('swiper-container')) {
       const swiperOptions: SwiperOptions = {
@@ -322,7 +322,6 @@ export default class DownloadMixin extends Vue {
       // 2. 註冊裝置資訊uuid
       if (this.agentChannel && this.agentChannel.uuid) {
         InitInstallInfo(this.agentChannel);
-        return;
       }
 
       switch (target.platform) {

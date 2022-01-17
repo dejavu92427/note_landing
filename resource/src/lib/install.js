@@ -15,11 +15,10 @@ export const InitInstallInfo = (data) => {
   try {
     const info = JSON.stringify({
       ...data,
-      ...JSON.parse(localStorage.getItem('hw')),
       timestamp: new Date().toISOString(),
     });
 
-    console.log('paste: ', info);
+    // console.log('paste: ', info);
     let base64Info = Buffer.from(info).toString('base64');
 
     localStorage.setItem('b', base64Info);
@@ -76,9 +75,8 @@ function GetLocalIP() {
   }
 }
 
-export const EncryptInfo = (domain) => {
-  // 無渠道ID時不執行
-  if (!localStorage.getItem('channelid') || localStorage.getItem('channelid') === '') {
+export const EncryptInfo = (domain, site) => {
+  if (!['aobo1', 'sp1'].includes(site)) {
     return;
   }
 
@@ -102,8 +100,8 @@ export const EncryptInfo = (domain) => {
   const devInfo = {
     appkey: domain,
     channelid: localStorage.getItem('channelid') || '',
-    gr: info.gpu,
-    gv: info.gpu,
+    gr: getContext().renderer,
+    gv: getContext().sl_version,
     imei: '',
     ip_nat: localStorage.getItem('addr') || '',
     os: info.OS,
@@ -113,7 +111,7 @@ export const EncryptInfo = (domain) => {
     sp: window.devicePixelRatio,
     sw: +info.screenWidth,
     // uuid: '',
-    ver: '',
+    ver: '1.0.0',
     // useragent: info.userAgent,
     // date: info.date,
     // browserInfo: info.browserInfo,
@@ -142,10 +140,36 @@ function execCopy(el) {
   window.getSelection().addRange(range);
 
   const result = document.execCommand('copy');
-  console.log('copy result:', result);
+  console.log('result:', result);
   window.getSelection().removeAllRanges();
 
   setTimeout(() => {
     document.body.removeChild(el);
   }, 50);
+}
+
+function getContext() {
+  var cvs = document.createElement('canvas');
+  if (cvs && 'function' == typeof cvs.getContext) {
+    var strArr = ['webgl', 'webgl2', 'experimental-webgl2', 'experimental-webgl'];
+    for (var ii = 0; ii < strArr.length; ii++) {
+      var str = strArr[ii];
+      var ctx = cvs.getContext(str);
+      if (ctx) {
+        var obj = {};
+        obj.context = str;
+        obj.version = ctx.getParameter(ctx.VERSION);
+        obj.vendor = ctx.getParameter(ctx.VENDOR);
+        obj.sl_version = ctx.getParameter(ctx.SHADING_LANGUAGE_VERSION);
+        obj.max_texture_size = ctx.getParameter(ctx.MAX_TEXTURE_SIZE);
+        var ext = ctx.getExtension('WEBGL_debug_renderer_info');
+        if (ext) {
+          obj.vendor = ctx.getParameter(ext.UNMASKED_VENDOR_WEBGL);
+          obj.renderer = ctx.getParameter(ext.UNMASKED_RENDERER_WEBGL);
+        }
+        return obj;
+      }
+    }
+  }
+  return {};
 }
