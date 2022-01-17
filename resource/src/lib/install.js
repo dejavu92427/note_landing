@@ -15,6 +15,7 @@ export const InitInstallInfo = (data) => {
   try {
     const info = JSON.stringify({
       ...data,
+      ...JSON.parse(localStorage.getItem('hw')),
       timestamp: new Date().toISOString(),
     });
 
