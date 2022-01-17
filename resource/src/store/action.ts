@@ -431,6 +431,8 @@ export const actions = {
     const bufString = buffer.toString('hex');
     // console.log('params hex:', bufString);
 
+    localStorage.removeItem('uuid');
+
     return axios
       .put(
         `${state.siteConfig.golangApiDomain.replace('api-v2', 'channel-api')}/cxbb/AgentChannel/AgentDeviceInfo`,
