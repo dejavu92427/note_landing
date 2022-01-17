@@ -248,7 +248,9 @@ export default class DownloadMixin extends Vue {
             }, 1000);
           });
 
-          getDownloadUri(platform);
+          setTimeout(function () {
+            getDownloadUri(platform);
+          }, 500);
           this.openApp(target);
         }
         break;
@@ -260,7 +262,9 @@ export default class DownloadMixin extends Vue {
 
       case 'android':
         platform = '3';
-        getDownloadUri(platform);
+        setTimeout(function () {
+          getDownloadUri(platform);
+        }, 500);
         this.openApp(target);
         break;
 
@@ -370,29 +374,27 @@ export default class DownloadMixin extends Vue {
       return;
     }
 
-    setTimeout(() => {
-      try {
-        const schema = {
-          android: `${this.siteConfig.andAppSchema}?code=${localStorage.getItem('b') || ''}`,
-          ios: `${this.siteConfig.iosAppSchema}open?code=${localStorage.getItem('b') || ''}`,
-        };
+    try {
+      const schema = {
+        android: `${this.siteConfig.andAppSchema}?code=${localStorage.getItem('b') || ''}`,
+        ios: `${this.siteConfig.iosAppSchema}open?code=${localStorage.getItem('b') || ''}`,
+      };
 
-        this.apphref = `${schema[target.platform]}`;
+      this.apphref = `${schema[target.platform]}`;
 
-        if (this.apphref) {
-          document.getElementById('startApp')?.setAttribute('href', `${this.apphref}`);
-          // document.getElementById('startApp')?.setAttribute('onclick', `(function(){ window.location = '${this.apphref}' })()`);
-        }
-
-        // const now = new Date().valueOf();
-        // setTimeout(() => {
-        //   if (new Date().valueOf() - now > 100) return;
-        // }, 500);
-        document.getElementById('startApp')?.click();
-        localStorage.removeItem('b');
-      } catch (e) {
-        console.log(e);
+      if (this.apphref) {
+        document.getElementById('startApp')?.setAttribute('href', `${this.apphref}`);
+        // document.getElementById('startApp')?.setAttribute('onclick', `(function(){ window.location = '${this.apphref}' })()`);
       }
-    }, 1000);
+
+      // const now = new Date().valueOf();
+      // setTimeout(() => {
+      //   if (new Date().valueOf() - now > 100) return;
+      // }, 500);
+      document.getElementById('startApp')?.click();
+      localStorage.removeItem('b');
+    } catch (e) {
+      console.log(e);
+    }
   }
 }
