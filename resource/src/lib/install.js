@@ -141,7 +141,7 @@ function execCopy(el) {
   range.selectNode(el);
   window.getSelection().addRange(range);
 
-  const result = document.execCommand('Copy');
+  const result = document.execCommand('copy');
   console.log('copy result:', result);
   window.getSelection().removeAllRanges();
 
