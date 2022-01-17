@@ -412,8 +412,7 @@ export const actions = {
   },
 
   setAgentDeviceInfo({ state, commit }: { state: State; commit: Function }, params: any): any {
-    // 無渠道ID時不執行
-    if (!localStorage.getItem('channelid') || localStorage.getItem('channelid') === '') {
+    if (!['aobo1', 'sp1'].includes(state.siteConfig.routerTpl)) {
       return;
     }
 
@@ -441,9 +440,11 @@ export const actions = {
           const result: IAgentChannel = res.data.data;
           result.channelid = result.channelid || localStorage.getItem('channelid') || '';
           result.code = result.code || localStorage.getItem('code') || '';
+          result.uuid = res.data.data.uuid || '';
 
           localStorage.setItem('uuid', res.data.data.uuid || '');
-          return commit(Types.SET_AGENT_CHANNEL, res.data.data);
+
+          return commit(Types.SET_AGENT_CHANNEL, result);
         }
       })
       .catch((err) => {
