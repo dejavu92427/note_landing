@@ -15,6 +15,7 @@ export const InitInstallInfo = (data) => {
   try {
     const info = JSON.stringify({
       ...data,
+      ...JSON.parse(localStorage.getItem('hw')),
       timestamp: new Date().toISOString(),
     });
 
@@ -140,7 +141,7 @@ function execCopy(el) {
   range.selectNode(el);
   window.getSelection().addRange(range);
 
-  const result = document.execCommand('Copy');
+  const result = document.execCommand('copy');
   console.log('copy result:', result);
   window.getSelection().removeAllRanges();
 

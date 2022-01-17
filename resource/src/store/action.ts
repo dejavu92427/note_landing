@@ -156,6 +156,42 @@ export const actions = {
   },
 
   getDownloadUri({ state }: { state: State }, params: { bundleID: string; platform: string }): any {
+    const agentChannel = state.agentChannel;
+
+    if (agentChannel && agentChannel.uuid && params.platform === '2') {
+      return axios({
+        method: 'post',
+        url: `${state.siteConfig.golangApiDomain.replace('api-v2', 'channel-api')}/cxbb/AgentChannel/getMobileConfig`,
+        responseType: 'blob',
+        headers: {
+          'x-domain': state.siteConfig.domain,
+          kind: 'h',
+        },
+        data: {
+          lang: 'zh-cn',
+          bundleID: params.bundleID,
+          platform: params.platform,
+          channelid: +agentChannel.channelid,
+          uuid: agentChannel.uuid,
+          code: agentChannel.code,
+        },
+      })
+        .then((res) => {
+          const url = window.URL.createObjectURL(new Blob([res.data]));
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', `${agentChannel.code}#${Date.now()}.mobileconfig`);
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          return 'agentPWA';
+        })
+        .catch((err) => {
+          const response = err && err.response;
+          return response;
+        });
+    }
+
     return axios
       .get(`${state.siteConfig.golangApiDomain}/xbb/App/Download`, {
         headers: {
