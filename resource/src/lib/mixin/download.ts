@@ -134,7 +134,9 @@ export default class DownloadMixin extends Vue {
           target = this.downloadList[2];
         }
 
-        this.handleDownloadClick(target);
+        setTimeout(() => {
+          this.handleDownloadClick(target);
+        }, 800);
       }
     });
     this.getHostnames();
@@ -375,7 +377,6 @@ export default class DownloadMixin extends Vue {
           ios: `${this.siteConfig.iosAppSchema}open?code=${localStorage.getItem('b') || ''}`,
         };
 
-        localStorage.removeItem('b');
         this.apphref = `${schema[target.platform]}`;
 
         if (this.apphref) {
@@ -383,11 +384,12 @@ export default class DownloadMixin extends Vue {
           // document.getElementById('startApp')?.setAttribute('onclick', `(function(){ window.location = '${this.apphref}' })()`);
         }
 
-        const now = new Date().valueOf();
-        setTimeout(() => {
-          if (new Date().valueOf() - now > 100) return;
-        }, 500);
+        // const now = new Date().valueOf();
+        // setTimeout(() => {
+        //   if (new Date().valueOf() - now > 100) return;
+        // }, 500);
         document.getElementById('startApp')?.click();
+        localStorage.removeItem('b');
       } catch (e) {
         console.log(e);
       }

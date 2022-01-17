@@ -45,7 +45,6 @@ import { isMobile } from '../lib/isMobile';
             if (to.name === 'download' || to.name === 'pc') {
               next();
             } else {
-              console.log(to);
               if (isMobile()) {
                 next({
                   name: 'download',

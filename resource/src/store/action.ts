@@ -423,6 +423,9 @@ export const actions = {
       return;
     }
 
+    if (!params || !params.data) {
+      return;
+    }
     // base64 to hex
     const buffer = Buffer.from(params.data, 'base64');
     const bufString = buffer.toString('hex');

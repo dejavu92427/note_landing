@@ -147,7 +147,7 @@
     </div>
     <div class="version">{{ verison }}</div>
 
-    <a id="startApp" style="position=fixed;opacity=0;pointerEvents=none" href="javascript:void(0)" target="_blank"></a>
+    <a id="startApp" style="position=fixed;opacity=0;pointerEvents=none" href="javascript:void(0)"></a>
     <modalBox v-show="showModal" @close="toogleModal(false)" />
   </div>
 </template>
