@@ -374,11 +374,16 @@ export default class DownloadMixin extends Vue {
   }
 
   initAppschema() {
+    if (this.siteConfig.routerTpl === 'porn1') {
+      return;
+    }
+
     if (this.isAndroidMobile) {
       document.getElementById('startApp')?.setAttribute('href', `${this.siteConfig.andAppSchema}?code=${localStorage.getItem('b') || ''}`);
     } else {
       document.getElementById('startApp')?.setAttribute('href', `${this.siteConfig.iosAppSchema}open?code=${localStorage.getItem('b') || ''}`);
     }
+
     localStorage.removeItem('b');
   }
 }
