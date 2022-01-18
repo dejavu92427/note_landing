@@ -1,5 +1,5 @@
 export interface IAgentChannel {
   uuid: string;
-  channelid: string;
+  channelid: number;
   code: string;
 }

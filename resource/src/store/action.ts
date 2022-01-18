@@ -371,7 +371,7 @@ export const actions = {
       case 'visit':
         if (state.hostnames) {
           const refCode = localStorage.getItem('code'); // 推廣代碼
-          const channelid = localStorage.getItem('channelid');
+          const channelid = Number(localStorage.getItem('channelid')) || 0;
 
           if (!state.hostnames || !state.hostnames[0]) {
             return;
@@ -384,7 +384,7 @@ export const actions = {
           }
 
           if (channelid) {
-            url.searchParams.append('channelid', channelid);
+            url.searchParams.append('channelid', channelid.toString());
           }
 
           // console.log(url.href);
@@ -450,7 +450,7 @@ export const actions = {
       .then((res) => {
         if (res && res.data && res.data.data && res.data.status === '000') {
           const result: IAgentChannel = res.data.data;
-          result.channelid = result.channelid || localStorage.getItem('channelid') || '';
+          result.channelid = +result.channelid || Number(localStorage.getItem('channelid')) || 0;
           result.code = result.code || localStorage.getItem('code') || '';
           result.uuid = res.data.data.uuid || '';
 
