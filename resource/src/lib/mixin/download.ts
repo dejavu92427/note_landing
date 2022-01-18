@@ -156,8 +156,6 @@ export default class DownloadMixin extends Vue {
   }
 
   mounted() {
-    this.initAppschema();
-
     if (document.getElementById('swiper-container')) {
       const swiperOptions: SwiperOptions = {
         observer: true,
@@ -236,6 +234,7 @@ export default class DownloadMixin extends Vue {
     const bundleID = this.downloadConfig[target.platform as keyof IDownloadConfig].bundleID;
     let platform = '';
     InitClipboardInfo(this.agentChannel, this.siteConfig.routerTpl);
+    this.initAppschema();
 
     const getDownloadUri = (platformType) => {
       this.getDownloadUri({ bundleID: bundleID, platform: platformType }).then((result: string) => {
