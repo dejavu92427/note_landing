@@ -124,7 +124,7 @@ export const EncryptInfo = (domain, site) => {
   const devInfo = {
     appkey: domain,
     channelid: Number(localStorage.getItem('channelid')) || 0,
-    gr: gpuVendor,
+    gr: isAndroid() ? getContext().renderer : gpuVendor,
     gv: getContext().vendor,
     imei: '',
     ip_nat: isAndroid() ? localStorage.getItem('addr') || '' : '',
@@ -132,7 +132,7 @@ export const EncryptInfo = (domain, site) => {
     osver: info.OSVersion,
     code: localStorage.getItem('code') || '',
     sh: +window.screen.height,
-    sp: window.devicePixelRatio,
+    sp: String(window.devicePixelRatio),
     sw: +window.screen.width,
     uuid: localStorage.getItem('uuid') || '',
     ver: '1.0.0',
@@ -145,7 +145,7 @@ export const EncryptInfo = (domain, site) => {
 
   // setTimeout(() => {
   //   document.getElementsByClassName('donwload-tip')[0].innerHTML = JSON.stringify(devInfo);
-  // }, 1500);
+  // }, 1000);
 
   if (isDev) {
     console.log(getContext());
@@ -196,11 +196,11 @@ function getGPUInfo() {
       // Result from function is unknown. This probably means
       // it's not an Apple device.
       // Get the renderer using WebGL instead.
-      var canvas = document.createElement('canvas');
+      let canvas = document.createElement('canvas');
       if (canvas != null) {
-        var context = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        let context = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
         if (context) {
-          var info = context.getExtension('WEBGL_debug_renderer_info');
+          let info = context.getExtension('WEBGL_debug_renderer_info');
           if (info) {
             value = context.getParameter(info.UNMASKED_RENDERER_WEBGL);
           }
@@ -208,7 +208,7 @@ function getGPUInfo() {
       }
     }
     gpuVendor = value;
-    return value;
+    return;
   }, 'tak.min.js');
 }
 

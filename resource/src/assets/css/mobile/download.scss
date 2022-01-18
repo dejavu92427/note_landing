@@ -100,9 +100,11 @@
 .donwload-tip {
   font-size: 12px;
   line-height: 18px;
-  padding: 14px 7px;
+  padding: 14px 5px;
   text-align: center;
   color: var(--main_text_color);
+  overflow: hidden;
+  word-break: break-all;
 
   &.title {
     color: var(--tip_text_color);

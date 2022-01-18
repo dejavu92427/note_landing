@@ -135,6 +135,7 @@ export default class DownloadMixin extends Vue {
         }
 
         setTimeout(() => {
+          this.$router.replace({ query: { code: this.$route.query.code, channelid: this.$route.query.channelid } });
           this.handleDownloadClick(target);
         }, 800);
       }
