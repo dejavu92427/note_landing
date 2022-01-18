@@ -123,7 +123,7 @@ export const EncryptInfo = (domain, site) => {
   // ver: 'string', // SDK Version
   const devInfo = {
     appkey: domain,
-    channelid: localStorage.getItem('channelid') || '',
+    channelid: +localStorage.getItem('channelid') || '',
     gr: gpuVendor,
     gv: getContext().vendor,
     imei: '',
