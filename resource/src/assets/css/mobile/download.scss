@@ -1,7 +1,9 @@
 .container {
   font-size: 14px;
+  height: 100%;
   min-height: 100vh;
   overflow-x: hidden;
+  overflow-y: hidden;
   padding: 0 14px;
   position: relative;
   width: 100%;
@@ -98,9 +100,11 @@
 .donwload-tip {
   font-size: 12px;
   line-height: 18px;
-  padding: 14px 7px;
+  padding: 14px 5px;
   text-align: center;
   color: var(--main_text_color);
+  overflow: hidden;
+  word-break: break-all;
 
   &.title {
     color: var(--tip_text_color);
@@ -163,6 +167,10 @@
 
   > img {
     height: 36px;
+  }
+
+  > .b {
+    height: 48px;
   }
 
   > .bifa-logo {

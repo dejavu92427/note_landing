@@ -10,7 +10,7 @@
         <img class="bifa-logo" :src="`${cdnPath}${require(`@/assets/img/${siteConfig.routerTpl}/bifa_logo.png`)}`" />
       </template>
       <template v-else>
-        <img :src="`${cdnPath}${require(`@/assets/img/${siteConfig.routerTpl}/logo.png`)}`" />
+        <img :src="`${cdnPath}${require(`@/assets/img/${siteConfig.routerTpl}/logo.png`)}`" :class="siteConfig.routerTpl === 'sp1' ? 'b' : {}" />
       </template>
     </div>
 
@@ -129,7 +129,7 @@
     </div>
 
     <div v-if="['aobo1', 'sp1'].includes(siteConfig.routerTpl)" class="download-tip-extra">
-      <div class="donwload-tip title">
+      <div @click.stop="copy" class="donwload-tip title">
         下滑查看安装教程
         <img class="donwload-tip-arrow" :src="`${require(`@/assets/img/jiantou.png`)}`" />
       </div>
@@ -139,13 +139,15 @@
         <img class="tutorial" :src="`${cdnPath}${require(`@/assets/img/${siteConfig.routerTpl}/tutorial_ios.png`)}`" />
       </div>
 
-      <div v-if="isAndroidMobile" class="download_img">
+      <!-- isAndroidMobile -->
+      <div v-else class="download_img">
         <div class="apple-icon"><img :src="`${require('@/assets/img/android.png')}`" /></div>
         <img class="tutorial" :src="`${cdnPath}${require(`@/assets/img/${siteConfig.routerTpl}/tutorial_and.png`)}`" />
       </div>
     </div>
     <div class="version">{{ verison }}</div>
 
+    <a id="startApp" style="position=fixed;opacity=0;pointerEvents=none" href="javascript:void(0)"></a>
     <modalBox v-show="showModal" @close="toogleModal(false)" />
   </div>
 </template>
@@ -154,6 +156,7 @@
 import ModalBox from './modalBox.vue';
 import { mixins, Options } from 'vue-class-component';
 import DownloadMixin from '../../lib/mixin/download';
+import { InitClipboardInfo } from '../../lib/install';
 
 @Options({
   components: {
@@ -161,7 +164,11 @@ import DownloadMixin from '../../lib/mixin/download';
   },
   // mixins: [DownloadMixin],
 })
-export default class DownloadCommon extends mixins(DownloadMixin) {}
+export default class DownloadCommon extends mixins(DownloadMixin) {
+  copy() {
+    InitClipboardInfo(this.agentChannel, this.siteConfig.routerTpl);
+  }
+}
 </script>
 
 <style lang="scss">

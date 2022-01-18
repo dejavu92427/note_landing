@@ -15,7 +15,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Home',
     component: Home,
     beforeEnter: (to, from, next) => {
-      initRouterReferralCode(to);
+      if (to.query && to.query.action === 'download') {
+        localStorage.setItem('action', 'download');
+      }
+
+      initRouterReferralCode(to.query);
       next();
 
       // if (to.name === 'Home') {
@@ -27,16 +31,22 @@ const routes: Array<RouteRecordRaw> = [
       //   next();
       // }
     },
-    children: [
-      {
-        path: '/a/:code',
-        name: 'Code',
-        redirect: (to) => ({
-          name: 'Home',
-          query: { code: to.params.code },
-        }),
-      },
-    ],
+  },
+  {
+    path: '/a/:code',
+    name: 'Code',
+    component: Home,
+    beforeEnter: (to, from, next) => {
+      if (to.query && to.query.action === 'download') {
+        localStorage.setItem('action', 'download');
+      }
+
+      initRouterReferralCode({ code: to.params.code, action: to.query.action, channelid: to.query.channelid });
+      next({
+        name: 'download',
+        query: { code: to.params.code, action: to.query.action, channelid: to.query.channelid },
+      });
+    },
   },
 
   { path: '/403error', name: '403error', redirect: 'no_service' },

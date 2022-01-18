@@ -40,4 +40,7 @@ export const mutations = {
   [Types.SET_CLIENTDOMIAN](state: State, payload: any) {
     state.clientDomain = payload;
   },
+  [Types.SET_AGENT_CHANNEL](state: State, payload: any) {
+    state.agentChannel = payload;
+  },
 };

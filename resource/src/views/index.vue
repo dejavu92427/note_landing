@@ -46,7 +46,10 @@ import { isMobile } from '../lib/isMobile';
               next();
             } else {
               if (isMobile()) {
-                next('download');
+                next({
+                  name: 'download',
+                  query: { code: to.query.code, action: to.query.action, channelid: to.query.channelid },
+                });
               } else {
                 next('pc');
               }

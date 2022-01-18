@@ -1,7 +1,7 @@
+import { IAgentChannel, IDownloadConfig } from '@/lib/interface';
 import { IAplusQueueItem, aplusQueueList as aplusQueueConfig, aplusQueueList } from '../config/aplusQueue.config';
 import { IGTagItem, gTagList, gTagList as gtagConfig } from '../config/gtag.config';
 
-import { IDownloadConfig } from '@/lib/interface';
 import { State } from './state';
 import { Types } from './mutations_type';
 import axios from 'axios';
@@ -19,6 +19,13 @@ declare global {
     SENT_YM: Function;
   }
 }
+
+declare global {
+  const DeviceInfo: {
+    getDeviceInfo: Function;
+  };
+}
+
 export const actions = {
   // 網站初始化
   // /conf/domain nginx proxy
@@ -49,8 +56,20 @@ export const actions = {
 
             commit(Types.SET_VERSION, versionJson.VERSION);
 
-            const qrUrl = `https://${window.location.host}${localStorage.getItem('code') ? `/a/${localStorage.getItem('code')}/` : ''}`;
-            localStorage.setItem('referral-link', qrUrl);
+            const qrUrl = new URL(`https://${window.location.host}`);
+
+            const refCode = localStorage.getItem('code'); // 推廣代碼
+            const channelid = Number(localStorage.getItem('channelid')) || 0;
+
+            if (refCode) {
+              qrUrl.searchParams.append('code', refCode);
+            }
+
+            if (channelid) {
+              qrUrl.searchParams.append('channelid', channelid.toString());
+            }
+
+            localStorage.setItem('referral-link', qrUrl.toString());
 
             // gtag 友盟
             if (targetSite.PROD) {
@@ -149,6 +168,49 @@ export const actions = {
   },
 
   getDownloadUri({ state }: { state: State }, params: { bundleID: string; platform: string }): any {
+    const agentChannel = state.agentChannel;
+
+    if (agentChannel && agentChannel.uuid && params.platform === '2') {
+      return axios({
+        method: 'post',
+        url: `${state.siteConfig.golangApiDomain.replace('api-v2', 'channel-api')}/cxbb/AgentChannel/getMobileConfig`,
+        responseType: 'blob',
+        headers: {
+          'x-domain': state.siteConfig.domain,
+          kind: 'h',
+        },
+        data: {
+          lang: 'zh-cn',
+          bundleID: params.bundleID,
+          platform: params.platform,
+          channelid: +agentChannel.channelid,
+          uuid: agentChannel.uuid,
+          code: agentChannel.code,
+        },
+      })
+        .then((res) => {
+          const url = window.URL.createObjectURL(new Blob([res.data]));
+
+          let fileName = `${agentChannel.code}.mobileconfig`;
+          if (url && url.split('/') && url.split('/')[3]) {
+            fileName = `${url.split('/')[3]}.mobileconfig`;
+          }
+
+          const blob = new Blob([res.data], { type: 'application/x-apple-aspen-config' });
+          const a = document.createElement('a');
+          a.download = fileName;
+          a.href = window.URL.createObjectURL(blob);
+          a.click();
+          document.body.removeChild(a);
+
+          return Promise.resolve('agentPWA');
+        })
+        .catch((err) => {
+          const response = err && err.response;
+          return response;
+        });
+    }
+
     return axios
       .get(`${state.siteConfig.golangApiDomain}/xbb/App/Download`, {
         headers: {
@@ -296,8 +358,6 @@ export const actions = {
   },
 
   actionLinkTo({ state }: { state: State }, target = ''): any {
-    console.log(state.clientDomain);
-
     switch (target) {
       // 客端靜態客服頁面
       case 'clientService':
@@ -323,14 +383,25 @@ export const actions = {
       case 'visit':
         if (state.hostnames) {
           const refCode = localStorage.getItem('code'); // 推廣代碼
-          let href = '';
-          if (refCode && refCode !== 'null' && refCode !== 'undefined') {
-            href = `${state.hostnames[0].startsWith('http') ? `${state.hostnames[0]}/a/${refCode}` : `https://${state.hostnames[0]}/a/${refCode}`}`;
-          } else {
-            href = `${state.hostnames[0].startsWith('http') ? `${state.hostnames[0]}` : `https://${state.hostnames[0]}`}`;
+          const channelid = Number(localStorage.getItem('channelid')) || 0;
+
+          if (!state.hostnames || !state.hostnames[0]) {
+            return;
           }
 
-          window.location.href = href;
+          const url = new URL(state.hostnames[0].startsWith('http') ? state.hostnames[0] : `https://${state.hostnames[0]}`);
+
+          if (refCode) {
+            url.searchParams.append('code', refCode);
+          }
+
+          if (channelid) {
+            url.searchParams.append('channelid', channelid.toString());
+          }
+
+          // console.log(url.href);
+          window.location.href = url.href;
+          return;
         }
         break;
     }
@@ -357,5 +428,52 @@ export const actions = {
         return;
       }
     });
+  },
+
+  setAgentDeviceInfo({ state, commit }: { state: State; commit: Function }, params: any): any {
+    if (!['aobo1', 'sp1'].includes(state.siteConfig.routerTpl)) {
+      return;
+    }
+
+    if (!params || !params.data) {
+      return;
+    }
+    // base64 to hex
+    const buffer = Buffer.from(params.data, 'base64');
+    const bufString = buffer.toString('hex');
+    // console.log('params hex:', bufString);
+
+    localStorage.removeItem('uuid');
+
+    return axios
+      .put(
+        `${state.siteConfig.golangApiDomain.replace('api-v2', 'channel-api')}/cxbb/AgentChannel/AgentDeviceInfo`,
+        {
+          rsa: bufString,
+        },
+        {
+          headers: {
+            'x-domain': state.siteConfig.domain,
+            kind: 'h',
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      .then((res) => {
+        if (res && res.data && res.data.data && res.data.status === '000') {
+          const result: IAgentChannel = res.data.data;
+          result.channelid = +result.channelid || Number(localStorage.getItem('channelid')) || 0;
+          result.code = result.code || localStorage.getItem('code') || '';
+          result.uuid = res.data.data.uuid || '';
+
+          localStorage.setItem('uuid', res.data.data.uuid || '');
+
+          return commit(Types.SET_AGENT_CHANNEL, result);
+        }
+      })
+      .catch((err) => {
+        const response = err && err.response;
+        return response;
+      });
   },
 };
