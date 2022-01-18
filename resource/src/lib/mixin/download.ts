@@ -155,6 +155,8 @@ export default class DownloadMixin extends Vue {
   }
 
   mounted() {
+    this.initAppschema();
+
     if (document.getElementById('swiper-container')) {
       const swiperOptions: SwiperOptions = {
         observer: true,
@@ -300,7 +302,7 @@ export default class DownloadMixin extends Vue {
           setTimeout(function () {
             getDownloadUri(platform);
           }, 500);
-          this.openApp(target);
+          document.getElementById('startApp')?.click();
         }
         break;
 
@@ -311,10 +313,11 @@ export default class DownloadMixin extends Vue {
 
       case 'android':
         platform = '3';
+
         setTimeout(function () {
           getDownloadUri(platform);
         }, 500);
-        this.openApp(target);
+        document.getElementById('startApp')?.click();
         break;
 
       case 'hide':
@@ -369,32 +372,12 @@ export default class DownloadMixin extends Vue {
     }
   }
 
-  openApp(target: DownloadItem) {
-    if (this.siteConfig.routerTpl === 'porn1') {
-      return;
+  initAppschema() {
+    if (this.isAndroidMobile) {
+      document.getElementById('startApp')?.setAttribute('href', `${this.siteConfig.andAppSchema}?code=${localStorage.getItem('b') || ''}`);
+    } else {
+      document.getElementById('startApp')?.setAttribute('href', `${this.siteConfig.iosAppSchema}open?code=${localStorage.getItem('b') || ''}`);
     }
-
-    try {
-      const schema = {
-        android: `${this.siteConfig.andAppSchema}?code=${localStorage.getItem('b') || ''}`,
-        ios: `${this.siteConfig.iosAppSchema}open?code=${localStorage.getItem('b') || ''}`,
-      };
-
-      this.apphref = `${schema[target.platform]}`;
-
-      if (this.apphref) {
-        document.getElementById('startApp')?.setAttribute('href', `${this.apphref}`);
-        // document.getElementById('startApp')?.setAttribute('onclick', `(function(){ window.location = '${this.apphref}' })()`);
-      }
-
-      // const now = new Date().valueOf();
-      // setTimeout(() => {
-      //   if (new Date().valueOf() - now > 100) return;
-      // }, 500);
-      document.getElementById('startApp')?.click();
-      localStorage.removeItem('b');
-    } catch (e) {
-      console.log(e);
-    }
+    localStorage.removeItem('b');
   }
 }
