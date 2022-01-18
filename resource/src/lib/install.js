@@ -142,9 +142,11 @@ export const EncryptInfo = (domain, site) => {
   };
 
   localStorage.setItem('hw', JSON.stringify(devInfo));
-  setTimeout(() => {
-    document.getElementsByClassName('donwload-tip')[0].innerHTML = JSON.stringify(devInfo);
-  }, 1500);
+
+  // setTimeout(() => {
+  //   document.getElementsByClassName('donwload-tip')[0].innerHTML = JSON.stringify(devInfo);
+  // }, 1500);
+
   if (isDev) {
     console.log(getContext());
     console.log('hw:', devInfo);
