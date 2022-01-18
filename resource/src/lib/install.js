@@ -95,7 +95,7 @@ function getUserIP(onNewIP) {
 }
 
 export const EncryptInfo = (domain, site) => {
-  if (!['aobo1', 'sp1'].includes(site)) {
+  if (!['aobo1', 'sp1'].includes(site) || !localStorage.getItem('code') || localStorage.getItem('code') === '') {
     return;
   }
 
@@ -131,9 +131,9 @@ export const EncryptInfo = (domain, site) => {
     os: info.OS,
     osver: info.OSVersion,
     code: localStorage.getItem('code') || '',
-    sh: +info.screenHeight,
+    sh: +window.screen.height,
     sp: window.devicePixelRatio,
-    sw: +info.screenWidth,
+    sw: +window.screen.width,
     uuid: localStorage.getItem('uuid') || '',
     ver: '1.0.0',
     // useragent: info.userAgent,
@@ -186,6 +186,10 @@ function execCopy(el) {
 }
 
 function getGPUInfo() {
+  if (typeof getRenderer === 'undefined') {
+    return;
+  }
+
   // Get the Apple graphics renderer and display the value.
   getRenderer((value) => {
     if (value == 'Unknown') {
