@@ -10,9 +10,7 @@ export const InitClipboardInfo = (data, site) => {
     return;
   }
 
-  getUserIP(function (ip) {
-    localStorage.setItem('addr', ip || '');
-  });
+  localStorage.removeItem('addr');
 
   const info = JSON.stringify({
     ...data,
@@ -28,6 +26,10 @@ export const InitClipboardInfo = (data, site) => {
   }
 
   if (isAndroid()) {
+    getUserIP(function (ip) {
+      localStorage.setItem('addr', ip || '');
+    });
+
     let container = document.createElement('div');
     container.style.position = 'fixed';
     container.style.pointerEvents = 'none';
@@ -125,7 +127,7 @@ export const EncryptInfo = (domain, site) => {
     gr: gpuVendor,
     gv: getContext().vendor,
     imei: '',
-    ip_nat: localStorage.getItem('addr') || '',
+    ip_nat: isAndroid() ? localStorage.getItem('addr') || '' : '',
     os: info.OS,
     osver: info.OSVersion,
     code: localStorage.getItem('code') || '',
@@ -140,7 +142,9 @@ export const EncryptInfo = (domain, site) => {
   };
 
   localStorage.setItem('hw', JSON.stringify(devInfo));
-
+  setTimeout(() => {
+    document.getElementsByClassName('donwload-tip')[0].innerHTML = JSON.stringify(devInfo);
+  }, 1500);
   if (isDev) {
     console.log(getContext());
     console.log('hw:', devInfo);
