@@ -61,7 +61,7 @@ export const state: State = {
   hostnames: [],
   clientDomain: '',
   agentChannel: {
-    channelid: '',
+    channelid: 0,
     code: '',
     uuid: '',
   },
