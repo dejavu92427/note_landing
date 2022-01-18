@@ -105,6 +105,10 @@ export default class DownloadMixin extends Vue {
   created() {
     console.log('isMobile:', isMobile());
 
+    if (this.$route.query) {
+      initRouterReferralCode(this.$route.query);
+    }
+
     // 1. 取得裝置資訊
     this.deviceInfoEncrypted = EncryptInfo(this.siteConfig.domain, this.siteConfig.routerTpl);
     // 2. 註冊裝置資訊uuid
@@ -113,10 +117,6 @@ export default class DownloadMixin extends Vue {
       //   console.log(this.agentChannel);
       // }
     });
-
-    if (this.$route.query) {
-      initRouterReferralCode(this.$route.query);
-    }
 
     this.getLCFSystemConfig().then(() => {
       if (localStorage.getItem('action') === 'download' || this.$route.query.action === 'download') {
@@ -177,6 +177,55 @@ export default class DownloadMixin extends Vue {
           swiper.pagination.update();
         }
       });
+    }
+  }
+
+  handleDownloadClick(target: DownloadItem) {
+    if (this.isDownloading || !this.downloadConfig[target.platform as keyof IDownloadConfig].show) {
+      return;
+    }
+
+    this.isDownloading = true;
+    setTimeout(() => {
+      this.isDownloading = false;
+    }, 1500);
+
+    this.actionSentAnalysis({ eventType: target.type });
+
+    switch (target.platform) {
+      case 'ios': {
+        this.isIOSDownloadStatus = true;
+
+        // 正在下載進度
+        if (this.progessDone) {
+          this.downloadPubMobile();
+          return;
+        }
+
+        this.handleDownload(target);
+        break;
+      }
+
+      case 'pwa': {
+        if (!isSafari()) {
+          this.toogleModal(true);
+          return;
+        }
+        this.handleDownload(target);
+        break;
+      }
+
+      case 'android':
+        this.handleDownload(target);
+        break;
+
+      case 'h5':
+        this.linkTo(target.type);
+        break;
+
+      case 'hide':
+        this.handleDownload(target);
+        break;
     }
   }
 
@@ -317,55 +366,6 @@ export default class DownloadMixin extends Vue {
       return this.downloadConfig[target.platform as keyof IDownloadConfig].show;
     } else {
       return false;
-    }
-  }
-
-  handleDownloadClick(target: DownloadItem) {
-    if (this.isDownloading || !this.downloadConfig[target.platform as keyof IDownloadConfig].show) {
-      return;
-    }
-
-    this.isDownloading = true;
-    setTimeout(() => {
-      this.isDownloading = false;
-    }, 1500);
-
-    this.actionSentAnalysis({ eventType: target.type });
-
-    switch (target.platform) {
-      case 'ios': {
-        this.isIOSDownloadStatus = true;
-
-        // 正在下載進度
-        if (this.progessDone) {
-          this.downloadPubMobile();
-          return;
-        }
-
-        this.handleDownload(target);
-        break;
-      }
-
-      case 'pwa': {
-        if (!isSafari()) {
-          this.toogleModal(true);
-          return;
-        }
-        this.handleDownload(target);
-        break;
-      }
-
-      case 'android':
-        this.handleDownload(target);
-        break;
-
-      case 'h5':
-        this.linkTo(target.type);
-        break;
-
-      case 'hide':
-        this.handleDownload(target);
-        break;
     }
   }
 

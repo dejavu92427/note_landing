@@ -56,8 +56,20 @@ export const actions = {
 
             commit(Types.SET_VERSION, versionJson.VERSION);
 
-            const qrUrl = `https://${window.location.host}${localStorage.getItem('code') ? `/a/${localStorage.getItem('code')}/` : ''}`;
-            localStorage.setItem('referral-link', qrUrl);
+            const qrUrl = new URL(`https://${window.location.host}`);
+
+            const refCode = localStorage.getItem('code'); // 推廣代碼
+            const channelid = Number(localStorage.getItem('channelid')) || 0;
+
+            if (refCode) {
+              qrUrl.searchParams.append('code', refCode);
+            }
+
+            if (channelid) {
+              qrUrl.searchParams.append('channelid', channelid.toString());
+            }
+
+            localStorage.setItem('referral-link', qrUrl.toString());
 
             // gtag 友盟
             if (targetSite.PROD) {
