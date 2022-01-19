@@ -378,6 +378,7 @@ export default class DownloadMixin extends Vue {
     }
 
     if (this.isAndroidMobile) {
+      document.getElementById('startApp')?.setAttribute('target', '_blank');
       document.getElementById('startApp')?.setAttribute('href', `${this.siteConfig.andAppSchema}?code=${localStorage.getItem('b') || ''}`);
     } else {
       document.getElementById('startApp')?.setAttribute('href', `${this.siteConfig.iosAppSchema}open?code=${localStorage.getItem('b') || ''}`);
