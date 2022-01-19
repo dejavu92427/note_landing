@@ -8,6 +8,8 @@
       <div class="layout-text">
         <div class="logo pic" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/logo_cover.png')})` }"></div>
         <div class="title pic" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/title_03.png')})` }"></div>
+
+        <div class="enter-pc-wrap"><a :href="pcUrl" target="_blank">进入PC网页版</a></div>
       </div>
       <div class="layout-mobile">
         <div class="phone-1 pic" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/phone_img01.png')})` }"></div>
@@ -46,6 +48,8 @@ export default class PcPorn1 extends Vue {
     value: '',
     size: 170,
   };
+
+  pcUrl = '/';
 
   created() {
     if (isMobile()) {
@@ -318,5 +322,35 @@ body {
     -webkit-transform: scale(1);
     transform: scale(1);
   }
+}
+
+.enter-pc-wrap {
+  height: 58px;
+  text-align: center;
+  width: 100%;
+
+  > a {
+    font-size: 24px;
+    height: 100%;
+    width: 195px;
+    margin: 0 auto;
+    line-height: 55px;
+    background: #fff;
+    border-radius: 12px;
+    border: #39c9ff 3px solid;
+    display: block;
+    color: #0026b2;
+  }
+}
+
+a:hover,
+a:visited,
+a:link,
+a:active {
+  text-decoration: none;
+}
+
+a:visited {
+  border: #000 3px solid;
 }
 </style>

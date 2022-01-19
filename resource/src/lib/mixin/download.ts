@@ -39,6 +39,7 @@ export default class DownloadMixin extends Vue {
   showModal = false;
   apphref = '';
   deviceInfoEncrypted = '';
+  androidSchemaUri = '';
 
   downloadList: DownloadItem[] = [
     {
@@ -69,6 +70,24 @@ export default class DownloadMixin extends Vue {
     // }
   ];
 
+  sliderImgs = {
+    porn1: [`${require('@/assets/img/porn1/sports_main.png')}`],
+    aobo1: [
+      `${require('@/assets/img/aobo1/img_01.png')}`,
+      `${require('@/assets/img/aobo1/img_02.png')}`,
+      `${require('@/assets/img/aobo1/img_03.png')}`,
+      `${require('@/assets/img/aobo1/img_04.png')}`,
+      `${require('@/assets/img/aobo1/img_05.png')}`,
+    ],
+    sp1: [
+      `${require('@/assets/img/sp1/main_01.png')}`,
+      `${require('@/assets/img/sp1/main_02.png')}`,
+      `${require('@/assets/img/sp1/main_03.png')}`,
+      `${require('@/assets/img/sp1/main_04.png')}`,
+      `${require('@/assets/img/sp1/main_05.png')}`,
+    ],
+    sg: ['@/assets/img/porn1/sports_main.png'],
+  };
   // computed
   get verison() {
     return this.version;
@@ -302,6 +321,7 @@ export default class DownloadMixin extends Vue {
           setTimeout(function () {
             getDownloadUri(platform);
           }, 500);
+
           document.getElementById('startApp')?.click();
         }
         break;
@@ -317,7 +337,11 @@ export default class DownloadMixin extends Vue {
         setTimeout(function () {
           getDownloadUri(platform);
         }, 500);
-        document.getElementById('startApp')?.click();
+        // document.getElementById('startApp')?.click();
+        let newWindow = window.open(this.androidSchemaUri);
+        setTimeout(() => {
+          newWindow?.close();
+        }, 1500);
         break;
 
       case 'hide':
@@ -380,6 +404,7 @@ export default class DownloadMixin extends Vue {
     if (this.isAndroidMobile) {
       document.getElementById('startApp')?.setAttribute('target', '_blank');
       document.getElementById('startApp')?.setAttribute('href', `${this.siteConfig.andAppSchema}?code=${localStorage.getItem('b') || ''}`);
+      this.androidSchemaUri = `${this.siteConfig.andAppSchema}?code=${localStorage.getItem('b') || ''}`;
     } else {
       document.getElementById('startApp')?.setAttribute('href', `${this.siteConfig.iosAppSchema}open?code=${localStorage.getItem('b') || ''}`);
     }
