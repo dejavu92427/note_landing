@@ -17,7 +17,6 @@ import { isMobile } from '../lib/isMobile';
         await store.dispatch('getClientDomain');
         await store.dispatch('getPlayer').then((response) => {
           store.dispatch('getCommonList');
-          // store.dispatch('getHostnames');
 
           if (response && response.data.status !== '000') {
             switch (response.data.code) {

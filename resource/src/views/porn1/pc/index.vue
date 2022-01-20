@@ -9,7 +9,7 @@
         <div class="logo pic" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/logo_cover.png')})` }"></div>
         <div class="title pic" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/title_03.png')})` }"></div>
 
-        <div class="enter-pc-wrap"><a :href="pcUrl" target="_blank">进入PC网页版</a></div>
+        <div class="enter-pc-wrap"><a id="visitPC" :href="pcUrl" target="_blank">进入PC网页版</a></div>
       </div>
       <div class="layout-mobile">
         <div class="phone-1 pic" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/phone_img01.png')})` }"></div>
@@ -28,7 +28,7 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import { Getter } from 'vuex-class';
+import { Action, Getter } from 'vuex-class';
 import { isMobile } from '../../../lib/isMobile';
 import qrcodeVue from 'qrcode.vue';
 
@@ -38,11 +38,11 @@ import qrcodeVue from 'qrcode.vue';
   },
 })
 export default class PcPorn1 extends Vue {
-  @Getter('getCDN') cdnPath!: string;
+  @Action('getHostnames') getHostnames!: Function;
+  @Action('actionLinkTo') actionLinkTo!: Function;
 
-  // get getCDNPath() {
-  //   return `${this.cdn}`;
-  // }
+  @Getter('getCDN') cdnPath!: string;
+  @Getter('getHostnames') hostnames!: string;
 
   qrcodeOpt = {
     value: '',
@@ -56,8 +56,13 @@ export default class PcPorn1 extends Vue {
       this.$router.push('/download');
       return;
     }
-    // let qrUrl = `${window.location.host}${this.$route.query.a ? `/a/${this.$route.query.a}/` : ''}`;
+
     this.qrcodeOpt.value = `${localStorage.getItem('referral-link')}`;
+    this.getHostnames({ clientType: 13 }).then(() => {
+      this.actionLinkTo('visitPC').then((result) => {
+        this.pcUrl = result;
+      });
+    });
   }
 }
 </script>

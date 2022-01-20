@@ -86,7 +86,7 @@ export default class DownloadMixin extends Vue {
       `${require('@/assets/img/sp1/main_04.png')}`,
       `${require('@/assets/img/sp1/main_05.png')}`,
     ],
-    sg: ['@/assets/img/porn1/sports_main.png'],
+    sg: [''],
   };
   // computed
   get verison() {
@@ -332,16 +332,18 @@ export default class DownloadMixin extends Vue {
         break;
 
       case 'android':
-        platform = '3';
+        {
+          platform = '3';
 
-        setTimeout(function () {
-          getDownloadUri(platform);
-        }, 500);
-        // document.getElementById('startApp')?.click();
-        let newWindow = window.open(this.androidSchemaUri);
-        setTimeout(() => {
-          newWindow?.close();
-        }, 1500);
+          setTimeout(function () {
+            getDownloadUri(platform);
+          }, 500);
+          // document.getElementById('startApp')?.click();
+          const newWindow = window.open(this.androidSchemaUri);
+          setTimeout(() => {
+            newWindow?.close();
+          }, 1500);
+        }
         break;
 
       case 'hide':

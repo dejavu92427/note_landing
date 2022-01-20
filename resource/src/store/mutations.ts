@@ -35,7 +35,29 @@ export const mutations = {
     state.commonList = result;
   },
   [Types.SET_HOSTNAME](state: State, payload: any) {
-    state.hostnames = payload;
+    // 0:預設會員登入頁,
+    // 1:代理獨立網址,
+    // 2:會員pwa,
+    // 3:會員推廣頁,
+    // 4:代理登入頁,
+    // 5:代理pwa,
+    // 6:落地頁,
+    // 7:前導頁,
+    // 13:pc
+    if (!payload) {
+      return;
+    }
+
+    const mapping = {
+      0: 'visit',
+      13: 'visitPC',
+    };
+
+    if (!mapping[payload.clientType]) {
+      return;
+    }
+
+    state.hostnames[mapping[payload.clientType]] = payload.result;
   },
   [Types.SET_CLIENTDOMIAN](state: State, payload: any) {
     state.clientDomain = payload;
