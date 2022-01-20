@@ -338,10 +338,12 @@ export default class DownloadMixin extends Vue {
           setTimeout(function () {
             getDownloadUri(platform);
           }, 500);
-          const newWindow = window.open(this.androidSchemaUri);
+          const newWindow = window.open(this.androidSchemaUri, '_blank');
 
           setTimeout(() => {
-            newWindow?.close();
+            if (newWindow) {
+              newWindow.close();
+            }
           }, 1000);
 
           // document.getElementById('startApp')?.click();
