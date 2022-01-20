@@ -50,7 +50,10 @@ import { isMobile } from '../lib/isMobile';
                   query: { code: to.query.code, action: to.query.action, channelid: to.query.channelid },
                 });
               } else {
-                next('pc');
+                next({
+                  name: 'pc',
+                  query: { code: to.query.code, action: to.query.action, channelid: to.query.channelid },
+                });
               }
             }
           }
