@@ -86,7 +86,7 @@ export default class DownloadMixin extends Vue {
       `${require('@/assets/img/sp1/main_04.png')}`,
       `${require('@/assets/img/sp1/main_05.png')}`,
     ],
-    sg: ['@/assets/img/porn1/sports_main.png'],
+    sg: [''],
   };
   // computed
   get verison() {

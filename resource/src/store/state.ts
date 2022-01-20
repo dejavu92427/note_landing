@@ -6,7 +6,7 @@ export interface State {
   cdn: string;
   downloadConfig: IDownloadConfig;
   commonList: ICommonConfig;
-  hostnames: string[];
+  hostnames: {};
   clientDomain: string;
   agentChannel: IAgentChannel;
   version: {};
@@ -58,7 +58,7 @@ export const state: State = {
     },
   },
   // 客端網址
-  hostnames: [],
+  hostnames: {},
   clientDomain: '',
   agentChannel: {
     channelid: 0,
