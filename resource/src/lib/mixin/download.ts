@@ -111,9 +111,9 @@ export default class DownloadMixin extends Vue {
 
   get hasAPPDownalod() {
     // 渠道碼
-    if (this.siteConfig.routerTpl === 'porn1' && localStorage.getItem('code')) {
-      return false;
-    }
+    // if (this.siteConfig.routerTpl === 'porn1' && localStorage.getItem('code')) {
+    //   return false;
+    // }
 
     if (!this.downloadConfig.android.show || !this.downloadConfig.ios.show || !this.downloadConfig.pwa.show) {
       return false;
@@ -387,9 +387,9 @@ export default class DownloadMixin extends Vue {
     }
 
     // 渠道碼
-    if (this.siteConfig.routerTpl === 'porn1' && localStorage.getItem('code')) {
-      return false;
-    }
+    // if (this.siteConfig.routerTpl === 'porn1' && localStorage.getItem('code')) {
+    //   return false;
+    // }
 
     if ((isAndroid() && target.platform === 'android') || (isIOS() && target.platform === 'pwa') || (isIOS() && target.platform === 'ios')) {
       return this.downloadConfig[target.platform as keyof IDownloadConfig].show;
@@ -403,9 +403,10 @@ export default class DownloadMixin extends Vue {
   }
 
   initAppschema() {
-    if (this.siteConfig.routerTpl === 'porn1') {
-      return;
-    }
+    // if (this.siteConfig.routerTpl === 'porn1') {
+    //   return;
+    // }
+
     if (this.isAndroidMobile) {
       document.getElementById('startApp')?.setAttribute('target', '_blank');
       document.getElementById('startApp')?.setAttribute('href', `${this.siteConfig.andAppSchema}?code=${localStorage.getItem('b') || ''}`);
