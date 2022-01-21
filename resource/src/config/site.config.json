@@ -6,7 +6,7 @@
     "SITE_NAME": "币发BIFA",
     "GOLANG_API_DOMAIN": "https://yaboapi.bbin-asia.com/api-v2",
     "PROD": false,
-    "IOS_APP_SCHEMA": "cyiosdev0001.foxyporn.qa.wang//",
+    "IOS_APP_SCHEMA": "cyiosdev0001.foxyporn.qa.wang://",
     "AND_APP_SCHEMA": "openapp://agentchannel:9527/bifa/qa"
   },
   {
@@ -16,7 +16,7 @@
     "SITE_NAME": "币发BIFA",
     "GOLANG_API_DOMAIN": "https://ybbe2.777vendor.com/api-v2",
     "PROD": false,
-    "IOS_APP_SCHEMA": "cyiosdev0001.foxyporn.beta.wang//",
+    "IOS_APP_SCHEMA": "cyiosdev0001.foxyporn.beta.wang://",
     "AND_APP_SCHEMA": "openapp://agentchannel:9527/bifa/beta"
   },
   {
@@ -26,7 +26,7 @@
     "SITE_NAME": "币发BIFA",
     "GOLANG_API_DOMAIN": "https://yaboapi.dormousepie.com/api-v2",
     "PROD": false,
-    "IOS_APP_SCHEMA": "cyiosdev0001.foxyporn.stage.wang//",
+    "IOS_APP_SCHEMA": "cyiosdev0001.foxyporn.stage.wang://",
     "AND_APP_SCHEMA": "openapp://agentchannel:9527/bifa/demo"
   },
   {
@@ -37,7 +37,7 @@
     "GOLANG_API_DOMAIN": "https://yaboapi.dormousepie.com/api-v2",
     "PROD": true,
     "CDN_HEADER": "x_cdn_yb_landing",
-    "IOS_APP_SCHEMA": "com.foxyporn.prod.wang//",
+    "IOS_APP_SCHEMA": "com.foxyporn.prod.wang://",
     "AND_APP_SCHEMA": "openapp://agentchannel:9527/bifa/release"
   },
   {
@@ -47,7 +47,7 @@
     "SITE_NAME": "泡泡直播",
     "GOLANG_API_DOMAIN": "https://yaboapi.bbin-asia.com/api-v2",
     "PROD": false,
-    "IOS_APP_SCHEMA": "cyiosdev0001.mobile.sigua.qa",
+    "IOS_APP_SCHEMA": "cyiosdev0001.mobile.sigua.qa://",
     "AND_APP_SCHEMA": "openapp://agentchannel:9527/bubble/qa"
   },
   {
@@ -57,7 +57,7 @@
     "SITE_NAME": "泡泡直播",
     "GOLANG_API_DOMAIN": "https://ybbe2.777vendor.com/api-v2",
     "PROD": false,
-    "IOS_APP_SCHEMA": "cyiosdev0001.mobile.sigua.beta//",
+    "IOS_APP_SCHEMA": "cyiosdev0001.mobile.sigua.beta://",
     "AND_APP_SCHEMA": "openapp://agentchannel:9527/bubble/beta"
   },
   {
@@ -67,7 +67,7 @@
     "SITE_NAME": "泡泡直播",
     "GOLANG_API_DOMAIN": "https://yaboapi.dormousepie.com/api-v2",
     "PROD": false,
-    "IOS_APP_SCHEMA": "cyiosdev0001.mobile.sigua.stage//",
+    "IOS_APP_SCHEMA": "cyiosdev0001.mobile.sigua.stage://",
     "AND_APP_SCHEMA": "openapp://agentchannel:9527/bubble/demo"
   },
   {
@@ -78,7 +78,7 @@
     "GOLANG_API_DOMAIN": "https://yaboapi.dormousepie.com/api-v2",
     "PROD": true,
     "CDN_HEADER": "x_cdn_sg_landing",
-    "IOS_APP_SCHEMA": "cyiosdev0001.mobile.sigua//",
+    "IOS_APP_SCHEMA": "cyiosdev0001.mobile.sigua://",
     "AND_APP_SCHEMA": "openapp://agentchannel:9527/bubble/release"
   },
   {
