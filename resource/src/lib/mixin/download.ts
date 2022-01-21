@@ -406,7 +406,6 @@ export default class DownloadMixin extends Vue {
     if (this.siteConfig.routerTpl === 'porn1') {
       return;
     }
-
     if (this.isAndroidMobile) {
       document.getElementById('startApp')?.setAttribute('target', '_blank');
       document.getElementById('startApp')?.setAttribute('href', `${this.siteConfig.andAppSchema}?code=${localStorage.getItem('b') || ''}`);

@@ -5,7 +5,9 @@
     "THEME_TPL": "porn1",
     "SITE_NAME": "币发BIFA",
     "GOLANG_API_DOMAIN": "https://yaboapi.bbin-asia.com/api-v2",
-    "PROD": false
+    "PROD": false,
+    "IOS_APP_SCHEMA": "cyiosdev0001.foxyporn.qa.wang//",
+    "AND_APP_SCHEMA": "openapp://agentchannel:9527/bifa/qa"
   },
   {
     "DOMAIN": "100003",
@@ -13,7 +15,9 @@
     "THEME_TPL": "porn1",
     "SITE_NAME": "币发BIFA",
     "GOLANG_API_DOMAIN": "https://ybbe2.777vendor.com/api-v2",
-    "PROD": false
+    "PROD": false,
+    "IOS_APP_SCHEMA": "cyiosdev0001.foxyporn.beta.wang//",
+    "AND_APP_SCHEMA": "openapp://agentchannel:9527/bifa/beta"
   },
   {
     "DOMAIN": "69",
@@ -21,7 +25,9 @@
     "THEME_TPL": "porn1",
     "SITE_NAME": "币发BIFA",
     "GOLANG_API_DOMAIN": "https://yaboapi.dormousepie.com/api-v2",
-    "PROD": false
+    "PROD": false,
+    "IOS_APP_SCHEMA": "cyiosdev0001.foxyporn.stage.wang//",
+    "AND_APP_SCHEMA": "openapp://agentchannel:9527/bifa/demo"
   },
   {
     "DOMAIN": "67",
@@ -30,7 +36,9 @@
     "SITE_NAME": "币发BIFA",
     "GOLANG_API_DOMAIN": "https://yaboapi.dormousepie.com/api-v2",
     "PROD": true,
-    "CDN_HEADER": "x_cdn_yb_landing"
+    "CDN_HEADER": "x_cdn_yb_landing",
+    "IOS_APP_SCHEMA": "com.foxyporn.prod.wang//",
+    "AND_APP_SCHEMA": "openapp://agentchannel:9527/bifa/release"
   },
   {
     "DOMAIN": "500035",
@@ -38,7 +46,9 @@
     "THEME_TPL": "sg1",
     "SITE_NAME": "泡泡直播",
     "GOLANG_API_DOMAIN": "https://yaboapi.bbin-asia.com/api-v2",
-    "PROD": true
+    "PROD": false,
+    "IOS_APP_SCHEMA": "cyiosdev0001.mobile.sigua.qa",
+    "AND_APP_SCHEMA": "openapp://agentchannel:9527/bubble/qa"
   },
   {
     "DOMAIN": "100009",
@@ -46,7 +56,9 @@
     "THEME_TPL": "sg1",
     "SITE_NAME": "泡泡直播",
     "GOLANG_API_DOMAIN": "https://ybbe2.777vendor.com/api-v2",
-    "PROD": false
+    "PROD": false,
+    "IOS_APP_SCHEMA": "cyiosdev0001.mobile.sigua.beta//",
+    "AND_APP_SCHEMA": "openapp://agentchannel:9527/bubble/beta"
   },
   {
     "DOMAIN": "81",
@@ -54,7 +66,9 @@
     "THEME_TPL": "sg1",
     "SITE_NAME": "泡泡直播",
     "GOLANG_API_DOMAIN": "https://yaboapi.dormousepie.com/api-v2",
-    "PROD": false
+    "PROD": false,
+    "IOS_APP_SCHEMA": "cyiosdev0001.mobile.sigua.stage//",
+    "AND_APP_SCHEMA": "openapp://agentchannel:9527/bubble/demo"
   },
   {
     "DOMAIN": "80",
@@ -63,7 +77,9 @@
     "SITE_NAME": "泡泡直播",
     "GOLANG_API_DOMAIN": "https://yaboapi.dormousepie.com/api-v2",
     "PROD": true,
-    "CDN_HEADER": "x_cdn_sg_landing"
+    "CDN_HEADER": "x_cdn_sg_landing",
+    "IOS_APP_SCHEMA": "cyiosdev0001.mobile.sigua//",
+    "AND_APP_SCHEMA": "openapp://agentchannel:9527/bubble/release"
   },
   {
     "DOMAIN": "9999894",
