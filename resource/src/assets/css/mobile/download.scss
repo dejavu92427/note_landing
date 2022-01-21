@@ -33,10 +33,14 @@
   margin-top: 5px;
   display: flex;
   position: relative;
+
   &.ios {
     flex-direction: column;
     justify-content: space-between;
-    height: calc(36px + 36px + 36px + 10px);
+
+    > .download-container {
+      margin: 2px 0;
+    }
   }
 }
 
