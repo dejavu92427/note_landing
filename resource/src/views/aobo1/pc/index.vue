@@ -16,6 +16,7 @@ import { Options, Vue } from 'vue-class-component';
 import { Getter } from 'vuex-class';
 import { isMobile } from '../../../lib/isMobile';
 import qrcodeVue from 'qrcode.vue';
+import { initRouterReferralCode } from '../../../lib/referralCode';
 
 @Options({
   components: {
@@ -38,6 +39,10 @@ export default class PcAobo1 extends Vue {
     if (isMobile()) {
       this.$router.push('/download');
       return;
+    }
+
+    if (this.$route.query) {
+      initRouterReferralCode(this.$route.query);
     }
 
     this.qrcodeOpt.value = `${localStorage.getItem('referral-link')}`;
