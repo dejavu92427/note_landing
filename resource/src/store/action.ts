@@ -464,10 +464,6 @@ export const actions = {
   },
 
   setAgentDeviceInfo({ state, commit }: { state: State; commit: Function }, params: any): any {
-    if (!['aobo1', 'sp1'].includes(state.siteConfig.routerTpl)) {
-      return;
-    }
-
     if (!params || !params.data) {
       return;
     }
