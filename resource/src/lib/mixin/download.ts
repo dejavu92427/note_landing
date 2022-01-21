@@ -130,6 +130,7 @@ export default class DownloadMixin extends Vue {
 
     // 1. 取得裝置資訊
     this.deviceInfoEncrypted = EncryptInfo(this.siteConfig.domain, this.siteConfig.routerTpl);
+
     // 2. 註冊裝置資訊uuid
     this.setAgentDeviceInfo({ data: this.deviceInfoEncrypted }).then(() => {
       // if (this.agentChannel && this.agentChannel.uuid) {

