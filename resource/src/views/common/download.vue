@@ -49,16 +49,28 @@
       </div>
     </div>
 
-    <div v-else class="download-wrap">
-      <template v-for="item in downloadList">
-        <div v-if="showDownloadItem(item)" :key="`download-btn-${item.type}`" :class="`download-container`">
-          <button :id="item.type" :class="`download-btn ${siteConfig.routerTpl}`" @click="handleDownloadClick(item)" :type="item.platform">
-            {{ item.text }}
-          </button>
-        </div>
-      </template>
-    </div>
+    <template v-else>
+      <!-- 51 IOS版 -->
+      <div v-if="siteConfig.routerTpl === 'sp1' && this.isIOSMobile" :class="`download-wrap ios`">
+        <template v-for="item in downloadList.reverse()">
+          <div v-if="showDownloadItem(item)" :key="`download-btn-${item.type}`" :class="`download-container`">
+            <button :id="item.type" :class="`download-btn ${siteConfig.routerTpl} ios`" @click="handleDownloadClick(item)" :type="item.platform">
+              {{ item.type === 'visit' ? '若无法下载APP，请点击此处使用手机网页板' : item.text }}
+            </button>
+          </div>
+        </template>
+      </div>
 
+      <div v-else class="download-wrap">
+        <template v-for="item in downloadList">
+          <div v-if="showDownloadItem(item)" :key="`download-btn-${item.type}`" :class="`download-container`">
+            <button :id="item.type" :class="`download-btn ${siteConfig.routerTpl}`" @click="handleDownloadClick(item)" :type="item.platform">
+              {{ item.text }}
+            </button>
+          </div>
+        </template>
+      </div>
+    </template>
     <div class="donwload-tip">
       <div>
         需在同一网络环境下载安装，请勿切换网络；

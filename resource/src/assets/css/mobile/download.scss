@@ -33,6 +33,11 @@
   margin-top: 5px;
   display: flex;
   position: relative;
+  &.ios {
+    flex-direction: column;
+    justify-content: space-between;
+    height: calc(36px + 36px + 36px + 10px);
+  }
 }
 
 .download-container {
@@ -60,6 +65,12 @@
   text-decoration: none;
   text-decoration: none;
   width: 90%;
+  &.ios {
+    &#visit {
+      background-color: unset;
+      border: 1px solid var(--main_button_color);
+    }
+  }
 }
 
 #trust-btn {
