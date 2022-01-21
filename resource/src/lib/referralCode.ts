@@ -7,6 +7,7 @@ export function initRouterReferralCode(query: any) {
   }
 
   if (query.a && query.a !== 'undefined') {
+    localStorage.removeItem('channelid');
     localStorage.setItem('code', query.a.toString());
   }
 
