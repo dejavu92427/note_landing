@@ -58,6 +58,31 @@ const routes: Array<RouteRecordRaw> = [
       }
     },
   },
+  {
+    path: '/pc/a/:code',
+    name: 'PcCode',
+    component: Home,
+    beforeEnter: (to, from, next) => {
+      if (to.query && to.query.action === 'download') {
+        localStorage.setItem('action', 'download');
+      }
+
+      initRouterReferralCode({ code: to.params.code, action: to.query.action, channelid: to.query.channelid });
+
+      if (isMobile()) {
+        next({
+          name: 'download',
+          query: { code: to.params.code, action: to.query.action, channelid: to.query.channelid },
+        });
+      }
+      {
+        next({
+          name: 'pc',
+          query: { code: to.params.code, action: to.query.action, channelid: to.query.channelid },
+        });
+      }
+    },
+  },
 
   { path: '/403error', name: '403error', redirect: 'no_service' },
   { path: '/403error.html', name: '403error.html', redirect: 'no_service' },

@@ -26,10 +26,6 @@ import { initRouterReferralCode } from '../../../lib/referralCode';
 export default class PcAobo1 extends Vue {
   @Getter('getCDN') cdnPath!: string;
 
-  // get getCDNPath() {
-  //   return `${this.cdn}`;
-  // }
-
   qrcodeOpt = {
     value: '',
     size: 152,
@@ -37,7 +33,10 @@ export default class PcAobo1 extends Vue {
 
   created() {
     if (isMobile()) {
-      this.$router.push('/download');
+      this.$router.push({
+        name: 'download',
+        query: { ...this.$route.query },
+      });
       return;
     }
 

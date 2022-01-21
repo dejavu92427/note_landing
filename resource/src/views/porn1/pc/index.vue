@@ -54,7 +54,10 @@ export default class PcPorn1 extends Vue {
 
   created() {
     if (isMobile()) {
-      this.$router.push('/download');
+      this.$router.push({
+        name: 'download',
+        query: { ...this.$route.query },
+      });
       return;
     }
 
