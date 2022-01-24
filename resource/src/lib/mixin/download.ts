@@ -289,35 +289,33 @@ export default class DownloadMixin extends Vue {
         {
           platform = '1';
 
-          if (this.siteConfig.routerTpl === 'sg1') {
-            this.progessDone = true;
-            getDownloadUri(platform);
-            break;
-          }
+          if (this.siteConfig.routerTpl !== 'sg1') {
+            this.$nextTick(() => {
+              const circle = new ProgressBar.Circle('#circle-progess', {
+                strokeWidth: 3,
+                easing: 'linear',
+                duration: 1500,
+                color: '#3354ad',
+                trailColor: '#e6e1dc',
+                trailWidth: 3,
+                svgStyle: null,
+                step: (e, t) => {
+                  const r = Math.round(100 * t.value());
+                  t.setText(r + '%');
+                  if (+r >= 100) {
+                    this.progessDone = true;
+                    this.downloadText = '一键信任';
+                  }
+                },
+              });
 
-          this.$nextTick(() => {
-            const circle = new ProgressBar.Circle('#circle-progess', {
-              strokeWidth: 3,
-              easing: 'linear',
-              duration: 1500,
-              color: '#3354ad',
-              trailColor: '#e6e1dc',
-              trailWidth: 3,
-              svgStyle: null,
-              step: (e, t) => {
-                const r = Math.round(100 * t.value());
-                t.setText(r + '%');
-                if (+r >= 100) {
-                  this.progessDone = true;
-                  this.downloadText = '一键信任';
-                }
-              },
+              setTimeout(() => {
+                circle.animate(1);
+              }, 1000);
             });
-
-            setTimeout(() => {
-              circle.animate(1);
-            }, 1000);
-          });
+          } else {
+            this.progessDone = true;
+          }
 
           setTimeout(function () {
             getDownloadUri(platform);
