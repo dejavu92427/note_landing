@@ -59,39 +59,50 @@ export const InitClipboardInfo = (data, site) => {
 };
 
 function getUserIP(onNewIP) {
-  let myPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
-  let pc = new myPeerConnection({
-      iceServers: [],
-    }),
-    noop = function () {},
-    localIPs = {},
-    ipRegex = /(\b25[0-5]|\b2[0-4][0-9]|\b[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}/g,
-    key;
+  try {
+    let myPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
 
-  function iterateIP(ip) {
-    if (!localIPs[ip]) onNewIP(ip);
-    localIPs[ip] = true;
+    if (!myPeerConnection) {
+      onNewIP('');
+      return;
+    }
+
+    let pc = new myPeerConnection({
+        iceServers: [],
+      }),
+      noop = function () {},
+      localIPs = {},
+      ipRegex = /(\b25[0-5]|\b2[0-4][0-9]|\b[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}/g,
+      key;
+
+    function iterateIP(ip) {
+      if (!localIPs[ip]) onNewIP(ip);
+      localIPs[ip] = true;
+    }
+
+    //create a bogus data channel
+    pc.createDataChannel('rtc');
+
+    // create offer and set local description
+    pc.createOffer(function (sdp) {
+      sdp.sdp.split('\n').forEach(function (line) {
+        if (line.indexOf('candidate') < 0) return;
+        line.match(ipRegex).forEach(iterateIP);
+      });
+
+      pc.setLocalDescription(sdp, noop, noop);
+    }, noop);
+
+    //listen for candidate events
+    pc.onicecandidate = function (ice) {
+      /* console.log(ice) */
+      if (!ice || !ice.candidate || !ice.candidate.candidate || !ice.candidate.candidate.match(ipRegex)) return;
+      ice.candidate.candidate.match(ipRegex).forEach(iterateIP);
+    };
+  } catch (e) {
+    onNewIP('');
+    console.log(e);
   }
-
-  //create a bogus data channel
-  pc.createDataChannel('rtc');
-
-  // create offer and set local description
-  pc.createOffer(function (sdp) {
-    sdp.sdp.split('\n').forEach(function (line) {
-      if (line.indexOf('candidate') < 0) return;
-      line.match(ipRegex).forEach(iterateIP);
-    });
-
-    pc.setLocalDescription(sdp, noop, noop);
-  }, noop);
-
-  //listen for candidate events
-  pc.onicecandidate = function (ice) {
-    /* console.log(ice) */
-    if (!ice || !ice.candidate || !ice.candidate.candidate || !ice.candidate.candidate.match(ipRegex)) return;
-    ice.candidate.candidate.match(ipRegex).forEach(iterateIP);
-  };
 }
 
 export const EncryptInfo = (domain, site) => {
