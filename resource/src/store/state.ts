@@ -64,6 +64,7 @@ export const state: State = {
     channelid: 0,
     code: '',
     uuid: '',
+    appkey: '',
   },
   version: {},
 };

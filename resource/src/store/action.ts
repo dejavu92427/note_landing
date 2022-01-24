@@ -494,6 +494,7 @@ export const actions = {
           result.channelid = +result.channelid || Number(localStorage.getItem('channelid')) || 0;
           result.code = result.code || localStorage.getItem('code') || '';
           result.uuid = res.data.data.uuid || '';
+          result.appkey = state.siteConfig.domain;
 
           localStorage.setItem('uuid', res.data.data.uuid || '');
 
