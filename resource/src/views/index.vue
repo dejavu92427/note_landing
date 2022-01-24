@@ -14,7 +14,7 @@ import { isMobile } from '../lib/isMobile';
       try {
         // 取得廳設定
         await store.dispatch('initSiteInfo');
-        store.dispatch('getClientDomain');
+        await store.dispatch('getClientDomain');
 
         await store.dispatch('getPlayer').then((response) => {
           store.dispatch('getCommonList');
