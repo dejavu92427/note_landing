@@ -98,16 +98,17 @@ export const actions = {
   },
 
   getPlayer({ state, commit }: { state: State; commit: Function }): any {
-    return axios
-      .get(`${state.siteConfig.golangApiDomain}/xbb/Player`, {
-        headers: {
-          'x-domain': state.siteConfig.domain,
-          kind: 'h',
-        },
-        params: {
-          lang: 'zh-cn',
-        },
-      })
+    return axios({
+      method: 'get',
+      url: `${state.siteConfig.golangApiDomain}/xbb/Player`,
+      headers: {
+        'x-domain': state.siteConfig.domain,
+        kind: 'h',
+      },
+      params: {
+        lang: 'zh-cn',
+      },
+    })
       .then((res) => {
         const result = res.data.data;
         commit(Types.SET_MEM_INFO, result);
@@ -115,6 +116,7 @@ export const actions = {
       })
       .catch((err) => {
         const response = err && err.response;
+        console.log(err);
         return response;
       });
   },

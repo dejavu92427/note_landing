@@ -70,6 +70,29 @@ export default class DownloadMixin extends Vue {
     // }
   ];
 
+  sp1DownloadList: DownloadItem[] = [
+    {
+      text: '极速版下载',
+      type: 'downloadPWA',
+      platform: 'pwa',
+    },
+    {
+      text: 'IOS版下载',
+      type: 'downloadIOS',
+      platform: 'ios',
+    },
+    {
+      text: 'ANDROID版下载',
+      type: 'downloadANDROID',
+      platform: 'android',
+    },
+    {
+      text: '若无法下载APP，请点击此处使用手机网页板',
+      type: 'visit',
+      platform: 'h5',
+    },
+  ];
+
   sliderImgs = {
     porn1: [`${require('@/assets/img/porn1/sports_main.png')}`],
     aobo1: [

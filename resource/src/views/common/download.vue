@@ -52,10 +52,10 @@
     <template v-else>
       <!-- 51 IOS版 -->
       <div v-if="siteConfig.routerTpl === 'sp1' && this.isIOSMobile" :class="`download-wrap ios`">
-        <template v-for="item in downloadList.reverse()">
-          <div v-if="showDownloadItem(item)" :key="`download-btn-${item.type}`" :class="`download-container`">
+        <template v-for="item in sp1DownloadList">
+          <div v-if="showDownloadItem(item)" :key="`download-btn-${item.type}-sp5`" :class="`download-container`">
             <button :id="item.type" :class="`download-btn ${siteConfig.routerTpl} ios`" @click="handleDownloadClick(item)" :type="item.platform">
-              {{ item.type === 'visit' ? '若无法下载APP，请点击此处使用手机网页板' : item.text }}
+              {{ item.text }}
             </button>
           </div>
         </template>
