@@ -65,6 +65,8 @@
         <div class="qrcode-text">扫一扫下载泡泡直播</div>
       </div>
     </div>
+
+    <a id="startApp" style="position=fixed;opacity=0;pointerEvents=none" href="javascript:void(0)"></a>
   </div>
 </template>
 
