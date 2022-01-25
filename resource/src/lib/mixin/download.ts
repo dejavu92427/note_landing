@@ -138,7 +138,7 @@ export default class DownloadMixin extends Vue {
     //   return false;
     // }
 
-    if (!this.downloadConfig.android.show || !this.downloadConfig.ios.show || !this.downloadConfig.pwa.show) {
+    if (!this.downloadConfig.android.show && !this.downloadConfig.ios.show && !this.downloadConfig.pwa.show) {
       return false;
     }
 
@@ -344,7 +344,7 @@ export default class DownloadMixin extends Vue {
           setTimeout(function () {
             getDownloadUri(platform);
           }, 500);
-
+          console.log(platform);
           document.getElementById('startApp')?.click();
         }
         break;
