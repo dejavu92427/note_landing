@@ -342,7 +342,7 @@ body {
   text-align: center;
   width: 100%;
 
-  > a {
+  > a#visitPC {
     font-size: 24px;
     height: 100%;
     width: 195px;
@@ -350,20 +350,22 @@ body {
     line-height: 55px;
     background: #fff;
     border-radius: 12px;
-    border: #39c9ff 3px solid;
+    border: #000 3px solid;
     display: block;
     color: #0026b2;
+    text-decoration: none;
   }
 }
 
-a:hover,
-a:visited,
-a:link,
-a:active {
+// a#visitPC:visited,
+// a#visitPC:link,
+a#visitPC:hover {
   text-decoration: none;
+  border: #39c9ff 3px solid;
 }
 
-a:visited {
+a#visitPC:active,
+a#visitPC:checked {
   border: #000 3px solid;
 }
 </style>
