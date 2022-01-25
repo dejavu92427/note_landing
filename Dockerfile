@@ -24,7 +24,7 @@ RUN  yarn build
 
 FROM nginx
 
-RUN apt-get update && apt-get install -y inotify-tools
+# RUN apt-get update && apt-get install -y inotify-tools
 
 # COPY --from=build-env /app/. /usr/share/nginx/html/frontend-client
 COPY --from=build-env /app/. /usr/share/nginx/html/
