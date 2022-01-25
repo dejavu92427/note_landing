@@ -429,13 +429,15 @@ export const actions = {
           const url = new URL(visitPCHost[0].startsWith('http') ? visitPCHost[0] : `https://${visitPCHost[0]}`);
 
           if (refCode) {
-            url.searchParams.append('code', refCode);
+            url.pathname = `a/${refCode}`;
+            // url.searchParams.append('code', refCode);
           }
 
           if (channelid) {
             url.searchParams.append('channelid', channelid.toString());
           }
 
+          console.log(url);
           return url;
         }
       }

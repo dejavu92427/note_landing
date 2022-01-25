@@ -87,7 +87,7 @@ export default class DownloadMixin extends Vue {
       platform: 'android',
     },
     {
-      text: '若无法下载APP，请点击此处使用手机网页板',
+      text: '若无法下载APP，请点击此处使用手机网页版',
       type: 'visit',
       platform: 'h5',
     },
