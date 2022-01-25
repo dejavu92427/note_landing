@@ -320,9 +320,14 @@ $min_font_size: 10px;
 #service-link {
   width: 60px;
   height: 40px;
+  transition: transform 0.2s; /* Animation */
 
   > img {
     width: 100%;
+  }
+
+  :hover {
+    transform: scale(1.15);
   }
 }
 
