@@ -42,11 +42,20 @@
         </div>
       </div>
       <div class="right">
-        <div v-if="showDownloadItem(h5Item)" class="download-container-h5">
+        <!-- 
+          <div v-if="showDownloadItem(h5Item)" class="download-container-h5">
           <div :class="`download-btn`" @click="handleDownloadClick(h5Item)">
             {{ '去逛逛' }}
           </div>
-        </div>
+        </div> 
+        -->
+        <template v-for="item in downloadList">
+          <div v-if="showDownloadItem(item) && item.platform !== 'ios'" :key="`download-btn-${item.type}`" class="download-container-h5">
+            <div :id="item.type" :class="`download-btn`" @click="handleClick(item)" :type="item.platform">
+              {{ item.text }}
+            </div>
+          </div>
+        </template>
       </div>
     </div>
 

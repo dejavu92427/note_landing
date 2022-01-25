@@ -281,13 +281,14 @@ export default class DownloadMixin extends Vue {
 
     const getDownloadUri = (platformType) => {
       this.getDownloadUri({ bundleID: bundleID, platform: platformType }).then((result: string) => {
-        if (['aobo1', 'sp1'].includes(this.siteConfig.routerTpl) && !result && target.platform === 'pwa') {
+        if (target.platform === 'pwa') {
           this.$nextTick(() => {
             this.downloadPubMobile(false);
           });
           return;
         }
 
+        // vipsign
         if (result && result.length > 0) {
           const a = document.createElement('a');
           a.href = result;
