@@ -151,6 +151,10 @@ export default class DownloadMixin extends Vue {
       initRouterReferralCode(this.$route.query);
     }
 
+    if (!isMobile()) {
+      this.$router.push('/pc');
+    }
+
     // 1. 取得裝置資訊
     this.deviceInfoEncrypted = EncryptInfo(this.siteConfig.domain, this.siteConfig.routerTpl);
 
@@ -189,13 +193,6 @@ export default class DownloadMixin extends Vue {
     if (this.siteConfig.routerTpl === 'sg1') {
       return;
     }
-
-    // if (isMobile()) {
-    //   // 是否保留推廣代碼
-    //   // this.$router.push('/download');
-    // } else {
-    //   this.$router.push('/pc');
-    // }
   }
 
   mounted() {
@@ -281,27 +278,19 @@ export default class DownloadMixin extends Vue {
 
     const getDownloadUri = (platformType) => {
       this.getDownloadUri({ bundleID: bundleID, platform: platformType }).then((result: string) => {
-        if (target.platform === 'pwa') {
+        if (this.agentChannel && target.platform === 'pwa') {
           this.$nextTick(() => {
             this.downloadPubMobile(false);
           });
           return;
         }
 
-        // vipsign
+        // vipsign app:android,ios
         if (result && result.length > 0) {
           const a = document.createElement('a');
           a.href = result;
           document.body.appendChild(a);
           a.click();
-
-          // 強制二次下載跳轉描述檔確認頁
-          switch (target.platform) {
-            case 'pwa': {
-              this.downloadPubMobile(false);
-              break;
-            }
-          }
 
           document.body.removeChild(a);
         }

@@ -183,7 +183,8 @@ export const actions = {
   getDownloadUri({ state }: { state: State }, params: { bundleID: string; platform: string }): any {
     const agentChannel = state.agentChannel;
 
-    if (agentChannel && agentChannel.uuid && params.platform === '2') {
+    // pwa
+    if (agentChannel && params.platform === '2') {
       return axios({
         method: 'post',
         url: `${state.siteConfig.golangApiDomain.replace('api-v2', 'channel-api')}/cxbb/AgentChannel/getMobileConfig`,
