@@ -8,6 +8,7 @@ import { Sg1Router } from './tpl/sg1Router';
 import { Sp1Router } from './tpl/sp1Router';
 import error404 from '../views/common/404.vue';
 import { initRouterReferralCode } from '@/lib/referralCode';
+import { isMobile } from '@/lib/isMobile';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -42,10 +43,44 @@ const routes: Array<RouteRecordRaw> = [
       }
 
       initRouterReferralCode({ code: to.params.code, action: to.query.action, channelid: to.query.channelid });
-      next({
-        name: 'download',
-        query: { code: to.params.code, action: to.query.action, channelid: to.query.channelid },
-      });
+
+      if (isMobile()) {
+        next({
+          name: 'download',
+          query: { code: to.params.code, action: to.query.action, channelid: to.query.channelid },
+        });
+      }
+      {
+        next({
+          name: 'pc',
+          query: { code: to.params.code, action: to.query.action, channelid: to.query.channelid },
+        });
+      }
+    },
+  },
+  {
+    path: '/pc/a/:code',
+    name: 'PcCode',
+    component: Home,
+    beforeEnter: (to, from, next) => {
+      if (to.query && to.query.action === 'download') {
+        localStorage.setItem('action', 'download');
+      }
+
+      initRouterReferralCode({ code: to.params.code, action: to.query.action, channelid: to.query.channelid });
+
+      if (isMobile()) {
+        next({
+          name: 'download',
+          query: { code: to.params.code, action: to.query.action, channelid: to.query.channelid },
+        });
+      }
+      {
+        next({
+          name: 'pc',
+          query: { code: to.params.code, action: to.query.action, channelid: to.query.channelid },
+        });
+      }
     },
   },
 

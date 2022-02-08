@@ -15,9 +15,9 @@ import { isMobile } from '../lib/isMobile';
         // 取得廳設定
         await store.dispatch('initSiteInfo');
         await store.dispatch('getClientDomain');
+
         await store.dispatch('getPlayer').then((response) => {
           store.dispatch('getCommonList');
-          // store.dispatch('getHostnames');
 
           if (response && response.data.status !== '000') {
             switch (response.data.code) {
@@ -51,7 +51,10 @@ import { isMobile } from '../lib/isMobile';
                   query: { code: to.query.code, action: to.query.action, channelid: to.query.channelid },
                 });
               } else {
-                next('pc');
+                next({
+                  name: 'pc',
+                  query: { code: to.query.code, action: to.query.action, channelid: to.query.channelid },
+                });
               }
             }
           }

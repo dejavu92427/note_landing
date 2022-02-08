@@ -16,6 +16,7 @@ import { Options, Vue } from 'vue-class-component';
 import { Getter } from 'vuex-class';
 import { isMobile } from '../../../lib/isMobile';
 import qrcodeVue from 'qrcode.vue';
+import { initRouterReferralCode } from '../../../lib/referralCode';
 
 @Options({
   components: {
@@ -25,10 +26,6 @@ import qrcodeVue from 'qrcode.vue';
 export default class PcAobo1 extends Vue {
   @Getter('getCDN') cdnPath!: string;
 
-  // get getCDNPath() {
-  //   return `${this.cdn}`;
-  // }
-
   qrcodeOpt = {
     value: '',
     size: 152,
@@ -36,8 +33,15 @@ export default class PcAobo1 extends Vue {
 
   created() {
     if (isMobile()) {
-      this.$router.push('/download');
+      this.$router.push({
+        name: 'download',
+        query: { ...this.$route.query },
+      });
       return;
+    }
+
+    if (this.$route.query) {
+      initRouterReferralCode(this.$route.query);
     }
 
     this.qrcodeOpt.value = `${localStorage.getItem('referral-link')}`;

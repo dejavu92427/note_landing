@@ -1,12 +1,19 @@
 <template>
-  <div />
+  <sg1Download />
 </template>
 
 <script lang="ts">
-import { Vue } from 'vue-class-component';
+import { Options, Vue } from 'vue-class-component';
+import sg1Download from '../download/index.vue';
 
-export default class PcSg1 extends Vue {
-  // created() {}
-}
+@Options({
+  components: {
+    sg1Download,
+  },
+})
+export default class PcSg1 extends Vue {}
 </script>
-<style lang="scss"></style>
+
+<style lang="scss">
+@import '~@/assets/css/mobile/index.scss';
+</style>

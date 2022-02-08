@@ -19,7 +19,13 @@
           尊敬的用户，由于相关法规限制，您所在的地区无法使用
           <br />
           {{ siteConfig.siteName }}产品，如有任何疑问，请通过在线客服，或发邮件至
-          <p class="mail" onclick="location.href='mailto:cs@bifa8.co';">{{ getServiceMail }}</p>
+          <template v-if="getServiceMail && getServiceMail.length == 2">
+            <p class="mail red" :onclick="`location.href='mailto:${getServiceMail[0]}`">paopao 客服邮箱&nbsp;{{ getServiceMail[0] }}</p>
+            <p class="mail red" :onclick="`location.href='mailto:${getServiceMail[1]}`">paopao 主播邮箱&nbsp;{{ getServiceMail[1] }}</p>
+          </template>
+          <template v-else>
+            <p class="mail" :onclick="`location.href='mailto:${getServiceMail}`">{{ getServiceMail }}</p>
+          </template>
           我们将第一时间给您回复，对您造成的不便，我们深表歉
           <br />
           意，感谢您的理解与支持！
@@ -47,24 +53,22 @@ export default class NoService extends Vue {
   @Action('actionLinkTo') actionLinkTo!: Function;
   @Action('initSiteInfo') initSiteInfo!: Function;
 
-  // @Action('getHostnames') getHostnames!: Function;
-
   @Getter('getSiteConfig') siteConfig!: ISiteConfig;
   @Getter('getCDN') cdnPath!: string;
 
-  get getServiceMail(): string {
+  get getServiceMail(): string[] {
     switch (this.siteConfig.routerTpl) {
       case 'porn1':
-        return 'cs@bifa8.co';
+        return ['cs@bifa8.co'];
       case 'aobo1':
-        return 'asd1523642@gmail.com';
+        return ['asd1523642@gmail.com'];
       case 'sg1':
-        return 'cs@paocs.co';
+        return ['cs@paocs.co', 'cs2@paocs.co'];
       case 'sp1':
-        return 'senghout5151@gmail.com';
+        return ['senghout5151@gmail.com'];
 
       default:
-        return '';
+        return [''];
     }
   }
 

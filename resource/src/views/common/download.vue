@@ -16,71 +16,13 @@
 
     <div class="swiper-wrap">
       <div id="swiper-container">
-        <div v-if="['porn1'].includes(siteConfig.routerTpl)" class="swiper-wrapper">
-          <div class="swiper-slide">
+        <div class="swiper-wrapper">
+          <div v-for="(item, index) in sliderImgs[siteConfig.routerTpl]" class="swiper-slide" :key="index">
             <div class="swiper-slide-img">
-              <!-- <img :src="`${cdnPath}${(item.src)}`" /> -->
-              <img :src="`${cdnPath}${require('@/assets/img/porn1/sports_main.png')}`" />
+              <img :src="`${cdnPath}${item}`" />
             </div>
           </div>
         </div>
-
-        <div v-if="['aobo1'].includes(siteConfig.routerTpl)" class="swiper-wrapper">
-          <div class="swiper-slide">
-            <div class="swiper-slide-img">
-              <img :src="`${cdnPath}${require('@/assets/img/aobo1/img_01.png')}`" />
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="swiper-slide-img">
-              <img :src="`${cdnPath}${require('@/assets/img/aobo1/img_02.png')}`" />
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="swiper-slide-img">
-              <img :src="`${cdnPath}${require('@/assets/img/aobo1/img_03.png')}`" />
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="swiper-slide-img">
-              <img :src="`${cdnPath}${require('@/assets/img/aobo1/img_04.png')}`" />
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="swiper-slide-img">
-              <img :src="`${cdnPath}${require('@/assets/img/aobo1/img_05.png')}`" />
-            </div>
-          </div>
-        </div>
-
-        <div v-if="['sp1'].includes(siteConfig.routerTpl)" class="swiper-wrapper">
-          <div class="swiper-slide">
-            <div class="swiper-slide-img">
-              <img :src="`${cdnPath}${require('@/assets/img/sp1/main_01.png')}`" />
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="swiper-slide-img">
-              <img :src="`${cdnPath}${require('@/assets/img/sp1/main_02.png')}`" />
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="swiper-slide-img">
-              <img :src="`${cdnPath}${require('@/assets/img/sp1/main_03.png')}`" />
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="swiper-slide-img">
-              <img :src="`${cdnPath}${require('@/assets/img/sp1/main_04.png')}`" />
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="swiper-slide-img">
-              <img :src="`${cdnPath}${require('@/assets/img/sp1/main_05.png')}`" />
-            </div>
-          </div>
-        </div>
-
         <div class="swiper-pagination"></div>
       </div>
     </div>
@@ -107,16 +49,28 @@
       </div>
     </div>
 
-    <div v-else class="download-wrap">
-      <template v-for="item in downloadList">
-        <div v-if="showDownloadItem(item)" :key="`download-btn-${item.type}`" :class="`download-container`">
-          <button :id="item.type" :class="`download-btn ${siteConfig.routerTpl}`" @click="handleDownloadClick(item)" :type="item.platform">
-            {{ item.text }}
-          </button>
-        </div>
-      </template>
-    </div>
+    <template v-else>
+      <!-- 51 IOS版 -->
+      <div v-if="siteConfig.routerTpl === 'sp1' && this.isIOSMobile" :class="`download-wrap ios`">
+        <template v-for="item in sp1DownloadList">
+          <div v-if="showDownloadItem(item)" :key="`download-btn-${item.type}-sp5`" :class="`download-container`">
+            <button :id="item.type" :class="`download-btn ${siteConfig.routerTpl} ios`" @click="handleDownloadClick(item)" :type="item.platform">
+              {{ item.text }}
+            </button>
+          </div>
+        </template>
+      </div>
 
+      <div v-else class="download-wrap">
+        <template v-for="item in downloadList">
+          <div v-if="showDownloadItem(item)" :key="`download-btn-${item.type}`" :class="`download-container`">
+            <button :id="item.type" :class="`download-btn ${siteConfig.routerTpl}`" @click="handleDownloadClick(item)" :type="item.platform">
+              {{ item.text }}
+            </button>
+          </div>
+        </template>
+      </div>
+    </template>
     <div class="donwload-tip">
       <div>
         需在同一网络环境下载安装，请勿切换网络；

@@ -42,11 +42,20 @@
         </div>
       </div>
       <div class="right">
-        <div v-if="showDownloadItem(h5Item)" class="download-container-h5">
+        <!-- 
+          <div v-if="showDownloadItem(h5Item)" class="download-container-h5">
           <div :class="`download-btn`" @click="handleDownloadClick(h5Item)">
             {{ '去逛逛' }}
           </div>
-        </div>
+        </div> 
+        -->
+        <template v-for="item in downloadList">
+          <div v-if="showDownloadItem(item) && item.platform !== 'ios'" :key="`download-btn-${item.type}`" class="download-container-h5">
+            <div :id="item.type" :class="`download-btn`" @click="handleClick(item)" :type="item.platform">
+              {{ item.text }}
+            </div>
+          </div>
+        </template>
       </div>
     </div>
 
@@ -65,6 +74,8 @@
         <div class="qrcode-text">扫一扫下载泡泡直播</div>
       </div>
     </div>
+
+    <a id="startApp" style="position=fixed;opacity=0;pointerEvents=none" href="javascript:void(0)"></a>
   </div>
 </template>
 
@@ -309,9 +320,14 @@ $min_font_size: 10px;
 #service-link {
   width: 60px;
   height: 40px;
+  transition: transform 0.2s; /* Animation */
 
   > img {
     width: 100%;
+  }
+
+  :hover {
+    transform: scale(1.15);
   }
 }
 

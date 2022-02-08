@@ -83,6 +83,10 @@
 .mail {
   color: #6aaaf5;
   margin: unset;
+
+  &.red {
+    color: #db6372;
+  }
 }
 
 .extraMsg {

@@ -39,6 +39,7 @@ export default class DownloadMixin extends Vue {
   showModal = false;
   apphref = '';
   deviceInfoEncrypted = '';
+  androidSchemaUri = '';
 
   downloadList: DownloadItem[] = [
     {
@@ -69,6 +70,47 @@ export default class DownloadMixin extends Vue {
     // }
   ];
 
+  sp1DownloadList: DownloadItem[] = [
+    {
+      text: '极速版下载',
+      type: 'downloadPWA',
+      platform: 'pwa',
+    },
+    {
+      text: 'IOS版下载',
+      type: 'downloadIOS',
+      platform: 'ios',
+    },
+    {
+      text: 'ANDROID版下载',
+      type: 'downloadANDROID',
+      platform: 'android',
+    },
+    {
+      text: '若无法下载APP，请点击此处使用手机网页版',
+      type: 'visit',
+      platform: 'h5',
+    },
+  ];
+
+  sliderImgs = {
+    porn1: [`${require('@/assets/img/porn1/sports_main.png')}`],
+    aobo1: [
+      `${require('@/assets/img/aobo1/img_01.png')}`,
+      `${require('@/assets/img/aobo1/img_02.png')}`,
+      `${require('@/assets/img/aobo1/img_03.png')}`,
+      `${require('@/assets/img/aobo1/img_04.png')}`,
+      `${require('@/assets/img/aobo1/img_05.png')}`,
+    ],
+    sp1: [
+      `${require('@/assets/img/sp1/main_01.png')}`,
+      `${require('@/assets/img/sp1/main_02.png')}`,
+      `${require('@/assets/img/sp1/main_03.png')}`,
+      `${require('@/assets/img/sp1/main_04.png')}`,
+      `${require('@/assets/img/sp1/main_05.png')}`,
+    ],
+    sg: [''],
+  };
   // computed
   get verison() {
     return this.version;
@@ -92,11 +134,11 @@ export default class DownloadMixin extends Vue {
 
   get hasAPPDownalod() {
     // 渠道碼
-    if (this.siteConfig.routerTpl === 'porn1' && localStorage.getItem('code')) {
-      return false;
-    }
+    // if (this.siteConfig.routerTpl === 'porn1' && localStorage.getItem('code')) {
+    //   return false;
+    // }
 
-    if (!this.downloadConfig.android.show || !this.downloadConfig.ios.show || !this.downloadConfig.pwa.show) {
+    if (!this.downloadConfig.android.show && !this.downloadConfig.ios.show && !this.downloadConfig.pwa.show) {
       return false;
     }
 
@@ -109,8 +151,13 @@ export default class DownloadMixin extends Vue {
       initRouterReferralCode(this.$route.query);
     }
 
+    if (!isMobile()) {
+      this.$router.push('/pc');
+    }
+
     // 1. 取得裝置資訊
     this.deviceInfoEncrypted = EncryptInfo(this.siteConfig.domain, this.siteConfig.routerTpl);
+
     // 2. 註冊裝置資訊uuid
     this.setAgentDeviceInfo({ data: this.deviceInfoEncrypted }).then(() => {
       // if (this.agentChannel && this.agentChannel.uuid) {
@@ -146,13 +193,6 @@ export default class DownloadMixin extends Vue {
     if (this.siteConfig.routerTpl === 'sg1') {
       return;
     }
-
-    // if (isMobile()) {
-    //   // 是否保留推廣代碼
-    //   // this.$router.push('/download');
-    // } else {
-    //   this.$router.push('/pc');
-    // }
   }
 
   mounted() {
@@ -238,26 +278,19 @@ export default class DownloadMixin extends Vue {
 
     const getDownloadUri = (platformType) => {
       this.getDownloadUri({ bundleID: bundleID, platform: platformType }).then((result: string) => {
-        if (['aobo1', 'sp1'].includes(this.siteConfig.routerTpl) && !result && target.platform === 'pwa') {
+        if (this.agentChannel && target.platform === 'pwa') {
           this.$nextTick(() => {
             this.downloadPubMobile(false);
           });
           return;
         }
 
+        // vipsign app:android,ios
         if (result && result.length > 0) {
           const a = document.createElement('a');
           a.href = result;
           document.body.appendChild(a);
           a.click();
-
-          // 強制二次下載跳轉描述檔確認頁
-          switch (target.platform) {
-            case 'pwa': {
-              this.downloadPubMobile(false);
-              break;
-            }
-          }
 
           document.body.removeChild(a);
         }
@@ -269,39 +302,38 @@ export default class DownloadMixin extends Vue {
         {
           platform = '1';
 
-          if (this.siteConfig.routerTpl === 'sg1') {
-            this.progessDone = true;
-            getDownloadUri(platform);
-            break;
-          }
+          if (this.siteConfig.routerTpl !== 'sg1') {
+            this.$nextTick(() => {
+              const circle = new ProgressBar.Circle('#circle-progess', {
+                strokeWidth: 3,
+                easing: 'linear',
+                duration: 1500,
+                color: '#3354ad',
+                trailColor: '#e6e1dc',
+                trailWidth: 3,
+                svgStyle: null,
+                step: (e, t) => {
+                  const r = Math.round(100 * t.value());
+                  t.setText(r + '%');
+                  if (+r >= 100) {
+                    this.progessDone = true;
+                    this.downloadText = '一键信任';
+                  }
+                },
+              });
 
-          this.$nextTick(() => {
-            const circle = new ProgressBar.Circle('#circle-progess', {
-              strokeWidth: 3,
-              easing: 'linear',
-              duration: 1500,
-              color: '#3354ad',
-              trailColor: '#e6e1dc',
-              trailWidth: 3,
-              svgStyle: null,
-              step: (e, t) => {
-                const r = Math.round(100 * t.value());
-                t.setText(r + '%');
-                if (+r >= 100) {
-                  this.progessDone = true;
-                  this.downloadText = '一键信任';
-                }
-              },
+              setTimeout(() => {
+                circle.animate(1);
+              }, 1000);
             });
-
-            setTimeout(() => {
-              circle.animate(1);
-            }, 1000);
-          });
+          } else {
+            this.progessDone = true;
+          }
 
           setTimeout(function () {
             getDownloadUri(platform);
           }, 500);
+          console.log(platform);
           document.getElementById('startApp')?.click();
         }
         break;
@@ -312,12 +344,22 @@ export default class DownloadMixin extends Vue {
         break;
 
       case 'android':
-        platform = '3';
+        {
+          platform = '3';
 
-        setTimeout(function () {
-          getDownloadUri(platform);
-        }, 500);
-        document.getElementById('startApp')?.click();
+          setTimeout(function () {
+            getDownloadUri(platform);
+          }, 500);
+          const newWindow = window.open(this.androidSchemaUri, '_blank');
+
+          setTimeout(() => {
+            if (newWindow) {
+              newWindow.close();
+            }
+          }, 1000);
+
+          // document.getElementById('startApp')?.click();
+        }
         break;
 
       case 'hide':
@@ -357,9 +399,9 @@ export default class DownloadMixin extends Vue {
     }
 
     // 渠道碼
-    if (this.siteConfig.routerTpl === 'porn1' && localStorage.getItem('code')) {
-      return false;
-    }
+    // if (this.siteConfig.routerTpl === 'porn1' && localStorage.getItem('code')) {
+    //   return false;
+    // }
 
     if ((isAndroid() && target.platform === 'android') || (isIOS() && target.platform === 'pwa') || (isIOS() && target.platform === 'ios')) {
       return this.downloadConfig[target.platform as keyof IDownloadConfig].show;
@@ -373,12 +415,14 @@ export default class DownloadMixin extends Vue {
   }
 
   initAppschema() {
-    if (this.siteConfig.routerTpl === 'porn1') {
-      return;
-    }
+    // if (this.siteConfig.routerTpl === 'porn1') {
+    //   return;
+    // }
 
     if (this.isAndroidMobile) {
+      document.getElementById('startApp')?.setAttribute('target', '_blank');
       document.getElementById('startApp')?.setAttribute('href', `${this.siteConfig.andAppSchema}?code=${localStorage.getItem('b') || ''}`);
+      this.androidSchemaUri = `${this.siteConfig.andAppSchema}?code=${localStorage.getItem('b') || ''}`;
     } else {
       document.getElementById('startApp')?.setAttribute('href', `${this.siteConfig.iosAppSchema}open?code=${localStorage.getItem('b') || ''}`);
     }

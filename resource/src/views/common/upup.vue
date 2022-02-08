@@ -46,8 +46,6 @@ export default class Upup extends Vue {
   @Action('actionLinkTo') actionLinkTo!: Function;
   @Action('initSiteInfo') initSiteInfo!: Function;
 
-  // @Action('getHostnames') getHostnames!: Function;
-
   @Getter('getSiteConfig') siteConfig!: ISiteConfig;
   @Getter('getCDN') cdnPath!: string;
 

@@ -98,16 +98,17 @@ export const actions = {
   },
 
   getPlayer({ state, commit }: { state: State; commit: Function }): any {
-    return axios
-      .get(`${state.siteConfig.golangApiDomain}/xbb/Player`, {
-        headers: {
-          'x-domain': state.siteConfig.domain,
-          kind: 'h',
-        },
-        params: {
-          lang: 'zh-cn',
-        },
-      })
+    return axios({
+      method: 'get',
+      url: `${state.siteConfig.golangApiDomain}/xbb/Player`,
+      headers: {
+        'x-domain': state.siteConfig.domain,
+        kind: 'h',
+      },
+      params: {
+        lang: 'zh-cn',
+      },
+    })
       .then((res) => {
         const result = res.data.data;
         commit(Types.SET_MEM_INFO, result);
@@ -115,11 +116,23 @@ export const actions = {
       })
       .catch((err) => {
         const response = err && err.response;
+        console.log(err);
         return response;
       });
   },
 
-  getHostnames({ state, commit }: { state: State; commit: Function }): any {
+  getHostnames({ state, commit }: { state: State; commit: Function }, params: any): any {
+    // 0:預設會員登入頁,
+    // 1:代理獨立網址,
+    // 2:會員pwa,
+    // 3:會員推廣頁,
+    // 4:代理登入頁,
+    // 5:代理pwa,
+    // 6:落地頁,
+    // 7:前導頁,
+    // 13:pc
+    const clientType = (params && params.clientType) || 0;
+
     return axios
       .get(`${state.siteConfig.golangApiDomain}/xbb/Domain/Hostnames/V2`, {
         headers: {
@@ -128,14 +141,14 @@ export const actions = {
         },
         params: {
           lang: 'zh-cn',
-          clientType: 0,
+          clientType: clientType,
           withLevelHostname: true,
         },
       })
       .then((res) => {
         if (res && res.data && res.data.data && res.data.status === '000') {
           const result = res.data.data;
-          commit(Types.SET_HOSTNAME, result);
+          commit(Types.SET_HOSTNAME, { clientType: clientType, result: result });
         }
       })
       .catch((err) => {
@@ -170,7 +183,8 @@ export const actions = {
   getDownloadUri({ state }: { state: State }, params: { bundleID: string; platform: string }): any {
     const agentChannel = state.agentChannel;
 
-    if (agentChannel && agentChannel.uuid && params.platform === '2') {
+    // pwa
+    if (agentChannel && params.platform === '2') {
       return axios({
         method: 'post',
         url: `${state.siteConfig.golangApiDomain.replace('api-v2', 'channel-api')}/cxbb/AgentChannel/getMobileConfig`,
@@ -366,10 +380,6 @@ export const actions = {
             state.clientDomain.startsWith('http') ? `${state.clientDomain}/custom/service` : `https://${state.clientDomain}/custom/service`
           }`;
         }
-
-        // if (state.hostnames && state.hostnames[0]) {
-        //   window.location.href = `https://${state.hostnames[0]}/custom/service`;
-        // }
         break;
 
       // 客端客服連結
@@ -380,16 +390,17 @@ export const actions = {
         break;
 
       // 客端去逛逛
-      case 'visit':
-        if (state.hostnames) {
+      case 'visit': {
+        if (state.hostnames && state.hostnames[target]) {
+          const visitHost = state.hostnames[target];
           const refCode = localStorage.getItem('code'); // 推廣代碼
           const channelid = Number(localStorage.getItem('channelid')) || 0;
 
-          if (!state.hostnames || !state.hostnames[0]) {
+          if (!visitHost || !visitHost[0]) {
             return;
           }
 
-          const url = new URL(state.hostnames[0].startsWith('http') ? state.hostnames[0] : `https://${state.hostnames[0]}`);
+          const url = new URL(visitHost[0].startsWith('http') ? visitHost[0] : `https://${visitHost[0]}`);
 
           if (refCode) {
             url.searchParams.append('code', refCode);
@@ -404,6 +415,33 @@ export const actions = {
           return;
         }
         break;
+      }
+
+      case 'visitPC': {
+        if (state.hostnames && state.hostnames[target]) {
+          const visitPCHost = state.hostnames[target];
+          const refCode = localStorage.getItem('code'); // 推廣代碼
+          const channelid = Number(localStorage.getItem('channelid')) || 0;
+
+          if (!visitPCHost || !visitPCHost[0]) {
+            return;
+          }
+
+          const url = new URL(visitPCHost[0].startsWith('http') ? visitPCHost[0] : `https://${visitPCHost[0]}`);
+
+          if (refCode) {
+            url.pathname = `a/${refCode}`;
+            // url.searchParams.append('code', refCode);
+          }
+
+          if (channelid) {
+            url.searchParams.append('channelid', channelid.toString());
+          }
+
+          console.log(url);
+          return url;
+        }
+      }
     }
   },
 
@@ -431,10 +469,6 @@ export const actions = {
   },
 
   setAgentDeviceInfo({ state, commit }: { state: State; commit: Function }, params: any): any {
-    if (!['aobo1', 'sp1'].includes(state.siteConfig.routerTpl)) {
-      return;
-    }
-
     if (!params || !params.data) {
       return;
     }
@@ -465,6 +499,7 @@ export const actions = {
           result.channelid = +result.channelid || Number(localStorage.getItem('channelid')) || 0;
           result.code = result.code || localStorage.getItem('code') || '';
           result.uuid = res.data.data.uuid || '';
+          result.appkey = state.siteConfig.domain;
 
           localStorage.setItem('uuid', res.data.data.uuid || '');
 
