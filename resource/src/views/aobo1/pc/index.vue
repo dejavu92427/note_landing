@@ -3,7 +3,8 @@
     <img class="logo-corner" :src="`${cdnPath}${require('@/assets/img/aobo1/logo_corner.png')}`" />
     <div class="main-header">
       <qrcode-vue id="qrcode" :value="qrcodeOpt.value" :size="qrcodeOpt.size"></qrcode-vue>
-      <img class="code-tips" :src="`${cdnPath}${require('@/assets/img/aobo1/code_tip.png')}`" />
+      <!-- 4kb -->
+      <img class="code-tips" :src="`${require('@/assets/img/aobo1/code_tip.png')}`" />
     </div>
     <div class="cover-image">
       <img :src="`${cdnPath}${require('@/assets/img/aobo1/appdown_sports.png')}`" />
