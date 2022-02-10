@@ -273,9 +273,9 @@ local buildall(name="QA",shortProduct="yb")={
     ,"qa","sigua-landingpage-qa","sigua-landingpage-nginx-qa"
     ,"yaboxxx-landingpage","sigua","env","qa"),
 
-    Pipeline("Beta","yaboxxx-test","asia-east1-b"
+    Pipeline("Beta","yaboxxx-prod","asia-east1-b"
     ,"beta","sigua-landingpage-beta","sigua-landingpage-nginx-beta"
-    ,"yaboxxx-landingpage","sigua","env","qa"),
+    ,"yaboxxx-landingpage","sigua","env","prod"),
     
  
     Pipeline("Demo","yaboxxx-prod","asia-east1-b"
