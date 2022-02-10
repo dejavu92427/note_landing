@@ -45,7 +45,6 @@ export const InitClipboardInfo = (data, site) => {
     container.setAttribute('contentEditable', 'true');
     container.removeAttribute('readonly');
 
-    container.style = null;
     container.style.position = 'fixed';
     container.style.pointerEvents = 'none';
     container.style.opacity = '0';
