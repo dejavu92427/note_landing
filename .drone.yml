@@ -300,7 +300,7 @@ steps:
     TOKEN:
       from_secret: GOOGLE_CREDENTIALS
   depends_on:
-  - push2GCR-Demo
+  - push2GCR-Prod
 
 - name: sp51GKE-Prod
   image: nytimes/drone-gke
@@ -340,7 +340,7 @@ steps:
     TOKEN:
       from_secret: GOOGLE_CREDENTIALS
   depends_on:
-  - push2GCR-Demo
+  - push2GCR-Prod
 
 - name: siguaGKE-Prod
   image: nytimes/drone-gke
