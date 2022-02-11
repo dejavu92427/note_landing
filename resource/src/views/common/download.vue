@@ -27,6 +27,12 @@
       </div>
     </div>
 
+    <!-- <div v-if="siteConfig.routerTpl == 'aobo1'" class="service-wrap">
+      <div @click="linkTo('clientService')" id="service-link">
+        <img id="appicon" :src="`${cdnPath}${require('@/assets/img/aobo1/ic_service.png')}`" />
+      </div>
+    </div> -->
+
     <div v-if="isIOSDownloadStatus">
       <div :class="`download-container downloading`">
         <button
