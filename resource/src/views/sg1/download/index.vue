@@ -519,6 +519,7 @@ $min_font_size: 10px;
     display: flex;
     justify-content: space-around;
     box-shadow: 0 3px 2.5px 0 rgb(0 0 0 / 8%);
+    cursor: pointer;
     span {
       display: block;
       width: 48%;
@@ -551,6 +552,7 @@ $min_font_size: 10px;
       background-color: #fff;
       font-size: 9px;
       font-weight: bold;
+      cursor: pointer;
       &.oppo {
         &.active {
           background-color: #0d6a30;
