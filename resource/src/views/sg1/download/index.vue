@@ -64,7 +64,11 @@
         <img id="appicon" :src="`${cdnPath}${require('@/assets/img/sg1/ic_service.png')}`" />
       </div>
     </div>
-
+    <div class="help-wrap">
+      <a href="#intro" class="help-link">
+        <img id="appicon" :src="`${cdnPath}${require('@/assets/img/sg1/ic_service.png')}`" />
+      </a>
+    </div>
     <modalBox v-show="showModal" @close="toogleModal(false)" />
 
     <div v-if="showDownloadqrcode" class="download-qrcode-wrap" @click="showDownloadqrcode = false">
@@ -76,7 +80,7 @@
     </div>
 
     <a id="startApp" style="position=fixed;opacity=0;pointerEvents=none" href="javascript:void(0)"></a>
-    <div class="android-container">
+    <div class="android-container" id="intro">
       <div class="logo">
         <img :src="`${cdnPath}${require('@/assets/img/andlogo.png')}`" :style="{ width: '42px', height: '23px' }" alt="" />
         <h2>android问题排除</h2>
@@ -384,9 +388,10 @@ $min_font_size: 10px;
   display: flex;
   left: 50%;
   justify-content: flex-end;
-  top: 50%;
+  top: 48.5%;
   z-index: 20;
   transform: translateX(-50%);
+  cursor: pointer;
 }
 
 #service-link {
@@ -400,6 +405,45 @@ $min_font_size: 10px;
 
   :hover {
     transform: scale(1.15);
+  }
+}
+
+.help-wrap {
+  position: fixed;
+  max-width: 420px;
+  width: 100%;
+  display: flex;
+  left: 50%;
+  justify-content: flex-end;
+  top: 55%;
+  z-index: 20;
+  transform: translateX(-50%);
+}
+
+.help-link {
+  width: 60px;
+  height: 40px;
+  transition: transform 0.2s; /* Animation */
+  > img {
+    width: 100%;
+  }
+
+  :hover {
+    transform: scale(1.15);
+  }
+}
+
+@media only screen and (max-width: 414px) {
+  .help-link {
+    :hover {
+      transform: scale(1);
+    }
+  }
+}
+
+@media only screen and (min-width: 245px) and (max-width: 340px) {
+  .help-wrap {
+    top: 56%;
   }
 }
 
