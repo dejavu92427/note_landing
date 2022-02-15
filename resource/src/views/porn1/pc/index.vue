@@ -33,65 +33,31 @@
           android问题排除
         </div>
         <div class="desc">
-          <span
-            :class="{ active: tab1Active }"
-            @click="
-              tab1Active = true;
-              tab2Active = false;
-            "
-          >
-            安装威胁
-          </span>
-          <span
-            :class="{ active: tab2Active }"
-            @click="
-              tab2Active = true;
-              tab1Active = false;
-            "
-          >
-            支付软体报毒
+          <span class="test" v-for="tab in tabItem" :key="tab.id" :class="{ active: currentTab == tab.id }" @click="setActive(tab.id)">
+            {{ tab.desc }}
           </span>
         </div>
       </div>
       <div class="content">
-        <img v-if="tab1Active == true" :src="`${cdnPath}${require('@/assets/img/an_install_tab1.png')}`" alt="" />
-        <img v-else :src="`${cdnPath}${require('@/assets/img/an_install_tab2.png')}`" alt="" />
-        <div v-if="tab2Active == true" class="button-wrap">
-          <button
-            :class="{ 'oppo-active': oppo }"
-            @click="
-              oppo = true;
-              vivo = false;
-              huawei = false;
-            "
-          >
-            OPPO
-          </button>
-          <button
-            :class="{ 'vivo-active': vivo }"
-            @click="
-              oppo = false;
-              vivo = true;
-              huawei = false;
-            "
-          >
-            VIVO
-          </button>
-          <button
-            :class="{ 'huawei-active': huawei }"
-            @click="
-              oppo = false;
-              vivo = false;
-              huawei = true;
-            "
-          >
-            Huawei
-          </button>
-        </div>
-        <div v-if="tab2Active == true" class="answer-wrap">
-          <img v-if="oppo" :src="`${cdnPath}${require('@/assets/img/pc-answer-1.png')}`" alt="" />
-          <img v-if="vivo" :src="`${cdnPath}${require('@/assets/img/pc-answer-2.png')}`" alt="" />
-          <img v-if="huawei" :src="`${cdnPath}${require('@/assets/img/pc-answer-3.png')}`" alt="" />
+        <img v-show="currentTab == 1" :src="`${cdnPath}${require('@/assets/img/an_install_tab1.png')}`" alt="" />
+        <div v-show="currentTab == 2">
+          <img :src="`${cdnPath}${require('@/assets/img/an_install_tab2.png')}`" alt="" />
+          <div class="button-wrap">
+            <button
+              v-for="item in buttonList"
+              :key="item.name"
+              :class="[item.name, { active: currentButton == item.name }]"
+              @click="setBtnActive(item.name)"
+            >
+              {{ item.name }}
+            </button>
+          </div>
+
+          <div class="answer-wrap">
+            <img v-if="currentButton == 'oppo'" :src="`${cdnPath}${require('@/assets/img/pc-answer-1.png')}`" alt="" />
+            <img v-if="currentButton == 'vivo'" :src="`${cdnPath}${require('@/assets/img/pc-answer-2.png')}`" alt="" />
+            <img v-if="currentButton == 'huawei'" :src="`${cdnPath}${require('@/assets/img/pc-answer-3.png')}`" alt="" />
+          </div>
         </div>
       </div>
     </div>
@@ -122,17 +88,30 @@ export default class PcPorn1 extends Vue {
     size: 170,
   };
 
-  pcUrl = '/';
+  currentTab = 1;
+  currentButton = 'oppo';
+  tabItem = [
+    {
+      id: 1,
+      desc: '安裝威脅',
+    },
+    {
+      id: 2,
+      desc: '支付軟體報毒',
+    },
+  ];
+  buttonList = [
+    {
+      name: 'oppo',
+    },
+    {
+      name: 'vivo',
+    },
+    {
+      name: 'huawei',
+    },
+  ];
 
-  data() {
-    return {
-      tab1Active: true,
-      tab2Active: false,
-      oppo: true,
-      vivo: false,
-      huawei: false,
-    };
-  }
   created() {
     if (isMobile()) {
       this.$router.push({
@@ -152,6 +131,22 @@ export default class PcPorn1 extends Vue {
         this.pcUrl = result;
       });
     });
+  }
+
+  setActive(target): void {
+    if (target) {
+      this.currentTab = target;
+    } else {
+      return;
+    }
+  }
+
+  setBtnActive(target): void {
+    if (target) {
+      this.currentButton = target;
+    } else {
+      return;
+    }
   }
 }
 </script>
@@ -357,7 +352,7 @@ body {
     .desc {
       span {
         margin: 0 10px;
-        padding: 27px 0;
+        padding: 24px 0;
         font-size: 18px;
         cursor: pointer;
         &.active {
@@ -381,17 +376,23 @@ body {
     margin: 2px;
     border-radius: 3px;
     cursor: pointer;
-    &.oppo-active {
-      background-color: #0d6a30;
-      color: #fff;
+    &.oppo {
+      &.active {
+        background-color: #0d6a30;
+        color: #fff;
+      }
     }
-    &.vivo-active {
-      background-color: #425eff;
-      color: #fff;
+    &.vivo {
+      &.active {
+        background-color: #425eff;
+        color: #fff;
+      }
     }
-    &.huawei-active {
-      background-color: #d41c26;
-      color: #fff;
+    &.huawei {
+      &.active {
+        background-color: #d41c26;
+        color: #fff;
+      }
     }
   }
 }
