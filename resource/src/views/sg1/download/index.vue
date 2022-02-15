@@ -82,66 +82,29 @@
         <h2>android问题排除</h2>
       </div>
       <div class="desc">
-        <span
-          :class="{ active: tab1Active }"
-          @click="
-            tab1Active = true;
-            tab2Active = false;
-          "
-        >
-          安装威胁
-        </span>
-        <span
-          :class="{ active: tab2Active }"
-          @click="
-            tab2Active = true;
-            tab1Active = false;
-          "
-        >
-          支付软体报毒
+        <span class="test" v-for="tab in tabItem" :key="tab.id" :class="{ active: currentTab == tab.id }" @click="setActive(tab.id)">
+          {{ tab.desc }}
         </span>
       </div>
       <div class="content">
-        <img v-if="tab1Active" :src="`${cdnPath}${require('@/assets/img/an_mobile_01.png')}`" alt="" />
+        <img v-show="currentTab == 1" :src="`${cdnPath}${require('@/assets/img/an_mobile_01.png')}`" alt="" />
 
-        <div v-else class="tab2-content">
+        <div v-show="currentTab == 2" class="tab2-content">
           <img :src="`${cdnPath}${require('@/assets/img/an_mobile_02.png')}`" alt="" />
           <div class="button-wrap">
             <h3>请选择手机厂牌</h3>
             <button
-              :class="{ 'oppo-active': oppo }"
-              @click="
-                oppo = true;
-                vivo = false;
-                huawei = false;
-              "
+              v-for="item in buttonList"
+              :key="item.name"
+              :class="[item.name, { active: currentButton == item.name }]"
+              @click="setBtnActive(item.name)"
             >
-              OPPO
-            </button>
-            <button
-              :class="{ 'vivo-active': vivo }"
-              @click="
-                oppo = false;
-                vivo = true;
-                huawei = false;
-              "
-            >
-              VIVO
-            </button>
-            <button
-              :class="{ 'huawei-active': huawei }"
-              @click="
-                oppo = false;
-                vivo = false;
-                huawei = true;
-              "
-            >
-              Huawei
+              {{ item.name }}
             </button>
           </div>
-          <img v-if="oppo" :src="`${cdnPath}${require('@/assets/img/an_mobile_03.png')}`" alt="" />
-          <img v-if="vivo" :src="`${cdnPath}${require('@/assets/img/an_mobile_04.png')}`" alt="" />
-          <img v-if="huawei" :src="`${cdnPath}${require('@/assets/img/an_mobile_05.png')}`" alt="" />
+          <img v-show="currentButton == 'oppo'" :src="`${cdnPath}${require('@/assets/img/an_mobile_03.png')}`" alt="" />
+          <img v-show="currentButton == 'vivo'" :src="`${cdnPath}${require('@/assets/img/an_mobile_04.png')}`" alt="" />
+          <img v-show="currentButton == 'huawei'" :src="`${cdnPath}${require('@/assets/img/an_mobile_05.png')}`" alt="" />
         </div>
       </div>
     </div>
@@ -203,15 +166,29 @@ export default class DonwloadSg1 extends mixins(DownloadMixin) {
     size: 160,
   };
 
-  data() {
-    return {
-      tab1Active: true,
-      tab2Active: false,
-      oppo: true,
-      vivo: false,
-      huawei: false,
-    };
-  }
+  currentTab = 1;
+  currentButton = 'oppo';
+  tabItem = [
+    {
+      id: 1,
+      desc: '安裝威脅',
+    },
+    {
+      id: 2,
+      desc: '支付軟體報毒',
+    },
+  ];
+  buttonList = [
+    {
+      name: 'oppo',
+    },
+    {
+      name: 'vivo',
+    },
+    {
+      name: 'huawei',
+    },
+  ];
 
   created() {
     this.qrcodeOpt.value = `${localStorage.getItem('referral-link')}`;
@@ -223,6 +200,21 @@ export default class DonwloadSg1 extends mixins(DownloadMixin) {
       this.handleDownloadClick(item);
     } else {
       this.showDownloadqrcode = true;
+    }
+  }
+  setActive(target): void {
+    if (target) {
+      this.currentTab = target;
+    } else {
+      return;
+    }
+  }
+
+  setBtnActive(target): void {
+    if (target) {
+      this.currentButton = target;
+    } else {
+      return;
     }
   }
 }
@@ -515,17 +507,23 @@ $min_font_size: 10px;
       background-color: #fff;
       font-size: 9px;
       font-weight: bold;
-      &.oppo-active {
-        background-color: #0d6a30;
-        color: #fff;
+      &.oppo {
+        &.active {
+          background-color: #0d6a30;
+          color: #fff;
+        }
       }
-      &.vivo-active {
-        background-color: #425eff;
-        color: #fff;
+      &.vivo {
+        &.active {
+          background-color: #425eff;
+          color: #fff;
+        }
       }
-      &.huawei-active {
-        background-color: #d41c26;
-        color: #fff;
+      &.huawei {
+        &.active {
+          background-color: #d41c26;
+          color: #fff;
+        }
       }
     }
   }

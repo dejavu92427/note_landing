@@ -285,17 +285,23 @@
     background-color: #fff;
     font-size: 9px;
     font-weight: bold;
-    &.oppo-active {
-      background-color: #0d6a30;
-      color: #fff;
+    &.oppo {
+      &.active {
+        background-color: #0d6a30;
+        color: #fff;
+      }
     }
-    &.vivo-active {
-      background-color: #425eff;
-      color: #fff;
+    &.vivo {
+      &.active {
+        background-color: #425eff;
+        color: #fff;
+      }
     }
-    &.huawei-active {
-      background-color: #d41c26;
-      color: #fff;
+    &.huawei {
+      &.active {
+        background-color: #d41c26;
+        color: #fff;
+      }
     }
   }
 }
