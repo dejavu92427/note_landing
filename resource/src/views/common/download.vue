@@ -117,7 +117,7 @@
     </div>
     <div class="android-container">
       <div class="logo">
-        <i class="fa fa-android" style="font-size: 48px"></i>
+        <img :src="`${cdnPath}${require('@/assets/img/andlogo.png')}`" :style="{ width: '42px', height: '23px' }" alt="" />
         <h2>android问题排除</h2>
       </div>
       <div class="desc">
@@ -141,10 +141,10 @@
         </span>
       </div>
       <div class="content">
-        <img v-if="tab1Active" :src="`${cdnPath}${require('@/assets/img/sg1/an_mobile_01.png')}`" alt="" />
+        <img v-if="tab1Active" :src="`${cdnPath}${require('@/assets/img/an_mobile_01.png')}`" alt="" />
 
         <div v-else class="tab2-content">
-          <img :src="`${cdnPath}${require('@/assets/img/sg1/an_mobile_02.png')}`" alt="" />
+          <img :src="`${cdnPath}${require('@/assets/img/an_mobile_02.png')}`" alt="" />
           <div class="button-wrap">
             <h3>请选择手机厂牌</h3>
             <button
@@ -178,9 +178,9 @@
               Huawei
             </button>
           </div>
-          <img v-if="oppo" :src="`${cdnPath}${require('@/assets/img/sg1/an_mobile_03.png')}`" alt="" />
-          <img v-if="vivo" :src="`${cdnPath}${require('@/assets/img/sg1/an_mobile_04.png')}`" alt="" />
-          <img v-if="huawei" :src="`${cdnPath}${require('@/assets/img/sg1/an_mobile_05.png')}`" alt="" />
+          <img v-if="oppo" :src="`${cdnPath}${require('@/assets/img/an_mobile_03.png')}`" alt="" />
+          <img v-if="vivo" :src="`${cdnPath}${require('@/assets/img/an_mobile_04.png')}`" alt="" />
+          <img v-if="huawei" :src="`${cdnPath}${require('@/assets/img/an_mobile_05.png')}`" alt="" />
         </div>
       </div>
     </div>

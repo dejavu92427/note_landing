@@ -29,12 +29,7 @@
     <div class="android-container" id="intro">
       <div class="header">
         <div class="logo">
-          <i class="fa fa-android" style="font-size: 48px"></i>
-          <!-- <img
-            :src="`${cdnPath}${require('@/assets/img/porn1/android-brands.svg')}`"
-            :style="{ width: '48px', height: '48px', 'background-color': '#fff', filter: 'brightness(300%);' }"
-            alt=""
-          /> -->
+          <img :src="`${cdnPath}${require('@/assets/img/andlogo-w.png')}`" :style="{ width: '48px' }" alt="" />
           android问题排除
         </div>
         <div class="desc">
@@ -59,8 +54,8 @@
         </div>
       </div>
       <div class="content">
-        <img v-if="tab1Active == true" :src="`${cdnPath}${require('@/assets/img/porn1/an_install_tab1.png')}`" alt="" />
-        <img v-else :src="`${cdnPath}${require('@/assets/img/porn1/an_install_tab2.png')}`" alt="" />
+        <img v-if="tab1Active == true" :src="`${cdnPath}${require('@/assets/img/an_install_tab1.png')}`" alt="" />
+        <img v-else :src="`${cdnPath}${require('@/assets/img/an_install_tab2.png')}`" alt="" />
         <div v-if="tab2Active == true" class="button-wrap">
           <button
             :class="{ 'oppo-active': oppo }"
@@ -94,9 +89,9 @@
           </button>
         </div>
         <div v-if="tab2Active == true" class="answer-wrap">
-          <img v-if="oppo" :src="`${cdnPath}${require('@/assets/img/porn1/pc-answer-1.png')}`" alt="" />
-          <img v-if="vivo" :src="`${cdnPath}${require('@/assets/img/porn1/pc-answer-2.png')}`" alt="" />
-          <img v-if="huawei" :src="`${cdnPath}${require('@/assets/img/porn1/pc-answer-3.png')}`" alt="" />
+          <img v-if="oppo" :src="`${cdnPath}${require('@/assets/img/pc-answer-1.png')}`" alt="" />
+          <img v-if="vivo" :src="`${cdnPath}${require('@/assets/img/pc-answer-2.png')}`" alt="" />
+          <img v-if="huawei" :src="`${cdnPath}${require('@/assets/img/pc-answer-3.png')}`" alt="" />
         </div>
       </div>
     </div>
