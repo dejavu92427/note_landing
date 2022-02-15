@@ -86,6 +86,10 @@
         <div v-if="['porn1'].includes(siteConfig.routerTpl)">
           如需帮助，
           <a @click="linkTo('clientService')" class="link" target="_blank">请联系客服</a>
+          <div @click.stop="copy" class="donwload-tip porn1 title">
+            下滑查看Android幫助
+            <img class="donwload-tip-arrow" :src="`${require(`@/assets/img/jiantou.png`)}`" />
+          </div>
         </div>
       </div>
 
