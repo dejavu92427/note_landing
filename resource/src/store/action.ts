@@ -180,14 +180,28 @@ export const actions = {
       });
   },
 
-  getDownloadUri({ state }: { state: State }, params: { bundleID: string; platform: string }): any {
+  getDownloadUri({ state }: { state: State }, params: { bundleID: string; platform: string; deviceInfoRSA: string }): any {
     const agentChannel = state.agentChannel;
+
+    axios({
+      method: 'put',
+      url: `${state.siteConfig.channelApiDomain}/cxbb/AgentChannel/setDownload`,
+      headers: {
+        'x-domain': state.siteConfig.domain,
+        kind: 'h',
+      },
+      data: {
+        rsa: params.deviceInfoRSA,
+      },
+    }).catch((err) => {
+      console.log(err);
+    });
 
     // pwa
     if (agentChannel && params.platform === '2') {
       return axios({
         method: 'post',
-        url: `${state.siteConfig.golangApiDomain.replace('api-v2', 'channel-api')}/cxbb/AgentChannel/getMobileConfig`,
+        url: `${state.siteConfig.channelApiDomain}/cxbb/AgentChannel/getMobileConfig`,
         responseType: 'blob',
         headers: {
           'x-domain': state.siteConfig.domain,
@@ -481,7 +495,7 @@ export const actions = {
 
     return axios
       .put(
-        `${state.siteConfig.golangApiDomain.replace('api-v2', 'channel-api')}/cxbb/AgentChannel/AgentDeviceInfo`,
+        `${state.siteConfig.channelApiDomain}/cxbb/AgentChannel/AgentDeviceInfo`,
         {
           rsa: bufString,
         },
@@ -502,8 +516,8 @@ export const actions = {
           result.appkey = state.siteConfig.domain;
 
           localStorage.setItem('uuid', res.data.data.uuid || '');
-
-          return commit(Types.SET_AGENT_CHANNEL, result);
+          commit(Types.SET_AGENT_CHANNEL, result);
+          return { deviceInfoRSA: bufString };
         }
       })
       .catch((err) => {
