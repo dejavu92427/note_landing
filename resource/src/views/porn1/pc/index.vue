@@ -1,27 +1,104 @@
 <template>
-  <div class="wrap" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/bg_pc.png')})` }">
-    <div class="layout-center">
-      <div class="layout-title">
-        <div class="title-1 pic" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/title_01.png')})` }"></div>
-        <div class="title-2 pic" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/title_02.png')})` }"></div>
-      </div>
-      <div class="layout-text">
-        <div class="logo pic" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/logo_cover.png')})` }"></div>
-        <div class="title pic" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/title_03.png')})` }"></div>
-
-        <div class="enter-pc-wrap"><a id="visitPC" :href="pcUrl" target="_blank">进入PC网页版</a></div>
-      </div>
-      <div class="layout-mobile">
-        <div class="phone-1 pic" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/phone_img01.png')})` }"></div>
-        <div class="phone-2 pic" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/phone_img02.png')})` }">
-          <qrcode-vue id="qrcode" :value="qrcodeOpt.value" :size="qrcodeOpt.size"></qrcode-vue>
+  <div>
+    <div class="wrap" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/bg_pc.png')})` }">
+      <div class="layout-center">
+        <div class="layout-title">
+          <div class="title-1 pic" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/title_01.png')})` }"></div>
+          <div class="title-2 pic" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/title_02.png')})` }"></div>
         </div>
-        <div class="shadow-1 pic-t" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/phone_shadow01.png')})` }"></div>
-        <div class="shadow-2 pic-t" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/phone_shadow02.png')})` }"></div>
+        <div class="layout-text">
+          <div class="logo pic" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/logo_cover.png')})` }"></div>
+          <div class="title pic" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/title_03.png')})` }"></div>
+
+          <div class="enter-pc-wrap"><a id="visitPC" :href="pcUrl" target="_blank">进入PC网页版</a></div>
+        </div>
+        <div class="layout-mobile">
+          <div class="phone-1 pic" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/phone_img01.png')})` }"></div>
+          <div class="phone-2 pic" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/phone_img02.png')})` }">
+            <qrcode-vue id="qrcode" :value="qrcodeOpt.value" :size="qrcodeOpt.size"></qrcode-vue>
+          </div>
+          <div class="shadow-1 pic-t" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/phone_shadow01.png')})` }"></div>
+          <div class="shadow-2 pic-t" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/phone_shadow02.png')})` }"></div>
+        </div>
       </div>
+      <div class="layout-player">
+        <div class="cover pic-t" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/player.png')})` }"></div>
+      </div>
+      <div class="and-help"><a href="#intro" ㄋ>Android幫助</a></div>
     </div>
-    <div class="layout-player">
-      <div class="cover pic-t" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/player.png')})` }"></div>
+    <div class="android-container" id="intro">
+      <div class="header">
+        <div class="logo">
+          <i class="fa fa-android" style="font-size: 48px"></i>
+          <!-- <img
+            :src="`${cdnPath}${require('@/assets/img/porn1/android-brands.svg')}`"
+            :style="{ width: '48px', height: '48px', 'background-color': '#fff', filter: 'brightness(300%);' }"
+            alt=""
+          /> -->
+          android问题排除
+        </div>
+        <div class="desc">
+          <span
+            :class="{ active: tab1Active }"
+            @click="
+              tab1Active = true;
+              tab2Active = false;
+            "
+          >
+            安装威胁
+          </span>
+          <span
+            :class="{ active: tab2Active }"
+            @click="
+              tab2Active = true;
+              tab1Active = false;
+            "
+          >
+            支付软体报毒
+          </span>
+        </div>
+      </div>
+      <div class="content">
+        <img v-if="tab1Active == true" :src="`${cdnPath}${require('@/assets/img/porn1/an_install_tab1.png')}`" alt="" />
+        <img v-else :src="`${cdnPath}${require('@/assets/img/porn1/an_install_tab2.png')}`" alt="" />
+        <div v-if="tab2Active == true" class="button-wrap">
+          <button
+            :class="{ 'oppo-active': oppo }"
+            @click="
+              oppo = true;
+              vivo = false;
+              huawei = false;
+            "
+          >
+            OPPO
+          </button>
+          <button
+            :class="{ 'vivo-active': vivo }"
+            @click="
+              oppo = false;
+              vivo = true;
+              huawei = false;
+            "
+          >
+            VIVO
+          </button>
+          <button
+            :class="{ 'huawei-active': huawei }"
+            @click="
+              oppo = false;
+              vivo = false;
+              huawei = true;
+            "
+          >
+            Huawei
+          </button>
+        </div>
+        <div v-if="tab2Active == true" class="answer-wrap">
+          <img v-if="oppo" :src="`${cdnPath}${require('@/assets/img/porn1/pc-answer-1.png')}`" alt="" />
+          <img v-if="vivo" :src="`${cdnPath}${require('@/assets/img/porn1/pc-answer-2.png')}`" alt="" />
+          <img v-if="huawei" :src="`${cdnPath}${require('@/assets/img/porn1/pc-answer-3.png')}`" alt="" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -52,6 +129,15 @@ export default class PcPorn1 extends Vue {
 
   pcUrl = '/';
 
+  data() {
+    return {
+      tab1Active: true,
+      tab2Active: false,
+      oppo: true,
+      vivo: false,
+      huawei: false,
+    };
+  }
   created() {
     if (isMobile()) {
       this.$router.push({
@@ -242,6 +328,86 @@ body {
   z-index: 2;
   display: block;
   font-size: 0;
+}
+
+.and-help {
+  width: 150px;
+  height: 40px;
+  margin-left: auto;
+  a {
+    text-decoration: none;
+    background: #000;
+    color: #fff;
+    padding: 5px;
+  }
+}
+
+.android-container {
+  width: 100vw;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #000;
+    color: #fff;
+    padding: 20px;
+    margin-top: 20px;
+
+    .logo {
+      font-size: 36px;
+    }
+    .desc {
+      span {
+        margin: 0 10px;
+        padding: 27px 0;
+        font-size: 18px;
+        cursor: pointer;
+        &.active {
+          color: #32de84;
+          border-bottom: 5px solid #32de84;
+        }
+      }
+    }
+  }
+}
+
+.button-wrap {
+  position: absolute;
+  top: 1315px;
+  right: 373px;
+
+  button {
+    width: 140px;
+    height: 46px;
+    border: none;
+    margin: 2px;
+    border-radius: 3px;
+    cursor: pointer;
+    &.oppo-active {
+      background-color: #0d6a30;
+      color: #fff;
+    }
+    &.vivo-active {
+      background-color: #425eff;
+      color: #fff;
+    }
+    &.huawei-active {
+      background-color: #d41c26;
+      color: #fff;
+    }
+  }
+}
+
+.answer-wrap {
+  position: absolute;
+  z-index: 10;
+  top: 1365px;
+  right: 400px;
+  img {
+    width: 800px;
+    height: auto;
+  }
 }
 
 @keyframes fadeIn {
