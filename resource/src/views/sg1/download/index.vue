@@ -76,6 +76,75 @@
     </div>
 
     <a id="startApp" style="position=fixed;opacity=0;pointerEvents=none" href="javascript:void(0)"></a>
+    <div class="android-container">
+      <div class="logo">
+        <i class="fa fa-android" style="font-size: 48px"></i>
+        <h2>android问题排除</h2>
+      </div>
+      <div class="desc">
+        <span
+          :class="{ active: tab1Active }"
+          @click="
+            tab1Active = true;
+            tab2Active = false;
+          "
+        >
+          安装威胁
+        </span>
+        <span
+          :class="{ active: tab2Active }"
+          @click="
+            tab2Active = true;
+            tab1Active = false;
+          "
+        >
+          支付软体报毒
+        </span>
+      </div>
+      <div class="content">
+        <img v-if="tab1Active" :src="`${cdnPath}${require('@/assets/img/sg1/an_mobile_01.png')}`" alt="" />
+
+        <div v-else class="tab2-content">
+          <img :src="`${cdnPath}${require('@/assets/img/sg1/an_mobile_02.png')}`" alt="" />
+          <div class="button-wrap">
+            <h3>请选择手机厂牌</h3>
+            <button
+              :class="{ 'oppo-active': oppo }"
+              @click="
+                oppo = true;
+                vivo = false;
+                huawei = false;
+              "
+            >
+              OPPO
+            </button>
+            <button
+              :class="{ 'vivo-active': vivo }"
+              @click="
+                oppo = false;
+                vivo = true;
+                huawei = false;
+              "
+            >
+              VIVO
+            </button>
+            <button
+              :class="{ 'huawei-active': huawei }"
+              @click="
+                oppo = false;
+                vivo = false;
+                huawei = true;
+              "
+            >
+              Huawei
+            </button>
+          </div>
+          <img v-if="oppo" :src="`${cdnPath}${require('@/assets/img/sg1/an_mobile_03.png')}`" alt="" />
+          <img v-if="vivo" :src="`${cdnPath}${require('@/assets/img/sg1/an_mobile_04.png')}`" alt="" />
+          <img v-if="huawei" :src="`${cdnPath}${require('@/assets/img/sg1/an_mobile_05.png')}`" alt="" />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -134,6 +203,16 @@ export default class DonwloadSg1 extends mixins(DownloadMixin) {
     size: 160,
   };
 
+  data() {
+    return {
+      tab1Active: true,
+      tab2Active: false,
+      oppo: true,
+      vivo: false,
+      huawei: false,
+    };
+  }
+
   created() {
     this.qrcodeOpt.value = `${localStorage.getItem('referral-link')}`;
   }
@@ -164,7 +243,7 @@ $min_font_size: 10px;
   height: 81.2px;
   max-width: 420px;
   min-height: 0;
-  position: fixed;
+  position: sticky;
   width: 100%;
   display: block;
   z-index: 20;
@@ -262,10 +341,10 @@ $min_font_size: 10px;
   }
 }
 
-.content {
-  padding-top: 81.2px;
-  padding-bottom: 97.44px;
-}
+// .content {
+// padding-top: 81.2px;
+//   padding-bottom: 97.44px;
+// }
 
 .bodyimg {
   width: 100%;
@@ -285,7 +364,7 @@ $min_font_size: 10px;
   max-width: 420px;
   min-height: 0;
   padding: 0;
-  position: fixed;
+  position: sticky;
   width: 100%;
   z-index: 20;
 
@@ -314,7 +393,7 @@ $min_font_size: 10px;
   left: 50%;
   justify-content: flex-end;
   top: 50%;
-  z-index: 10;
+  z-index: 20;
   transform: translateX(-50%);
 }
 
@@ -375,6 +454,73 @@ $min_font_size: 10px;
 @media only screen and (min-width: 245px) and (max-width: 340px) {
   .left {
     font-size: $min_font_size;
+  }
+}
+
+.android-container {
+  width: 100%;
+  height: 100vh;
+
+  .logo {
+    display: flex;
+    color: #32dd81;
+    justify-content: center;
+    margin: 15px 0;
+  }
+
+  .desc {
+    width: 100%;
+    text-align: center;
+    font-size: 9px;
+    letter-spacing: 1px;
+    display: flex;
+    justify-content: space-around;
+    box-shadow: 0 3px 2.5px 0 rgb(0 0 0 / 8%);
+    span {
+      display: block;
+      width: 48%;
+      padding: 10px 0;
+      &.active {
+        color: #32dd81;
+        border-bottom: 5px solid #32dd81;
+      }
+    }
+  }
+
+  .content {
+    width: 100%;
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  }
+
+  .button-wrap {
+    background-color: #f3f3f3;
+    text-align: center;
+    padding: 20px 0;
+    button {
+      width: 90px;
+      height: 35px;
+      border: none;
+      margin: 5px;
+      border-radius: 3px;
+      background-color: #fff;
+      font-size: 9px;
+      font-weight: bold;
+      &.oppo-active {
+        background-color: #0d6a30;
+        color: #fff;
+      }
+      &.vivo-active {
+        background-color: #425eff;
+        color: #fff;
+      }
+      &.huawei-active {
+        background-color: #d41c26;
+        color: #fff;
+      }
+    }
   }
 }
 </style>
