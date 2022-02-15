@@ -91,7 +91,7 @@
 
       <div v-if="['aobo1', 'sp1'].includes(siteConfig.routerTpl)" class="download-tip-extra">
         <div @click.stop="copy" class="donwload-tip title">
-          下滑查看安装教程
+          下滑查看安装教程與Android幫助
           <img class="donwload-tip-arrow" :src="`${require(`@/assets/img/jiantou.png`)}`" />
         </div>
 
