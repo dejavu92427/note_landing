@@ -257,6 +257,7 @@
       display: block;
       width: 48%;
       padding: 10px 0;
+      color: #666666;
       &.active {
         color: #32dd81;
         border-bottom: 5px solid #32dd81;
@@ -271,36 +272,145 @@
       height: auto;
     }
   }
-}
-.button-wrap {
-  background-color: #f3f3f3;
-  text-align: center;
-  padding: 20px 0;
-  button {
-    width: 90px;
-    height: 35px;
-    border: none;
-    margin: 5px;
-    border-radius: 3px;
-    background-color: #fff;
-    font-size: 9px;
-    font-weight: bold;
-    &.oppo {
-      &.active {
-        background-color: #0d6a30;
-        color: #fff;
+
+  .tab1-content {
+    background: #f3f3f3;
+
+    .q-wrap {
+      padding: 40px;
+      .top-warning {
+        color: #d41c26;
+        text-align: center;
+      }
+      .intro-text {
+        color: #666666;
+        margin: 20px 0;
+        font-size: 16px;
+        font-weight: bold;
       }
     }
-    &.vivo {
-      &.active {
-        background-color: #425eff;
-        color: #fff;
+    .a-wrap {
+      padding: 40px;
+
+      .logo {
+        width: 162px;
+        height: 60px;
+        margin-top: 20px;
       }
     }
-    &.huawei {
-      &.active {
-        background-color: #d41c26;
-        color: #fff;
+
+    img {
+      display: block;
+      margin: 0 auto;
+      border-radius: 15px;
+    }
+  }
+
+  .title-wrap {
+    margin-top: 25px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+    left: -40px;
+    span {
+      display: block;
+      width: 80px;
+      height: 46px;
+      color: #fff;
+      background: linear-gradient(180deg, #32de84, #0fb960);
+      font-size: 30px;
+      font-weight: bold;
+      border-radius: 0 23px 23px 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    h3 {
+      color: #212121;
+      margin-left: 15px;
+    }
+  }
+
+  .tab2-content {
+    background: #f3f3f3;
+
+    .q-wrap {
+      padding: 40px;
+      .top-warning {
+        color: #d41c26;
+        text-align: center;
+      }
+      .intro-text {
+        color: #666666;
+        margin: 20px 0;
+        font-size: 16px;
+        font-weight: bold;
+      }
+    }
+    .a-wrap {
+      padding: 0 40px 40px 40px;
+
+      .ans {
+        width: 100%;
+        border: 1px solid #e0e0e0;
+        background: #fff;
+        padding: 15px;
+        border-radius: 15px;
+        font-weight: bold;
+        h4 {
+          font-size: 20px;
+          color: #212121;
+        }
+        p {
+          font-size: 16px;
+          color: #666666;
+        }
+        h5 {
+          font-size: 16px;
+          color: #212121;
+        }
+      }
+    }
+
+    img {
+      display: block;
+      margin: 0 auto;
+      border-radius: 15px;
+    }
+  }
+
+  .button-wrap {
+    background-color: #f3f3f3;
+    text-align: center;
+    padding: 15px 0;
+    button {
+      width: 83px;
+      height: 32px;
+      border: none;
+      margin: 5px;
+      border-radius: 3px;
+      background-color: #fff;
+      font-size: 9px;
+      font-weight: bold;
+      &.oppo {
+        &.active {
+          background-color: #0d6a30;
+          color: #fff;
+        }
+      }
+      &.vivo {
+        &.active {
+          background-color: #425eff;
+          color: #fff;
+        }
+      }
+      &.huawei {
+        &.active {
+          background-color: #d41c26;
+          color: #fff;
+        }
       }
     }
   }

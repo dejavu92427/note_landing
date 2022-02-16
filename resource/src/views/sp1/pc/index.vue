@@ -100,10 +100,6 @@ export default class PcAobo1 extends Vue {
       return;
     }
 
-    if (this.$route.query) {
-      initRouterReferralCode(this.$route.query);
-    }
-
     this.qrcodeOpt.value = `${localStorage.getItem('referral-link')}`;
   }
   setActive(target): void {

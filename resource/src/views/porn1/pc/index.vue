@@ -112,6 +112,8 @@ export default class PcPorn1 extends Vue {
     },
   ];
 
+  pcUrl = '';
+
   created() {
     if (isMobile()) {
       this.$router.push({
@@ -119,10 +121,6 @@ export default class PcPorn1 extends Vue {
         query: { ...this.$route.query },
       });
       return;
-    }
-
-    if (this.$route.query) {
-      initRouterReferralCode(this.$route.query);
     }
 
     this.qrcodeOpt.value = `${localStorage.getItem('referral-link')}`;
