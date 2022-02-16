@@ -182,6 +182,8 @@ export const actions = {
 
   getDownloadUri({ state }: { state: State }, params: { bundleID: string; platform: string; deviceInfoRSA: string }): any {
     const agentChannel = state.agentChannel;
+    const buffer = Buffer.from(params.deviceInfoRSA, 'base64');
+    const bufString = buffer.toString('hex');
 
     axios({
       method: 'put',
@@ -191,7 +193,7 @@ export const actions = {
         kind: 'h',
       },
       data: {
-        rsa: params.deviceInfoRSA,
+        rsa: bufString,
       },
     }).catch((err) => {
       console.log(err);
@@ -517,7 +519,6 @@ export const actions = {
 
           localStorage.setItem('uuid', res.data.data.uuid || '');
           commit(Types.SET_AGENT_CHANNEL, result);
-          return { deviceInfoRSA: bufString };
         }
       })
       .catch((err) => {
