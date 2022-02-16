@@ -87,7 +87,7 @@
           如需帮助，
           <a @click="linkTo('clientService')" class="link" target="_blank">请联系客服</a>
           <div @click.stop="copy" class="donwload-tip porn1 title">
-            下滑查看Android幫助
+            {{ isAndroidMobile ? '下滑查看Android幫助' : '' }}
             <img class="donwload-tip-arrow" :src="`${require(`@/assets/img/jiantou.png`)}`" />
           </div>
         </div>
@@ -95,7 +95,7 @@
 
       <div v-if="['aobo1', 'sp1'].includes(siteConfig.routerTpl)" class="download-tip-extra">
         <div @click.stop="copy" class="donwload-tip title">
-          下滑查看安装教程與Android幫助
+          {{ isAndroidMobile ? '下滑查看安装教程與Android幫助' : '下滑查看安装教程' }}
           <img class="donwload-tip-arrow" :src="`${require(`@/assets/img/jiantou.png`)}`" />
         </div>
 
@@ -115,7 +115,7 @@
       <a id="startApp" style="position=fixed;opacity=0;pointerEvents=none" href="javascript:void(0)"></a>
       <modalBox v-show="showModal" @close="toogleModal(false)" />
     </div>
-    <div class="android-container">
+    <div v-if="isAndroidMobile" class="android-container">
       <div class="logo">
         <img :src="`${cdnPath}${require('@/assets/img/andlogo.png')}`" :style="{ width: '42px', height: '23px' }" alt="" />
         <h2>android问题排除</h2>

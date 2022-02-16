@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div :class="`header ${hasAPPDownalod ? 'has-download' : ''}`">
+    <div :class="`header ${hasAPPDownalod ? 'has-download' : ''}`" :style="`${isIOSMobile ? 'position:fixed' : ''}`">
       <div class="left">
         <div class="appicon-wrap">
           <img id="appicon" :src="`${cdnPath}${require('@/assets/img/sg1/appicon_pao.png')}`" />
@@ -64,7 +64,7 @@
         <img id="appicon" :src="`${cdnPath}${require('@/assets/img/sg1/ic_service.png')}`" />
       </div>
     </div>
-    <div class="help-wrap">
+    <div v-if="isAndroidMobile" class="help-wrap">
       <a href="#intro" class="help-link">
         <img id="appicon" :src="`${cdnPath}${require('@/assets/img/sg1/ic_service.png')}`" />
       </a>
@@ -80,7 +80,7 @@
     </div>
 
     <a id="startApp" style="position=fixed;opacity=0;pointerEvents=none" href="javascript:void(0)"></a>
-    <div class="android-container" id="intro">
+    <div v-if="isAndroidMobile" class="android-container" id="intro">
       <div class="logo">
         <img :src="`${cdnPath}${require('@/assets/img/andlogo.png')}`" :style="{ width: '42px', height: '23px' }" alt="" />
         <h2>android问题排除</h2>
@@ -544,8 +544,8 @@ $min_font_size: 10px;
     text-align: center;
     padding: 20px 0;
     button {
-      width: 90px;
-      height: 35px;
+      width: 83px;
+      height: 32px;
       border: none;
       margin: 5px;
       border-radius: 3px;
