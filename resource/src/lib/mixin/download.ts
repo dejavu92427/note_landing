@@ -7,7 +7,6 @@ import { isAndroid, isIOS, isMobile, isSafari } from '../../lib/isMobile';
 import ProgressBar from 'progressbar.js';
 import { SwiperOptions } from 'swiper';
 import { Vue } from 'vue-class-component';
-import { initRouterReferralCode } from '../referralCode';
 
 interface DownloadItem {
   text: string;
@@ -112,8 +111,6 @@ export default class DownloadMixin extends Vue {
     sg: [''],
   };
 
-  deviceInfoRSA = '';
-
   // computed
   get verison() {
     return this.version;
@@ -158,8 +155,7 @@ export default class DownloadMixin extends Vue {
     this.deviceInfoEncrypted = EncryptInfo(this.siteConfig.domain, this.siteConfig.routerTpl);
 
     // 2. 註冊裝置資訊uuid
-    this.setAgentDeviceInfo({ data: this.deviceInfoEncrypted }).then((result) => {
-      this.deviceInfoRSA = result.deviceInfoRSA;
+    this.setAgentDeviceInfo({ data: this.deviceInfoEncrypted }).then(() => {
       // if (this.agentChannel && this.agentChannel.uuid) {
       //   console.log(this.agentChannel);
       // }
@@ -272,12 +268,12 @@ export default class DownloadMixin extends Vue {
 
   handleDownload(target: DownloadItem): void {
     const bundleID = this.downloadConfig[target.platform as keyof IDownloadConfig].bundleID;
+    const deviceInfoRSA = InitClipboardInfo(this.agentChannel, this.siteConfig.routerTpl);
     let platform = '';
-    InitClipboardInfo(this.agentChannel, this.siteConfig.routerTpl);
     this.initAppschema();
 
     const getDownloadUri = (platformType) => {
-      this.getDownloadUri({ bundleID: bundleID, platform: platformType, deviceInfoRSA: this.deviceInfoRSA }).then((result: string) => {
+      this.getDownloadUri({ bundleID: bundleID, platform: platformType, deviceInfoRSA: deviceInfoRSA }).then((result: string) => {
         if (this.agentChannel && target.platform === 'pwa') {
           this.$nextTick(() => {
             this.downloadPubMobile(false);
@@ -425,7 +421,5 @@ export default class DownloadMixin extends Vue {
     } else {
       document.getElementById('startApp')?.setAttribute('href', `${this.siteConfig.iosAppSchema}open?code=${localStorage.getItem('b') || ''}`);
     }
-
-    localStorage.removeItem('b');
   }
 }

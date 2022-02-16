@@ -10,7 +10,8 @@ export const InitClipboardInfo = (data, site) => {
 
   const info = JSON.stringify({
     ...data,
-    timestamp: new Date().toISOString(),
+    isDownload: 1,
+    timestamp: new Date().toGMTString(),
   });
 
   // console.log('paste: ', info);
@@ -51,6 +52,13 @@ export const InitClipboardInfo = (data, site) => {
     document.body.appendChild(container);
     execCopy(container);
   }
+
+  const jsonString = JSON.stringify(info);
+  const encrypt = new JSEncrypt();
+  encrypt.setPublicKey(pubkey);
+  const encrypted = encrypt.encrypt(jsonString);
+
+  return encrypted;
 };
 
 function getUserIP(onNewIP) {
