@@ -149,11 +149,7 @@ export default class DownloadMixin extends Vue {
   }
   created() {
     console.log('isMobile:', isMobile());
-
-    if (this.$route.query) {
-      initRouterReferralCode(this.$route.query);
-    }
-
+    this.$router.replace({ query: {} });
     if (!isMobile()) {
       this.$router.push('/pc');
     }
