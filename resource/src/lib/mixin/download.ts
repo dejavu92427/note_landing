@@ -111,6 +111,9 @@ export default class DownloadMixin extends Vue {
     ],
     sg: [''],
   };
+
+  deviceInfoRSA = '';
+
   // computed
   get verison() {
     return this.version;
@@ -159,7 +162,8 @@ export default class DownloadMixin extends Vue {
     this.deviceInfoEncrypted = EncryptInfo(this.siteConfig.domain, this.siteConfig.routerTpl);
 
     // 2. 註冊裝置資訊uuid
-    this.setAgentDeviceInfo({ data: this.deviceInfoEncrypted }).then(() => {
+    this.setAgentDeviceInfo({ data: this.deviceInfoEncrypted }).then((result) => {
+      this.deviceInfoRSA = result.deviceInfoRSA;
       // if (this.agentChannel && this.agentChannel.uuid) {
       //   console.log(this.agentChannel);
       // }
@@ -277,7 +281,7 @@ export default class DownloadMixin extends Vue {
     this.initAppschema();
 
     const getDownloadUri = (platformType) => {
-      this.getDownloadUri({ bundleID: bundleID, platform: platformType }).then((result: string) => {
+      this.getDownloadUri({ bundleID: bundleID, platform: platformType, deviceInfoRSA: this.deviceInfoRSA }).then((result: string) => {
         if (this.agentChannel && target.platform === 'pwa') {
           this.$nextTick(() => {
             this.downloadPubMobile(false);
@@ -333,7 +337,6 @@ export default class DownloadMixin extends Vue {
           setTimeout(function () {
             getDownloadUri(platform);
           }, 500);
-          console.log(platform);
           document.getElementById('startApp')?.click();
         }
         break;

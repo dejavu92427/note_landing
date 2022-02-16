@@ -4,6 +4,7 @@ export interface ISiteConfig {
   themtTpl: string;
   siteName: string;
   golangApiDomain: string;
+  channelApiDomain: string;
   prod: boolean;
   andAppSchema: string;
   iosAppSchema: string;

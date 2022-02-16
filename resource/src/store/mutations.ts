@@ -11,7 +11,9 @@ export const mutations = {
     Object.keys(payload).forEach((key) => {
       result[camelCase(key)] = payload[key];
     });
-    state.siteConfig = result;
+
+    // todo
+    state.siteConfig = { ...result, channelApiDomain: result.golangApiDomain.replace('api-v2', 'channel-api') };
   },
   [Types.SET_VERSION](state: State, payload: any) {
     state.version = payload || '';
