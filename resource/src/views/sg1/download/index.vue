@@ -601,6 +601,7 @@ $min_font_size: 10px;
     img {
       max-width: 100%;
       height: auto;
+      border: 1px solid #e8e8e8;
     }
   }
 
@@ -627,6 +628,7 @@ $min_font_size: 10px;
         width: 162px;
         height: 60px;
         margin-top: 20px;
+        border: none;
       }
     }
 
@@ -634,6 +636,7 @@ $min_font_size: 10px;
       display: block;
       margin: 0 auto;
       border-radius: 15px;
+      border: 1px solid #e8e8e8;
     }
   }
 
@@ -686,7 +689,7 @@ $min_font_size: 10px;
       .ans {
         width: 100%;
         border: 1px solid #e0e0e0;
-        background: #fff;
+        background: rgba(255, 255, 255, 0.5);
         padding: 15px;
         border-radius: 15px;
         font-weight: bold;
@@ -717,13 +720,13 @@ $min_font_size: 10px;
     text-align: center;
     padding: 15px 0;
     button {
-      width: 83px;
-      height: 32px;
+      width: 29%;
+      height: 50px;
       border: none;
       margin: 5px;
       border-radius: 3px;
       background-color: #fff;
-      font-size: 9px;
+      font-size: 18px;
       font-weight: bold;
       &.oppo {
         &.active {

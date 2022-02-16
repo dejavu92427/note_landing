@@ -52,7 +52,10 @@
             </div>
           </div>
           <div class="right">
-            <p class="top-warning">本软体为最高安全等级，请安心下载畅游</p>
+            <p class="top-warning">
+              本软体为最高安全等级，请安心下载畅游
+              <span class="heart">♥</span>
+            </p>
             <div class="a-wrap">
               <div class="title-wrap">
                 <span>A</span>
@@ -90,7 +93,10 @@
             </div>
           </div>
           <div class="right">
-            <p class="top-warning">本软体为最高安全等级，请安心下载畅游</p>
+            <p class="top-warning">
+              本软体为最高安全等级，请安心下载畅游
+              <span class="heart">♥</span>
+            </p>
             <div class="a-wrap">
               <div class="title-wrap">
                 <span>A</span>
@@ -695,6 +701,16 @@ body {
       font-weight: bold;
       margin-left: 20px;
     }
+  }
+
+  .heart {
+    margin-left: 10px;
+    width: 20px;
+    padding: 3px 6px;
+    background-color: #dd3232;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 12px;
   }
 }
 
