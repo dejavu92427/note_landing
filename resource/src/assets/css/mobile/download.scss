@@ -1,7 +1,7 @@
 .container {
   font-size: 14px;
   height: 100%;
-  // min-height: 100vh;
+  min-height: 100vh;
   overflow-x: hidden;
   overflow-y: hidden;
   padding: 0 14px;
@@ -277,11 +277,10 @@
     background: #f3f3f3;
 
     .q-wrap {
-      padding: 40px;
+      padding: 36px;
       .top-warning {
         color: #d41c26;
         text-align: center;
-        margin-bottom: 10px;
       }
       .intro-text {
         color: #666666;
@@ -310,7 +309,7 @@
   }
 
   .title-wrap {
-    margin-top: 25px;
+    margin-top: 45px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -340,7 +339,7 @@
     background: #f3f3f3;
 
     .q-wrap {
-      padding: 40px;
+      padding: 36px;
       .top-warning {
         color: #d41c26;
         text-align: center;
