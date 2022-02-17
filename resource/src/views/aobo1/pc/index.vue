@@ -47,11 +47,11 @@
               </div>
               <div class="ans">
                 <div class="col">
-                  <img class="logo" :src="`${cdnPath}${require('@/assets/img/logo2_2.png')}`" alt="" />
+                  <img class="logo" :src="`${cdnPath}${require('@/assets/img/logo1_2.png')}`" alt="" />
                   <img class="pic" :src="`${cdnPath}${require('@/assets/img/Install_ans01.jpg')}`" alt="" />
                 </div>
                 <div class="col">
-                  <img class="logo" :src="`${cdnPath}${require('@/assets/img/logo1_2.png')}`" alt="" />
+                  <img class="logo" :src="`${cdnPath}${require('@/assets/img/logo2_2.png')}`" alt="" />
                   <img class="pic" :src="`${cdnPath}${require('@/assets/img/Install_ans02.jpg')}`" alt="" />
                 </div>
                 <div class="col">
