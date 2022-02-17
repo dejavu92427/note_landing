@@ -88,7 +88,7 @@
           <a @click="linkTo('clientService')" class="link" target="_blank">请联系客服</a>
           <div @click.stop="copy" class="donwload-tip porn1 title">
             {{ isAndroidMobile ? '下滑查看Android帮助' : '' }}
-            <img v-if="isAndroidMobile" class="donwload-tip-arrow" :src="`${require(`@/assets/img/jiantou.png`)}`" />
+            <img v-if="isAndroidMobile" class="donwload-tip-arrow" :src="`${require(`@/assets/img/jiantou-g.png`)}`" />
           </div>
         </div>
       </div>
@@ -165,7 +165,7 @@
             <button
               v-for="item in buttonList"
               :key="item.name"
-              :class="[item.name, { active: currentButton == item.name }]"
+              :class="[`${item.name.toLowerCase()}`, { active: currentButton == `${item.name.toLowerCase()}` }]"
               @click="setBtnActive(item.name)"
             >
               {{ item.name }}
@@ -243,13 +243,13 @@ export default class DownloadCommon extends mixins(DownloadMixin) {
   ];
   buttonList = [
     {
-      name: 'oppo',
+      name: 'OPPO',
     },
     {
-      name: 'vivo',
+      name: 'VIVO',
     },
     {
-      name: 'huawei',
+      name: 'Huawei',
     },
   ];
   copy() {
@@ -266,7 +266,7 @@ export default class DownloadCommon extends mixins(DownloadMixin) {
 
   setBtnActive(target): void {
     if (target) {
-      this.currentButton = target;
+      this.currentButton = target.toLowerCase();
     } else {
       return;
     }

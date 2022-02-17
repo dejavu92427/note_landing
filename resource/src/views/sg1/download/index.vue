@@ -130,7 +130,7 @@
             <button
               v-for="item in buttonList"
               :key="item.name"
-              :class="[item.name, { active: currentButton == item.name }]"
+              :class="[`${item.name.toLowerCase()}`, { active: currentButton == `${item.name.toLowerCase()}` }]"
               @click="setBtnActive(item.name)"
             >
               {{ item.name }}
@@ -250,13 +250,13 @@ export default class DonwloadSg1 extends mixins(DownloadMixin) {
   ];
   buttonList = [
     {
-      name: 'oppo',
+      name: 'OPPO',
     },
     {
-      name: 'vivo',
+      name: 'VIVO',
     },
     {
-      name: 'huawei',
+      name: 'Huawei',
     },
   ];
 
@@ -282,7 +282,7 @@ export default class DonwloadSg1 extends mixins(DownloadMixin) {
 
   setBtnActive(target): void {
     if (target) {
-      this.currentButton = target;
+      this.currentButton = target.toLowerCase();
     } else {
       return;
     }
