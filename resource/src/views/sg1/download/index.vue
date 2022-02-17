@@ -66,7 +66,7 @@
     </div>
     <div v-if="!isIOSMobile" class="help-wrap">
       <a href="#intro" class="help-link">
-        <img id="appicon" :src="`${cdnPath}${require('@/assets/img/sg1/ic_service.png')}`" />
+        <img id="appicon" :src="`${cdnPath}${require('@/assets/img/sg1/ic_android.png')}`" />
       </a>
     </div>
     <modalBox v-show="showModal" @close="toogleModal(false)" />
@@ -653,7 +653,7 @@ $min_font_size: 10px;
     justify-content: flex-start;
     align-items: center;
     position: relative;
-    left: -40px;
+    left: -30px;
     span {
       display: block;
       width: 80px;
