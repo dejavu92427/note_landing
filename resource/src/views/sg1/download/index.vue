@@ -609,7 +609,7 @@ $min_font_size: 10px;
     background: #f3f3f3;
 
     .q-wrap {
-      padding: 36px;
+      padding: 30px;
       .top-warning {
         color: #d41c26;
         text-align: center;
@@ -678,7 +678,7 @@ $min_font_size: 10px;
     background: #f3f3f3;
 
     .q-wrap {
-      padding: 36px;
+      padding: 30px;
       .top-warning {
         color: #d41c26;
         text-align: center;
