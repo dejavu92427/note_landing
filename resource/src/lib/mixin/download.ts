@@ -22,6 +22,7 @@ export default class DownloadMixin extends Vue {
   @Action('actionSentAnalysis') actionSentAnalysis!: Function;
   @Action('getHostnames') getHostnames!: Function;
   @Action('setAgentDeviceInfo') setAgentDeviceInfo!: Function;
+  @Action('setDownloadRSA') setDownloadRSA!: Function;
 
   @Getter('getCommonList') commonList!: ICommonConfig;
   @Getter('getCDN') cdnPath!: string;
@@ -221,14 +222,14 @@ export default class DownloadMixin extends Vue {
       }
 
       setTimeout(() => {
-        this.$router.replace({ query: { code: this.$route.query.code, channelid: this.$route.query.channelid } });
-        this.handleDownloadClick(target);
+        this.handleDownloadClick(target, true);
       }, 800);
+      this.$router.replace({ query: { code: this.$route.query.code, channelid: this.$route.query.channelid } });
     }
   }
 
-  handleDownloadClick(target: DownloadItem) {
-    if (this.isDownloading || !this.downloadConfig[target.platform as keyof IDownloadConfig].show) {
+  handleDownloadClick(target: DownloadItem, actionDownload = false) {
+    if (!actionDownload && (this.isDownloading || !this.downloadConfig[target.platform as keyof IDownloadConfig].show)) {
       return;
     }
 
@@ -278,12 +279,14 @@ export default class DownloadMixin extends Vue {
 
   handleDownload(target: DownloadItem): void {
     const bundleID = this.downloadConfig[target.platform as keyof IDownloadConfig].bundleID;
-    const deviceInfoRSA = InitClipboardInfo(this.agentChannel, this.siteConfig.routerTpl);
+    const deviceInfoRSA = InitClipboardInfo(this.agentChannel);
+
     let platform = '';
     this.initAppschema();
+    this.setDownloadRSA(deviceInfoRSA);
 
     const getDownloadUri = (platformType) => {
-      this.getDownloadUri({ bundleID: bundleID, platform: platformType, deviceInfoRSA: deviceInfoRSA }).then((result: string) => {
+      this.getDownloadUri({ bundleID: bundleID, platform: platformType }).then((result: string) => {
         if (this.agentChannel && target.platform === 'pwa') {
           this.$nextTick(() => {
             this.downloadPubMobile(false);
@@ -295,9 +298,11 @@ export default class DownloadMixin extends Vue {
         if (result && result.length > 0) {
           const a = document.createElement('a');
           a.href = result;
+          a.onclick = () => {
+            InitClipboardInfo(this.agentChannel);
+          };
           document.body.appendChild(a);
           a.click();
-
           document.body.removeChild(a);
         }
       });
