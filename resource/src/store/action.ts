@@ -180,12 +180,11 @@ export const actions = {
       });
   },
 
-  getDownloadUri({ state }: { state: State }, params: { bundleID: string; platform: string; deviceInfoRSA: string }): any {
-    const agentChannel = state.agentChannel;
-    const buffer = Buffer.from(params.deviceInfoRSA, 'base64');
+  setDownloadRSA({ state }: { state: State }, data: string): any {
+    const buffer = Buffer.from(data, 'base64');
     const bufString = buffer.toString('hex');
 
-    axios({
+    return axios({
       method: 'put',
       url: `${state.siteConfig.channelApiDomain}/cxbb/AgentChannel/setDownload`,
       headers: {
@@ -198,6 +197,10 @@ export const actions = {
     }).catch((err) => {
       console.log(err);
     });
+  },
+
+  getDownloadUri({ state }: { state: State }, params: { bundleID: string; platform: string }): any {
+    const agentChannel = state.agentChannel;
 
     // pwa
     if (agentChannel && params.platform === '2') {
@@ -510,16 +513,22 @@ export const actions = {
         }
       )
       .then((res) => {
+        const result: IAgentChannel = {
+          uuid: '',
+          channelid: 0,
+          code: '',
+          appkey: state.siteConfig.domain,
+        };
+
         if (res && res.data && res.data.data && res.data.status === '000') {
-          const result: IAgentChannel = res.data.data;
-          result.channelid = +result.channelid || Number(localStorage.getItem('channelid')) || 0;
-          result.code = result.code || localStorage.getItem('code') || '';
-          result.uuid = res.data.data.uuid || '';
-          result.appkey = state.siteConfig.domain;
+          result.channelid = res.data.data.channelid;
+          result.code = res.data.data.code;
+          result.uuid = res.data.data.uuid;
 
           localStorage.setItem('uuid', res.data.data.uuid || '');
-          commit(Types.SET_AGENT_CHANNEL, result);
         }
+
+        commit(Types.SET_AGENT_CHANNEL, result);
       })
       .catch((err) => {
         const response = err && err.response;
