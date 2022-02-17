@@ -1,5 +1,6 @@
 export function initRouterReferralCode(query: any) {
   localStorage.removeItem('code');
+  localStorage.removeItem('channelid');
 
   if (query.code && query.code !== 'undefined') {
     localStorage.setItem('code', query.code.toString());
