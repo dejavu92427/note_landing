@@ -39,16 +39,20 @@
         </div>
       </div>
       <div class="content">
-        <div v-show="currentTab == 1" class="tab-1" :style="{ 'background-image': `url(${cdnPath}${require(`@/assets/img/bg.jpg`)})` }">
+        <div
+          v-show="currentTab == 1"
+          class="tab-1"
+          :style="{ 'background-image': `url(${cdnPath}${require(`@/assets/img/andorid_virus_help/bg.jpg`)})` }"
+        >
           <div class="left">
             <h1>安装威胁</h1>
             <div class="q-wrap">
               <div class="title-wrap">
                 <span>Q</span>
-                <h2>我的問題</h2>
+                <h2>我的问题</h2>
               </div>
               <p>安装软体时，遇到内建防护软体报毒。</p>
-              <img :src="`${cdnPath}${require('@/assets/img/Install_que.jpg')}`" alt="" />
+              <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/Install_que.jpg')}`" alt="" />
             </div>
           </div>
           <div class="right">
@@ -64,32 +68,36 @@
               </div>
               <div class="ans">
                 <div class="col">
-                  <img class="logo" :src="`${cdnPath}${require('@/assets/img/logo1_2.png')}`" alt="" />
-                  <img class="pic" :src="`${cdnPath}${require('@/assets/img/Install_ans01.jpg')}`" alt="" />
+                  <img class="logo" :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/logo1_2.png')}`" alt="" />
+                  <img class="pic" :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/Install_ans01.jpg')}`" alt="" />
                 </div>
                 <div class="col">
-                  <img class="logo" :src="`${cdnPath}${require('@/assets/img/logo2_2.png')}`" alt="" />
-                  <img class="pic" :src="`${cdnPath}${require('@/assets/img/Install_ans02.jpg')}`" alt="" />
+                  <img class="logo" :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/logo2_2.png')}`" alt="" />
+                  <img class="pic" :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/Install_ans02.jpg')}`" alt="" />
                 </div>
                 <div class="col">
-                  <img class="logo" :src="`${cdnPath}${require('@/assets/img/logo3_2.png')}`" alt="" />
-                  <img class="pic" :src="`${cdnPath}${require('@/assets/img/Install_ans03.jpg')}`" alt="" />
+                  <img class="logo" :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/logo3_2.png')}`" alt="" />
+                  <img class="pic" :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/Install_ans03.jpg')}`" alt="" />
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div v-show="currentTab == 2" class="tab-2" :style="{ 'background-image': `url(${cdnPath}${require(`@/assets/img/bg.jpg`)})` }">
+        <div
+          v-show="currentTab == 2"
+          class="tab-2"
+          :style="{ 'background-image': `url(${cdnPath}${require(`@/assets/img/andorid_virus_help/bg.jpg`)})` }"
+        >
           <div class="left">
             <h1>安装威胁</h1>
             <div class="q-wrap">
               <div class="title-wrap">
                 <span>Q</span>
-                <h2>我的問題</h2>
+                <h2>我的问题</h2>
               </div>
               <p>开启支付软体，出现本软体为病毒危险 提示。</p>
-              <img :src="`${cdnPath}${require('@/assets/img/way_que.png')}`" alt="" />
+              <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/way_que.png')}`" alt="" />
             </div>
           </div>
           <div class="right">
@@ -125,39 +133,39 @@
                 <div class="bottom" v-if="currentButton == 'oppo'">
                   <div class="col">
                     <span>步骤 1</span>
-                    <img :src="`${cdnPath}${require('@/assets/img/oppo_ans01.jpg')}`" alt="" />
+                    <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/oppo_ans01.jpg')}`" alt="" />
                   </div>
                   <div class="col">
                     <span>步骤 2</span>
-                    <img :src="`${cdnPath}${require('@/assets/img/oppo_ans02.jpg')}`" alt="" />
+                    <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/oppo_ans02.jpg')}`" alt="" />
                   </div>
                 </div>
                 <div class="bottom" v-if="currentButton == 'vivo'">
                   <div class="col">
                     <span>步骤 1</span>
-                    <img :src="`${cdnPath}${require('@/assets/img/vivo_ans01.jpg')}`" alt="" />
+                    <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/vivo_ans01.jpg')}`" alt="" />
                   </div>
                   <div class="col">
                     <span>步骤 2</span>
-                    <img :src="`${cdnPath}${require('@/assets/img/vivo_ans02.jpg')}`" alt="" />
+                    <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/vivo_ans02.jpg')}`" alt="" />
                   </div>
                   <div class="col">
                     <span>步骤 3</span>
-                    <img :src="`${cdnPath}${require('@/assets/img/vivo_ans03.jpg')}`" alt="" />
+                    <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/vivo_ans03.jpg')}`" alt="" />
                   </div>
                 </div>
                 <div class="bottom" v-if="currentButton == 'huawei'">
                   <div class="col">
                     <span>步骤 1</span>
-                    <img :src="`${cdnPath}${require('@/assets/img/huawei_ans01.jpg')}`" alt="" />
+                    <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/huawei_ans01.jpg')}`" alt="" />
                   </div>
                   <div class="col">
                     <span>步骤 2</span>
-                    <img :src="`${cdnPath}${require('@/assets/img/huawei_ans02.jpg')}`" alt="" />
+                    <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/huawei_ans02.jpg')}`" alt="" />
                   </div>
                   <div class="col">
                     <span>步骤 3</span>
-                    <img :src="`${cdnPath}${require('@/assets/img/huawei_ans03.jpg')}`" alt="" />
+                    <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/huawei_ans03.jpg')}`" alt="" />
                   </div>
                 </div>
               </div>
@@ -197,11 +205,11 @@ export default class PcPorn1 extends Vue {
   tabItem = [
     {
       id: 1,
-      desc: '安裝威脅',
+      desc: '安装威胁',
     },
     {
       id: 2,
-      desc: '支付軟體報毒',
+      desc: '支付软体报毒',
     },
   ];
   buttonList = [

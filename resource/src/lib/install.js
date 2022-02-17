@@ -10,7 +10,6 @@ export const InitClipboardInfo = (data, site) => {
 
   const info = JSON.stringify({
     ...data,
-    isDownload: 1,
     timestamp: new Date().toGMTString(),
   });
 
@@ -19,7 +18,7 @@ export const InitClipboardInfo = (data, site) => {
   localStorage.setItem('b', base64Info);
 
   if (isDev) {
-    console.log(base64Info);
+    console.log(info, base64Info);
   }
 
   if (isAndroid()) {
@@ -53,7 +52,13 @@ export const InitClipboardInfo = (data, site) => {
     execCopy(container);
   }
 
-  const jsonString = JSON.stringify(info);
+  const setDonwloadInfo = {
+    channelId: data.channelid,
+    uuid: data.uuid,
+    isDownload: 1,
+  };
+
+  const jsonString = JSON.stringify(setDonwloadInfo);
   const encrypt = new JSEncrypt();
   encrypt.setPublicKey(pubkey);
   const encrypted = encrypt.encrypt(jsonString);
