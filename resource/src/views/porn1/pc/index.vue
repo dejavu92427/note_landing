@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="wrap" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/bg_pc.png')})` }">
-      <div class="and-help"><a href="#intro">Android幫助</a></div>
+      <div class="and-help"><a href="#intro">Android帮助</a></div>
       <div class="layout-center">
         <div class="layout-title">
           <div class="title-1 pic" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/title_01.png')})` }"></div>
