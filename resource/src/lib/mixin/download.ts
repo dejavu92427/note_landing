@@ -166,27 +166,6 @@ export default class DownloadMixin extends Vue {
       // }
     });
 
-    if (localStorage.getItem('action') === 'download' || this.$route.query.action === 'download') {
-      localStorage.removeItem('action');
-
-      let target: DownloadItem = {
-        text: '',
-        type: '',
-        platform: '',
-      };
-
-      if (isSafari()) {
-        target = this.downloadList[3];
-      } else if (this.isAndroidMobile) {
-        target = this.downloadList[2];
-      }
-
-      setTimeout(() => {
-        this.$router.replace({ query: { code: this.$route.query.code, channelid: this.$route.query.channelid } });
-        this.handleDownloadClick(target);
-      }, 800);
-    }
-
     // 泡泡無PC版頁面
     if (this.siteConfig.routerTpl === 'sg1') {
       return;
@@ -216,6 +195,35 @@ export default class DownloadMixin extends Vue {
           swiper.pagination.update();
         }
       });
+    }
+
+    if (localStorage.getItem('action') === 'download' || this.$route.query.action === 'download') {
+      localStorage.removeItem('action');
+
+      let target: DownloadItem = {
+        text: '',
+        type: '',
+        platform: '',
+      };
+
+      if (isSafari()) {
+        target = {
+          text: 'IOS版下载',
+          type: 'downloadIOS',
+          platform: 'ios',
+        };
+      } else if (this.isAndroidMobile) {
+        target = {
+          text: 'ANDROID版下载',
+          type: 'downloadANDROID',
+          platform: 'android',
+        };
+      }
+
+      setTimeout(() => {
+        this.$router.replace({ query: { code: this.$route.query.code, channelid: this.$route.query.channelid } });
+        this.handleDownloadClick(target);
+      }, 800);
     }
   }
 
