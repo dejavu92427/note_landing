@@ -144,12 +144,17 @@ export default class DownloadMixin extends Vue {
 
     return true;
   }
+
   created() {
     console.log('isMobile:', isMobile());
     this.$router.replace({ query: {} });
+
     if (!isMobile()) {
       this.$router.push('/pc');
     }
+
+    this.getLCFSystemConfig();
+    this.getHostnames();
 
     // 1. 取得裝置資訊
     this.deviceInfoEncrypted = EncryptInfo(this.siteConfig.domain, this.siteConfig.routerTpl);
@@ -161,29 +166,26 @@ export default class DownloadMixin extends Vue {
       // }
     });
 
-    this.getLCFSystemConfig().then(() => {
-      if (localStorage.getItem('action') === 'download' || this.$route.query.action === 'download') {
-        localStorage.removeItem('action');
+    if (localStorage.getItem('action') === 'download' || this.$route.query.action === 'download') {
+      localStorage.removeItem('action');
 
-        let target: DownloadItem = {
-          text: '',
-          type: '',
-          platform: '',
-        };
+      let target: DownloadItem = {
+        text: '',
+        type: '',
+        platform: '',
+      };
 
-        if (isSafari()) {
-          target = this.downloadList[3];
-        } else if (this.isAndroidMobile) {
-          target = this.downloadList[2];
-        }
-
-        setTimeout(() => {
-          this.$router.replace({ query: { code: this.$route.query.code, channelid: this.$route.query.channelid } });
-          this.handleDownloadClick(target);
-        }, 800);
+      if (isSafari()) {
+        target = this.downloadList[3];
+      } else if (this.isAndroidMobile) {
+        target = this.downloadList[2];
       }
-    });
-    this.getHostnames();
+
+      setTimeout(() => {
+        this.$router.replace({ query: { code: this.$route.query.code, channelid: this.$route.query.channelid } });
+        this.handleDownloadClick(target);
+      }, 800);
+    }
 
     // 泡泡無PC版頁面
     if (this.siteConfig.routerTpl === 'sg1') {
