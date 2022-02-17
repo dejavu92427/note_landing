@@ -256,17 +256,25 @@
     span {
       display: block;
       width: 48%;
-      padding: 10px 0;
       color: #666666;
       &.active {
         color: #32dd81;
-        border-bottom: 5px solid #32dd81;
+        &::after {
+          content: '';
+          display: block;
+          margin: 0 auto;
+          margin-top: 15px;
+          width: 80%;
+          height: 6px;
+          background-color: #32dd81;
+        }
       }
     }
   }
 
   .content {
     width: 100%;
+    margin: 6px 0 0;
     img {
       max-width: 100%;
       height: auto;
