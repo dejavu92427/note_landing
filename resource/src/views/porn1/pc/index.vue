@@ -49,7 +49,7 @@
             <div class="q-wrap">
               <div class="title-wrap">
                 <span>Q</span>
-                <h2>我的問題</h2>
+                <h2>我的问题</h2>
               </div>
               <p>安装软体时，遇到内建防护软体报毒。</p>
               <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/Install_que.jpg')}`" alt="" />
@@ -94,7 +94,7 @@
             <div class="q-wrap">
               <div class="title-wrap">
                 <span>Q</span>
-                <h2>我的問題</h2>
+                <h2>我的问题</h2>
               </div>
               <p>开启支付软体，出现本软体为病毒危险 提示。</p>
               <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/way_que.png')}`" alt="" />

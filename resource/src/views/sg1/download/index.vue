@@ -96,7 +96,7 @@
             <p class="top-warning">本软体为最高安全等级，请安心下载畅游</p>
             <div class="title-wrap">
               <span>Q</span>
-              <h3>我的問題</h3>
+              <h3>我的问题</h3>
             </div>
             <p class="intro-text">安装软体时，遇到内建防护软体报毒。</p>
             <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/Install_que.jpg')}`" alt="" />
@@ -120,7 +120,7 @@
             <p class="top-warning">本软体为最高安全等级，请安心下载畅游</p>
             <div class="title-wrap">
               <span>Q</span>
-              <h3>我的問題</h3>
+              <h3>我的问题</h3>
             </div>
             <p class="intro-text">开启支付软体，出现本软体为病毒危险提示。</p>
             <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/way_que.png')}`" alt="" />
