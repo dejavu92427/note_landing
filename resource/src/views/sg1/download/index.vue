@@ -107,9 +107,9 @@
               <h3>问题排除</h3>
             </div>
             <p class="intro-text">请点击【继续安装】或【无视风险安装】，即可完成安装。</p>
-            <img class="logo" :src="`${cdnPath}${require('@/assets/img/logo2_2.png')}`" alt="" />
-            <img :src="`${cdnPath}${require('@/assets/img/Install_ans01.jpg')}`" alt="" />
             <img class="logo" :src="`${cdnPath}${require('@/assets/img/logo1_2.png')}`" alt="" />
+            <img :src="`${cdnPath}${require('@/assets/img/Install_ans01.jpg')}`" alt="" />
+            <img class="logo" :src="`${cdnPath}${require('@/assets/img/logo2_2.png')}`" alt="" />
             <img :src="`${cdnPath}${require('@/assets/img/Install_ans02.jpg')}`" alt="" />
             <img class="logo" :src="`${cdnPath}${require('@/assets/img/logo3_2.png')}`" alt="" />
             <img :src="`${cdnPath}${require('@/assets/img/Install_ans03.jpg')}`" alt="" />
@@ -622,7 +622,14 @@ $min_font_size: 10px;
       }
     }
     .a-wrap {
-      padding: 40px;
+      padding: 0 30px 30px;
+
+      .intro-text {
+        color: #666666;
+        margin: 20px 0;
+        font-size: 16px;
+        font-weight: bold;
+      }
 
       .logo {
         width: 162px;
@@ -684,7 +691,7 @@ $min_font_size: 10px;
       }
     }
     .a-wrap {
-      padding: 0 40px 40px 40px;
+      padding: 0 30px 30px;
 
       .ans {
         width: 100%;

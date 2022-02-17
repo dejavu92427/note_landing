@@ -290,8 +290,13 @@
       }
     }
     .a-wrap {
-      padding: 40px;
-
+      padding: 0 30px 30px;
+      .intro-text {
+        color: #666666;
+        margin: 20px 0;
+        font-size: 16px;
+        font-weight: bold;
+      }
       .logo {
         width: 162px;
         height: 60px;
@@ -352,7 +357,7 @@
       }
     }
     .a-wrap {
-      padding: 0 40px 40px 40px;
+      padding: 0 30px 30px;
 
       .ans {
         width: 100%;
@@ -369,6 +374,7 @@
           font-size: 16px;
           color: #666666;
         }
+
         h5 {
           font-size: 16px;
           color: #212121;

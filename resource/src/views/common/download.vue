@@ -142,9 +142,9 @@
               <h3>问题排除</h3>
             </div>
             <p class="intro-text">请点击【继续安装】或【无视风险安装】，即可完成安装。</p>
-            <img class="logo" :src="`${cdnPath}${require('@/assets/img/logo2_2.png')}`" alt="" />
-            <img :src="`${cdnPath}${require('@/assets/img/Install_ans01.jpg')}`" alt="" />
             <img class="logo" :src="`${cdnPath}${require('@/assets/img/logo1_2.png')}`" alt="" />
+            <img :src="`${cdnPath}${require('@/assets/img/Install_ans01.jpg')}`" alt="" />
+            <img class="logo" :src="`${cdnPath}${require('@/assets/img/logo2_2.png')}`" alt="" />
             <img :src="`${cdnPath}${require('@/assets/img/Install_ans02.jpg')}`" alt="" />
             <img class="logo" :src="`${cdnPath}${require('@/assets/img/logo3_2.png')}`" alt="" />
             <img :src="`${cdnPath}${require('@/assets/img/Install_ans03.jpg')}`" alt="" />
