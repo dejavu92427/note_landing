@@ -73,7 +73,7 @@
           :style="{ 'background-image': `url(${cdnPath}${require(`@/assets/img/andorid_virus_help/bg.jpg`)})` }"
         >
           <div class="left">
-            <h1>安装威胁</h1>
+            <h1>支付软体报毒</h1>
             <div class="q-wrap">
               <div class="title-wrap">
                 <span>Q</span>
@@ -97,7 +97,7 @@
                 <button
                   v-for="item in buttonList"
                   :key="item.name"
-                  :class="[item.name, { active: currentButton == item.name }]"
+                  :class="[`${item.name.toLowerCase()}`, { active: currentButton == `${item.name.toLowerCase()}` }]"
                   @click="setBtnActive(item.name)"
                 >
                   {{ item.name }}
@@ -193,13 +193,13 @@ export default class PcAobo1 extends Vue {
   ];
   buttonList = [
     {
-      name: 'oppo',
+      name: 'OPPO',
     },
     {
-      name: 'vivo',
+      name: 'VIVO',
     },
     {
-      name: 'huawei',
+      name: 'Huawei',
     },
   ];
 
@@ -224,7 +224,7 @@ export default class PcAobo1 extends Vue {
 
   setBtnActive(target): void {
     if (target) {
-      this.currentButton = target;
+      this.currentButton = target.toLowerCase();
     } else {
       return;
     }
@@ -467,6 +467,8 @@ body {
             margin: 2px;
             border-radius: 3px;
             cursor: pointer;
+            font-weight: bold;
+            font-size: 18px;
             &.oppo {
               &.active {
                 background-color: #0d6a30;
