@@ -1,6 +1,6 @@
 <template>
   <div class="wrap">
-    <div class="and-help"><a href="#intro">Android幫助</a></div>
+    <div class="and-help"><a href="#intro">Android帮助</a></div>
     <img class="logo-corner" :src="`${cdnPath}${require('@/assets/img/aobo1/logo_corner.png')}`" />
     <div class="main-header">
       <qrcode-vue id="qrcode" :value="qrcodeOpt.value" :size="qrcodeOpt.size"></qrcode-vue>

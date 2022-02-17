@@ -87,7 +87,7 @@
           如需帮助，
           <a @click="linkTo('clientService')" class="link" target="_blank">请联系客服</a>
           <div @click.stop="copy" class="donwload-tip porn1 title">
-            {{ isAndroidMobile ? '下滑查看Android幫助' : '' }}
+            {{ isAndroidMobile ? '下滑查看Android帮助' : '' }}
             <img v-if="isAndroidMobile" class="donwload-tip-arrow" :src="`${require(`@/assets/img/jiantou.png`)}`" />
           </div>
         </div>
@@ -95,7 +95,7 @@
 
       <div v-if="['aobo1', 'sp1'].includes(siteConfig.routerTpl)" class="download-tip-extra">
         <div @click.stop="copy" class="donwload-tip title">
-          {{ isAndroidMobile ? '下滑查看安装教程與Android幫助' : '下滑查看安装教程' }}
+          {{ isAndroidMobile ? '下滑查看安装教程與Android帮助' : '下滑查看安装教程' }}
           <img class="donwload-tip-arrow" :src="`${require(`@/assets/img/jiantou.png`)}`" />
         </div>
 
