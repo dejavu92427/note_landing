@@ -457,7 +457,6 @@ export const actions = {
             url.searchParams.append('channelid', channelid.toString());
           }
 
-          console.log(url);
           return url;
         }
       }
@@ -525,6 +524,8 @@ export const actions = {
           result.code = res.data.data.code;
           result.uuid = res.data.data.uuid;
 
+          localStorage.setItem('code', result.code);
+          localStorage.setItem('channelid', result.channelid.toString());
           localStorage.setItem('uuid', res.data.data.uuid || '');
         }
 
