@@ -1,12 +1,12 @@
 <template>
   <div class="wrap">
-    <div class="and-help"><a href="#intro">Android帮助</a></div>
     <img class="logo-corner" :src="`${cdnPath}${require('@/assets/img/sp1/logo_corner.png')}`" />
     <div class="main-header">
       <qrcode-vue id="qrcode" :value="qrcodeOpt.value" :size="qrcodeOpt.size"></qrcode-vue>
       <img class="code-tips" :src="`${cdnPath}${require('@/assets/img/sp1/code_tip.png')}`" />
     </div>
     <div class="cover-image">
+      <div class="and-help"><a href="#intro">Android帮助</a></div>
       <img :src="`${cdnPath}${require('@/assets/img/sp1/appdown_sports.png')}`" />
     </div>
     <div class="android-container" id="intro">
@@ -269,7 +269,8 @@ body {
 }
 
 .cover-image {
-  height: 81.2vh;
+  position: relative;
+  height: auto;
   width: 90vw;
   margin: 0 auto;
   margin-top: 45px;
@@ -284,8 +285,8 @@ body {
   position: absolute;
   width: 150px;
   height: 40px;
-  right: 10px;
-  top: 1005px;
+  right: -75px;
+  bottom: -15px;
   a {
     text-decoration: none;
     background: #000;
@@ -295,7 +296,7 @@ body {
 }
 
 .android-container {
-  width: 100vw;
+  max-width: 1920px;
 
   .header {
     display: flex;
@@ -304,7 +305,6 @@ body {
     background: #000;
     color: #fff;
     padding: 20px;
-    margin-top: 20px;
 
     .logo {
       font-size: 36px;
