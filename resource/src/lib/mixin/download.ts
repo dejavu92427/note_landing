@@ -183,9 +183,9 @@ export default class DownloadMixin extends Vue {
 
         if (isSafari()) {
           target = {
-            text: 'IOS版下载',
-            type: 'downloadIOS',
-            platform: 'ios',
+            text: '极速版下载',
+            type: 'downloadPWA',
+            platform: 'pwa',
           };
         } else if (this.isAndroidMobile) {
           target = {
