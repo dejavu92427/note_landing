@@ -1,6 +1,7 @@
 import { Action, Getter } from 'vuex-class';
 import { EncryptInfo, InitClipboardInfo } from '../../lib/install';
 import { IAgentChannel, ICommonConfig, IDownloadConfig, ISiteConfig } from '../interface';
+// import { Mixins, Watch } from 'vue-property-decorator';
 import Swiper, { Pagination } from 'swiper';
 import { isAndroid, isIOS, isMobile, isSafari } from '../../lib/isMobile';
 
@@ -112,6 +113,13 @@ export default class DownloadMixin extends Vue {
     sg: [''],
   };
 
+  isInit = false;
+
+  // @Watch('isInit')
+  // getIsInit(value) {
+  //   console.log(value);
+  // }
+
   // computed
   get verison() {
     return this.version;
@@ -162,9 +170,34 @@ export default class DownloadMixin extends Vue {
 
     // 2. 註冊裝置資訊uuid
     this.setAgentDeviceInfo({ data: this.deviceInfoEncrypted }).then(() => {
-      // if (this.agentChannel && this.agentChannel.uuid) {
-      //   console.log(this.agentChannel);
-      // }
+      this.isInit = true;
+
+      if (localStorage.getItem('action') === 'download' || this.$route.query.action === 'download') {
+        localStorage.removeItem('action');
+
+        let target: DownloadItem = {
+          text: '',
+          type: '',
+          platform: '',
+        };
+
+        if (isSafari()) {
+          target = {
+            text: 'IOS版下载',
+            type: 'downloadIOS',
+            platform: 'ios',
+          };
+        } else if (this.isAndroidMobile) {
+          target = {
+            text: 'ANDROID版下载',
+            type: 'downloadANDROID',
+            platform: 'android',
+          };
+        }
+
+        this.handleDownloadClick(target, true);
+        this.$router.replace({ query: { code: this.$route.query.code, channelid: this.$route.query.channelid } });
+      }
     });
 
     // 泡泡無PC版頁面
@@ -196,35 +229,6 @@ export default class DownloadMixin extends Vue {
           swiper.pagination.update();
         }
       });
-    }
-
-    if (localStorage.getItem('action') === 'download' || this.$route.query.action === 'download') {
-      localStorage.removeItem('action');
-
-      let target: DownloadItem = {
-        text: '',
-        type: '',
-        platform: '',
-      };
-
-      if (isSafari()) {
-        target = {
-          text: 'IOS版下载',
-          type: 'downloadIOS',
-          platform: 'ios',
-        };
-      } else if (this.isAndroidMobile) {
-        target = {
-          text: 'ANDROID版下载',
-          type: 'downloadANDROID',
-          platform: 'android',
-        };
-      }
-
-      setTimeout(() => {
-        this.handleDownloadClick(target, true);
-      }, 800);
-      this.$router.replace({ query: { code: this.$route.query.code, channelid: this.$route.query.channelid } });
     }
   }
 
