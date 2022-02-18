@@ -162,48 +162,43 @@ export default class DownloadMixin extends Vue {
       this.$router.push('/pc');
     }
 
-    this.getLCFSystemConfig();
     this.getHostnames();
+    this.getLCFSystemConfig().then(() => {
+      // 1. 取得裝置資訊
+      this.deviceInfoEncrypted = EncryptInfo(this.siteConfig.domain, this.siteConfig.routerTpl);
 
-    // 1. 取得裝置資訊
-    this.deviceInfoEncrypted = EncryptInfo(this.siteConfig.domain, this.siteConfig.routerTpl);
+      // 2. 註冊裝置資訊uuid
+      this.setAgentDeviceInfo({ data: this.deviceInfoEncrypted }).then(() => {
+        this.isInit = true;
 
-    // 2. 註冊裝置資訊uuid
-    this.setAgentDeviceInfo({ data: this.deviceInfoEncrypted }).then(() => {
-      this.isInit = true;
+        if (localStorage.getItem('action') === 'download' || this.$route.query.action === 'download') {
+          localStorage.removeItem('action');
 
-      if (localStorage.getItem('action') === 'download' || this.$route.query.action === 'download') {
-        localStorage.removeItem('action');
-
-        let target: DownloadItem = {
-          text: '',
-          type: '',
-          platform: '',
-        };
-
-        if (isSafari()) {
-          target = {
-            text: 'IOS版下载',
-            type: 'downloadIOS',
-            platform: 'ios',
+          let target: DownloadItem = {
+            text: '',
+            type: '',
+            platform: '',
           };
-        } else if (this.isAndroidMobile) {
-          target = {
-            text: 'ANDROID版下载',
-            type: 'downloadANDROID',
-            platform: 'android',
-          };
+
+          if (isSafari()) {
+            target = {
+              text: '极速版下载',
+              type: 'downloadPWA',
+              platform: 'pwa',
+            };
+          } else if (this.isAndroidMobile) {
+            target = {
+              text: 'ANDROID版下载',
+              type: 'downloadANDROID',
+              platform: 'android',
+            };
+          }
+
+          this.handleDownloadClick(target, true);
+          this.$router.replace({ query: { code: this.$route.query.code, channelid: this.$route.query.channelid } });
         }
-
-        this.handleDownloadClick(target, true);
-        this.$router.replace({ query: { code: this.$route.query.code, channelid: this.$route.query.channelid } });
-      }
+      });
     });
-
-    // 泡泡無PC版頁面
-    if (this.siteConfig.routerTpl === 'sg1') {
-      return;
-    }
   }
 
   mounted() {
