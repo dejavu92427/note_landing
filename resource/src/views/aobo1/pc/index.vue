@@ -232,7 +232,7 @@ export default class PcAobo1 extends Vue {
   }
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 body {
   max-width: unset;
   min-width: 0;
