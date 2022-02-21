@@ -82,7 +82,7 @@
     <a id="startApp" style="position=fixed;opacity=0;pointerEvents=none" href="javascript:void(0)"></a>
     <div v-if="!isIOSMobile" class="android-container" id="intro">
       <div class="logo">
-        <img :src="`${cdnPath}${require('@/assets/img/andlogo.png')}`" :style="{ width: '42px', height: '23px' }" alt="" />
+        <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/logo_android_g.png')}`" alt="" />
         <h2>android问题排除</h2>
       </div>
       <div class="desc">
@@ -568,6 +568,10 @@ $min_font_size: 10px;
     justify-content: center;
     align-items: center;
     margin: 15px 0;
+
+    img {
+      width: 42px;
+    }
 
     h2 {
       font-size: 25px;

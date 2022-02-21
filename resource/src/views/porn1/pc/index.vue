@@ -28,7 +28,7 @@
     <div class="android-container" id="intro">
       <div class="header">
         <div class="logo">
-          <img :src="`${cdnPath}${require('@/assets/img/andlogo-w.png')}`" :style="{ width: '48px' }" alt="" />
+          <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/logo_android_w.png')}`" alt="" />
           android问题排除
         </div>
         <div class="desc">
@@ -57,7 +57,7 @@
           <div class="right">
             <p class="top-warning">
               本软体为最高安全等级，请安心下载畅游
-              <span class="heart">♥</span>
+              <img class="icon-heart" :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/icon_heart.png')}`" alt="" />
             </p>
             <div class="a-wrap">
               <div class="title-wrap">
@@ -102,7 +102,7 @@
           <div class="right">
             <p class="top-warning">
               本软体为最高安全等级，请安心下载畅游
-              <span class="heart">♥</span>
+              <img class="icon-heart" :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/icon_heart.png')}`" alt="" />
             </p>
             <div class="a-wrap">
               <div class="title-wrap">
@@ -457,6 +457,12 @@ body {
 
     .logo {
       font-size: 36px;
+      display: flex;
+      align-items: center;
+      img {
+        width: 48px;
+        margin-right: 10px;
+      }
     }
     .desc {
       span {
@@ -513,6 +519,9 @@ body {
         text-align: end;
         margin-top: 30px;
         margin-bottom: 62px;
+        .icon-heart {
+          vertical-align: bottom;
+        }
       }
       .a-wrap {
         width: 920px;
@@ -594,6 +603,10 @@ body {
         text-align: end;
         margin-top: 30px;
         margin-bottom: 62px;
+
+        .icon-heart {
+          vertical-align: bottom;
+        }
       }
       .a-wrap {
         position: relative;
@@ -710,16 +723,6 @@ body {
       font-weight: bold;
       margin-left: 20px;
     }
-  }
-
-  .heart {
-    margin-left: 10px;
-    width: 20px;
-    padding: 3px 6px;
-    background-color: #dd3232;
-    border-radius: 50%;
-    color: #fff;
-    font-size: 12px;
   }
 }
 
