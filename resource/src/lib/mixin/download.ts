@@ -1,13 +1,13 @@
 import { Action, Getter } from 'vuex-class';
 import { EncryptInfo, InitClipboardInfo } from '../../lib/install';
 import { IAgentChannel, ICommonConfig, IDownloadConfig, ISiteConfig } from '../interface';
+// import { Mixins, Watch } from 'vue-property-decorator';
 import Swiper, { Pagination } from 'swiper';
 import { isAndroid, isIOS, isMobile, isSafari } from '../../lib/isMobile';
 
 import ProgressBar from 'progressbar.js';
 import { SwiperOptions } from 'swiper';
 import { Vue } from 'vue-class-component';
-import { initRouterReferralCode } from '../referralCode';
 
 interface DownloadItem {
   text: string;
@@ -23,6 +23,7 @@ export default class DownloadMixin extends Vue {
   @Action('actionSentAnalysis') actionSentAnalysis!: Function;
   @Action('getHostnames') getHostnames!: Function;
   @Action('setAgentDeviceInfo') setAgentDeviceInfo!: Function;
+  @Action('setDownloadRSA') setDownloadRSA!: Function;
 
   @Getter('getCommonList') commonList!: ICommonConfig;
   @Getter('getCDN') cdnPath!: string;
@@ -111,6 +112,14 @@ export default class DownloadMixin extends Vue {
     ],
     sg: [''],
   };
+
+  isInit = false;
+
+  // @Watch('isInit')
+  // getIsInit(value) {
+  //   console.log(value);
+  // }
+
   // computed
   get verison() {
     return this.version;
@@ -144,55 +153,52 @@ export default class DownloadMixin extends Vue {
 
     return true;
   }
+
   created() {
     console.log('isMobile:', isMobile());
-
-    if (this.$route.query) {
-      initRouterReferralCode(this.$route.query);
-    }
+    this.$router.replace({ query: {} });
 
     if (!isMobile()) {
       this.$router.push('/pc');
     }
 
-    // 1. 取得裝置資訊
-    this.deviceInfoEncrypted = EncryptInfo(this.siteConfig.domain, this.siteConfig.routerTpl);
-
-    // 2. 註冊裝置資訊uuid
-    this.setAgentDeviceInfo({ data: this.deviceInfoEncrypted }).then(() => {
-      // if (this.agentChannel && this.agentChannel.uuid) {
-      //   console.log(this.agentChannel);
-      // }
-    });
-
-    this.getLCFSystemConfig().then(() => {
-      if (localStorage.getItem('action') === 'download' || this.$route.query.action === 'download') {
-        localStorage.removeItem('action');
-
-        let target: DownloadItem = {
-          text: '',
-          type: '',
-          platform: '',
-        };
-
-        if (isSafari()) {
-          target = this.downloadList[3];
-        } else if (this.isAndroidMobile) {
-          target = this.downloadList[2];
-        }
-
-        setTimeout(() => {
-          this.$router.replace({ query: { code: this.$route.query.code, channelid: this.$route.query.channelid } });
-          this.handleDownloadClick(target);
-        }, 800);
-      }
-    });
     this.getHostnames();
+    this.getLCFSystemConfig().then(() => {
+      // 1. 取得裝置資訊
+      this.deviceInfoEncrypted = EncryptInfo(this.siteConfig.domain, this.siteConfig.routerTpl);
 
-    // 泡泡無PC版頁面
-    if (this.siteConfig.routerTpl === 'sg1') {
-      return;
-    }
+      // 2. 註冊裝置資訊uuid
+      this.setAgentDeviceInfo({ data: this.deviceInfoEncrypted }).then(() => {
+        this.isInit = true;
+
+        if (localStorage.getItem('action') === 'download' || this.$route.query.action === 'download') {
+          localStorage.removeItem('action');
+
+          let target: DownloadItem = {
+            text: '',
+            type: '',
+            platform: '',
+          };
+
+          if (isSafari()) {
+            target = {
+              text: '极速版下载',
+              type: 'downloadPWA',
+              platform: 'pwa',
+            };
+          } else if (this.isAndroidMobile) {
+            target = {
+              text: 'ANDROID版下载',
+              type: 'downloadANDROID',
+              platform: 'android',
+            };
+          }
+
+          this.handleDownloadClick(target, true);
+          this.$router.replace({ query: { code: this.$route.query.code, channelid: this.$route.query.channelid } });
+        }
+      });
+    });
   }
 
   mounted() {
@@ -221,8 +227,8 @@ export default class DownloadMixin extends Vue {
     }
   }
 
-  handleDownloadClick(target: DownloadItem) {
-    if (this.isDownloading || !this.downloadConfig[target.platform as keyof IDownloadConfig].show) {
+  handleDownloadClick(target: DownloadItem, actionDownload = false) {
+    if (!actionDownload && (this.isDownloading || !this.downloadConfig[target.platform as keyof IDownloadConfig].show)) {
       return;
     }
 
@@ -272,9 +278,11 @@ export default class DownloadMixin extends Vue {
 
   handleDownload(target: DownloadItem): void {
     const bundleID = this.downloadConfig[target.platform as keyof IDownloadConfig].bundleID;
+    const deviceInfoRSA = InitClipboardInfo(this.agentChannel);
+
     let platform = '';
-    InitClipboardInfo(this.agentChannel, this.siteConfig.routerTpl);
     this.initAppschema();
+    this.setDownloadRSA(deviceInfoRSA);
 
     const getDownloadUri = (platformType) => {
       this.getDownloadUri({ bundleID: bundleID, platform: platformType }).then((result: string) => {
@@ -289,9 +297,11 @@ export default class DownloadMixin extends Vue {
         if (result && result.length > 0) {
           const a = document.createElement('a');
           a.href = result;
+          a.onclick = () => {
+            InitClipboardInfo(this.agentChannel);
+          };
           document.body.appendChild(a);
           a.click();
-
           document.body.removeChild(a);
         }
       });
@@ -333,7 +343,6 @@ export default class DownloadMixin extends Vue {
           setTimeout(function () {
             getDownloadUri(platform);
           }, 500);
-          console.log(platform);
           document.getElementById('startApp')?.click();
         }
         break;
@@ -426,7 +435,5 @@ export default class DownloadMixin extends Vue {
     } else {
       document.getElementById('startApp')?.setAttribute('href', `${this.siteConfig.iosAppSchema}open?code=${localStorage.getItem('b') || ''}`);
     }
-
-    localStorage.removeItem('b');
   }
 }

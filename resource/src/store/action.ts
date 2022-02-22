@@ -180,6 +180,25 @@ export const actions = {
       });
   },
 
+  setDownloadRSA({ state }: { state: State }, data: string): any {
+    const buffer = Buffer.from(data, 'base64');
+    const bufString = buffer.toString('hex');
+
+    return axios({
+      method: 'put',
+      url: `${state.siteConfig.channelApiDomain}/cxbb/AgentChannel/setDownload`,
+      headers: {
+        'x-domain': state.siteConfig.domain,
+        kind: 'h',
+      },
+      data: {
+        rsa: bufString,
+      },
+    }).catch((err) => {
+      console.log(err);
+    });
+  },
+
   getDownloadUri({ state }: { state: State }, params: { bundleID: string; platform: string }): any {
     const agentChannel = state.agentChannel;
 
@@ -187,7 +206,7 @@ export const actions = {
     if (agentChannel && params.platform === '2') {
       return axios({
         method: 'post',
-        url: `${state.siteConfig.golangApiDomain.replace('api-v2', 'channel-api')}/cxbb/AgentChannel/getMobileConfig`,
+        url: `${state.siteConfig.channelApiDomain}/cxbb/AgentChannel/getMobileConfig`,
         responseType: 'blob',
         headers: {
           'x-domain': state.siteConfig.domain,
@@ -438,7 +457,6 @@ export const actions = {
             url.searchParams.append('channelid', channelid.toString());
           }
 
-          console.log(url);
           return url;
         }
       }
@@ -481,7 +499,7 @@ export const actions = {
 
     return axios
       .put(
-        `${state.siteConfig.golangApiDomain.replace('api-v2', 'channel-api')}/cxbb/AgentChannel/AgentDeviceInfo`,
+        `${state.siteConfig.channelApiDomain}/cxbb/AgentChannel/AgentDeviceInfo`,
         {
           rsa: bufString,
         },
@@ -494,17 +512,24 @@ export const actions = {
         }
       )
       .then((res) => {
+        const result: IAgentChannel = {
+          uuid: '',
+          channelid: 0,
+          code: '',
+          appkey: state.siteConfig.domain,
+        };
+
         if (res && res.data && res.data.data && res.data.status === '000') {
-          const result: IAgentChannel = res.data.data;
-          result.channelid = +result.channelid || Number(localStorage.getItem('channelid')) || 0;
-          result.code = result.code || localStorage.getItem('code') || '';
-          result.uuid = res.data.data.uuid || '';
-          result.appkey = state.siteConfig.domain;
+          result.channelid = res.data.data.channelid;
+          result.code = res.data.data.code;
+          result.uuid = res.data.data.uuid;
 
+          localStorage.setItem('code', result.code);
+          localStorage.setItem('channelid', result.channelid.toString());
           localStorage.setItem('uuid', res.data.data.uuid || '');
-
-          return commit(Types.SET_AGENT_CHANNEL, result);
         }
+
+        commit(Types.SET_AGENT_CHANNEL, result);
       })
       .catch((err) => {
         const response = err && err.response;

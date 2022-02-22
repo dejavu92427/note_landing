@@ -21,6 +21,7 @@ export const state: State = {
     themtTpl: '',
     siteName: '',
     golangApiDomain: '',
+    channelApiDomain: '',
     prod: false,
     andAppSchema: '',
     iosAppSchema: '',

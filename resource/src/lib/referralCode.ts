@@ -1,13 +1,12 @@
 export function initRouterReferralCode(query: any) {
   localStorage.removeItem('code');
+  localStorage.removeItem('channelid');
 
   if (query.code && query.code !== 'undefined') {
-    localStorage.removeItem('channelid');
     localStorage.setItem('code', query.code.toString());
   }
 
   if (query.a && query.a !== 'undefined') {
-    localStorage.removeItem('channelid');
     localStorage.setItem('code', query.a.toString());
   }
 

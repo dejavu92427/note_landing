@@ -124,6 +124,10 @@
   &.title {
     color: var(--tip_text_color);
     padding: 0;
+
+    &.porn1 {
+      margin-top: 20px;
+    }
   }
 
   .recommend-text {
@@ -152,7 +156,7 @@
 .donwload-tip-arrow {
   width: 7px;
   height: 7px;
-  margin-left: 5px;
+  margin-left: 3px;
 
   > img {
     width: 100%;
@@ -197,28 +201,238 @@
   position: relative;
 }
 
-// .service-wrap {
-//   position: fixed;
-//   max-width: 420px;
-//   width: 100%;
-//   display: flex;
-//   left: 50%;
-//   justify-content: flex-end;
-//   top: 38%;
-//   z-index: 10;
-//   transform: translateX(-50%);
-// }
+.service-wrap {
+  position: fixed;
+  max-width: 420px;
+  width: 100%;
+  display: flex;
+  left: 50%;
+  justify-content: flex-end;
+  top: 38%;
+  z-index: 10;
+  transform: translateX(-50%);
+}
 
-// #service-link {
-//   width: 60px;
-//   height: 40px;
-//   transition: transform 0.2s; /* Animation */
+#service-link {
+  width: 60px;
+  height: 40px;
+  transition: transform 0.2s; /* Animation */
 
-//   > img {
-//     width: 100%;
-//   }
+  > img {
+    width: 100%;
+  }
 
-//   :hover {
-//     transform: scale(1.15);
-//   }
-// }
+  :hover {
+    transform: scale(1.15);
+  }
+}
+
+.android-container {
+  width: 100%;
+  height: 100vh;
+
+  .logo {
+    display: flex;
+    color: #32dd81;
+    justify-content: center;
+    align-items: center;
+    margin: 15px 0;
+
+    img {
+      width: 42px;
+    }
+
+    h2 {
+      font-size: 25px;
+      font-weight: bold;
+      margin-left: 5px;
+    }
+  }
+
+  .desc {
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+    letter-spacing: 1px;
+    display: flex;
+    justify-content: space-around;
+    box-shadow: 0 3px 2.5px 0 rgb(0 0 0 / 8%);
+    span {
+      display: block;
+      width: 48%;
+      color: #666666;
+      &.active {
+        color: #32dd81;
+        &::after {
+          content: '';
+          display: block;
+          margin: 0 auto;
+          margin-top: 15px;
+          width: 80%;
+          height: 6px;
+          background-color: #32dd81;
+        }
+      }
+    }
+  }
+
+  .content {
+    width: 100%;
+    margin: 6px 0 0;
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  }
+
+  .tab1-content {
+    background: #f3f3f3;
+
+    .q-wrap {
+      padding: 30px;
+      .top-warning {
+        color: #d41c26;
+        text-align: center;
+      }
+      .intro-text {
+        color: #666666;
+        margin: 20px 0;
+        font-size: 16px;
+        font-weight: bold;
+      }
+    }
+    .a-wrap {
+      padding: 0 30px 30px;
+      .intro-text {
+        color: #666666;
+        margin: 20px 0;
+        font-size: 16px;
+        font-weight: bold;
+      }
+      .logo {
+        width: 162px;
+        height: 60px;
+        margin-top: 20px;
+        border: none;
+      }
+    }
+
+    img {
+      display: block;
+      margin: 0 auto;
+      border-radius: 15px;
+      border: 1px solid #e8e8e8;
+    }
+  }
+
+  .title-wrap {
+    margin-top: 45px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+    left: -30px;
+    span {
+      display: block;
+      width: 80px;
+      height: 46px;
+      color: #fff;
+      background: linear-gradient(180deg, #32de84, #0fb960);
+      font-size: 30px;
+      font-weight: bold;
+      border-radius: 0 23px 23px 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    h3 {
+      color: #212121;
+      margin-left: 15px;
+    }
+  }
+
+  .tab2-content {
+    background: #f3f3f3;
+
+    .q-wrap {
+      padding: 30px;
+      .top-warning {
+        color: #d41c26;
+        text-align: center;
+      }
+      .intro-text {
+        color: #666666;
+        margin: 20px 0;
+        font-size: 16px;
+        font-weight: bold;
+      }
+    }
+    .a-wrap {
+      padding: 0 30px 30px;
+
+      .ans {
+        width: 100%;
+        border: 1px solid #e0e0e0;
+        background: rgba(255, 255, 255, 0.5);
+        padding: 15px;
+        border-radius: 15px;
+        font-weight: bold;
+        h4 {
+          font-size: 20px;
+          color: #212121;
+        }
+        p {
+          font-size: 16px;
+          color: #666666;
+        }
+
+        h5 {
+          font-size: 16px;
+          color: #212121;
+        }
+      }
+    }
+
+    img {
+      display: block;
+      margin: 0 auto;
+      border-radius: 15px;
+      border: 1px solid #e8e8e8;
+    }
+  }
+
+  .button-wrap {
+    background-color: #f3f3f3;
+    text-align: center;
+    padding: 15px 0;
+    button {
+      width: 29%;
+      height: 50px;
+      border: none;
+      margin: 5px;
+      border-radius: 3px;
+      background-color: #fff;
+      font-size: 18px;
+      font-weight: bold;
+      &.oppo {
+        &.active {
+          background-color: #0d6a30;
+          color: #fff;
+        }
+      }
+      &.vivo {
+        &.active {
+          background-color: #425eff;
+          color: #fff;
+        }
+      }
+      &.huawei {
+        &.active {
+          background-color: #d41c26;
+          color: #fff;
+        }
+      }
+    }
+  }
+}

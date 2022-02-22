@@ -47,13 +47,11 @@ const routes: Array<RouteRecordRaw> = [
       if (isMobile()) {
         next({
           name: 'download',
-          query: { code: to.params.code, action: to.query.action, channelid: to.query.channelid },
         });
       }
       {
         next({
           name: 'pc',
-          query: { code: to.params.code, action: to.query.action, channelid: to.query.channelid },
         });
       }
     },
@@ -72,13 +70,11 @@ const routes: Array<RouteRecordRaw> = [
       if (isMobile()) {
         next({
           name: 'download',
-          query: { code: to.params.code, action: to.query.action, channelid: to.query.channelid },
         });
       }
       {
         next({
           name: 'pc',
-          query: { code: to.params.code, action: to.query.action, channelid: to.query.channelid },
         });
       }
     },
