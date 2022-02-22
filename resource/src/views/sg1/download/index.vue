@@ -61,12 +61,12 @@
 
     <div class="service-wrap">
       <div @click="linkTo('clientService')" id="service-link">
-        <img id="appicon" :src="`${cdnPath}${require('@/assets/img/sg1/ic_service.png')}`" />
+        <img id="appicon" :src="`${require('@/assets/img/sg1/ic_service.png')}`" />
       </div>
     </div>
     <div v-if="!isIOSMobile" class="help-wrap">
       <a href="#intro" class="help-link">
-        <img id="appicon" :src="`${cdnPath}${require('@/assets/img/sg1/ic_android.png')}`" />
+        <img id="appicon" :src="`${require('@/assets/img/sg1/ic_android.png')}`" />
       </a>
     </div>
     <modalBox v-show="showModal" @close="toogleModal(false)" />

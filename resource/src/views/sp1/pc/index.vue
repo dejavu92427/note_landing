@@ -13,7 +13,7 @@
   <div class="android-container" id="intro">
     <div class="header">
       <div class="logo">
-        <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/logo_android_w.png')}`" alt="" />
+        <img :src="`${require('@/assets/img/andorid_virus_help/logo_android_w.png')}`" alt="" />
         android问题排除
       </div>
       <div class="desc">
@@ -42,7 +42,7 @@
         <div class="right">
           <p class="top-warning">
             本软体为最高安全等级，请安心下载畅游
-            <img class="icon-heart" :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/icon_heart.png')}`" alt="" />
+            <img class="icon-heart" :src="`${require('@/assets/img/andorid_virus_help/icon_heart.png')}`" alt="" />
           </p>
           <div class="a-wrap">
             <div class="title-wrap">
@@ -87,7 +87,7 @@
         <div class="right">
           <p class="top-warning">
             本软体为最高安全等级，请安心下载畅游
-            <img class="icon-heart" :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/icon_heart.png')}`" alt="" />
+            <img class="icon-heart" :src="`${require('@/assets/img/andorid_virus_help/icon_heart.png')}`" alt="" />
           </p>
           <div class="a-wrap">
             <div class="title-wrap">
