@@ -272,10 +272,10 @@ body {
 .cover-image {
   position: absolute;
   height: auto;
-  width: 90vw;
+  width: 80vw;
   margin: 0 auto;
   bottom: 0;
-  left: calc(50% - 45vw);
+  left: calc(50% - 40vw);
   > img {
     width: 100%;
     // height: 100%;
