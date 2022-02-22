@@ -318,7 +318,7 @@ body {
 
 .layout-mobile {
   position: absolute;
-  top: 20%;
+  top: 15%;
   left: 34.3%;
   z-index: 1;
   display: block;
