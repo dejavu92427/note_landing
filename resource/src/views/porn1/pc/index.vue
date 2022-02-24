@@ -267,6 +267,10 @@ body {
   padding: 0;
   border: none;
   margin: 0 auto !important;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .wrap {
