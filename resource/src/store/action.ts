@@ -91,9 +91,13 @@ export const actions = {
         }
       })
       .catch((err) => {
-        alert('domain error');
-        console.log(err);
-        window.location.href = '/404';
+        console.log({ ...err });
+        if (err.response.status == 500) {
+          alert('500 Internal Server Error');
+        } else {
+          alert(`error : ${err.response.status}`);
+          window.location.href = '/404';
+        }
       });
   },
 
