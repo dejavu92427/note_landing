@@ -93,10 +93,6 @@ export const actions = {
       .catch((err) => {
         console.log({ ...err });
 
-        if (err.isAxiosError || err.response.status == 500) {
-          alert('连线异常,请尝试重新连线');
-        }
-
         const retryWrapper = (axios, options) => {
           const max_time = options.retry_time;
           const retry_status_code = options.retry_status_code;
@@ -104,9 +100,7 @@ export const actions = {
           axios.interceptors.response.use(null, (error) => {
             /** @type {import("axios").AxiosRequestConfig} */
             const config = error.config;
-            // you could defined status you want to retry, such as 503
-            // if (counter < max_time && error.response.status === retry_status_code) {
-            if (counter < max_time) {
+            if (counter < max_time && error.isAxiosError) {
               counter++;
               return new Promise((resolve) => {
                 resolve(axios(config));
@@ -117,17 +111,22 @@ export const actions = {
         };
 
         async function main() {
-          retryWrapper(axios, { retry_time: 3 });
-          const result = await axios.get('/conf/domain');
-          console.log('retry', result.data);
+          try {
+            retryWrapper(axios, { retry_time: 3 });
+            await axios.get('/conf/domain').then(() => {
+              window.location.reload();
+            });
+          } catch {
+            alert('網路連線異常,請嘗試重新連線');
+            window.location.reload();
+          }
         }
         if (err.isAxiosError) {
           setTimeout(() => {
             console.log('retry0');
-            window.location.reload();
             main();
             console.log('retry1');
-          }, 10000);
+          }, 500);
         }
       });
   },
