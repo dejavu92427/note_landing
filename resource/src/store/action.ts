@@ -117,7 +117,7 @@ export const actions = {
               window.location.reload();
             });
           } catch {
-            alert('網路連線異常,請嘗試重新連線');
+            alert('网路连线异常,请尝试重新连线');
             window.location.reload();
           }
         }
