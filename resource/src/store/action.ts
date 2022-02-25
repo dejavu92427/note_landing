@@ -91,9 +91,43 @@ export const actions = {
         }
       })
       .catch((err) => {
-        alert('domain error');
-        console.log(err);
-        window.location.href = '/404';
+        console.log({ ...err });
+
+        const retryWrapper = (axios, options) => {
+          const max_time = options.retry_time;
+          const retry_status_code = options.retry_status_code;
+          let counter = 0;
+          axios.interceptors.response.use(null, (error) => {
+            /** @type {import("axios").AxiosRequestConfig} */
+            const config = error.config;
+            if (counter < max_time && error.isAxiosError) {
+              counter++;
+              return new Promise((resolve) => {
+                resolve(axios(config));
+              });
+            }
+            return Promise.reject(error);
+          });
+        };
+
+        async function main() {
+          try {
+            retryWrapper(axios, { retry_time: 3 });
+            await axios.get('/conf/domain').then(() => {
+              window.location.reload();
+            });
+          } catch {
+            alert('網路連線異常,請嘗試重新連線');
+            window.location.reload();
+          }
+        }
+        if (err.isAxiosError) {
+          setTimeout(() => {
+            console.log('retry0');
+            main();
+            console.log('retry1');
+          }, 500);
+        }
       });
   },
 
