@@ -1,7 +1,11 @@
 <template>
   <div>
     <div class="wrap" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/bg_pc.png')})` }">
-      <div class="and-help"><a href="#intro">Android帮助</a></div>
+      <div class="and-help">
+        <a href="#intro">
+          <img :src="`${require('@/assets/img/andorid_virus_help/btn_ androidhelp.png')}`" alt="" />
+        </a>
+      </div>
       <div class="layout-center">
         <div class="layout-title">
           <div class="title-1 pic" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/title_01.png')})` }"></div>
@@ -437,13 +441,13 @@ body {
 .and-help {
   position: absolute;
   right: 20px;
-  bottom: 7px;
+  bottom: -2px;
   z-index: 20;
   a {
     text-decoration: none;
-    background: #000;
-    color: #fff;
-    padding: 5px 10px;
+    // background: #000;
+    // color: #fff;
+    // padding: 5px 10px;
   }
 }
 
