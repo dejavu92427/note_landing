@@ -441,7 +441,7 @@ body {
 .and-help {
   position: absolute;
   right: 20px;
-  bottom: -2px;
+  bottom: -3.8px;
   z-index: 20;
   a {
     text-decoration: none;
