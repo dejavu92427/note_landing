@@ -280,7 +280,7 @@ body {
   height: auto;
   width: 80vw;
   margin: 0 auto;
-  bottom: -3px;
+  bottom: -3.8px;
   left: calc(50% - 40vw);
 
   > img {
@@ -292,7 +292,7 @@ body {
 .and-help {
   position: absolute;
   right: 20px;
-  bottom: -3px;
+  bottom: -3.8px;
   z-index: 20;
   a {
     text-decoration: none;
