@@ -3,7 +3,7 @@
     <div class="wrap" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/bg_pc.png')})` }">
       <div class="and-help">
         <a href="#intro">
-          <img :src="`${'@/assets/img/andorid_virus_help/btn_androidhelp.png'}`" alt="" />
+          <img :src="`${require('@/assets/img/andorid_virus_help/btn_androidhelp.png')}`" alt="" />
         </a>
       </div>
       <div class="layout-center">
