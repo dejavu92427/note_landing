@@ -2,7 +2,7 @@
   <div>
     <div class="wrap">
       <div class="and-help">
-        <a href="#intro"><img :src="`${require('@/assets/img/andorid_virus_help/btn_ androidhelp.png')}`" alt="" /></a>
+        <a href="#intro"><img :src="`${require('@/assets/img/andorid_virus_help/btn_androidhelp.png')}`" alt="" /></a>
       </div>
       <img class="logo-corner" :src="`${cdnPath}${require('@/assets/img/sp1/logo_corner.png')}`" />
       <div class="main-header">
