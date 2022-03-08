@@ -94,13 +94,14 @@ export const actions = {
         console.log({ ...err });
 
         const retryWrapper = (axios, options) => {
-          const max_time = options.retry_time;
-          const retry_status_code = options.retry_status_code;
+          const maxTime = options.retryTime;
+          // const retry_status_code = options.retry_status_code;
+
           let counter = 0;
           axios.interceptors.response.use(null, (error) => {
             /** @type {import("axios").AxiosRequestConfig} */
             const config = error.config;
-            if (counter < max_time && error.isAxiosError) {
+            if (counter < maxTime && error.isAxiosError) {
               counter++;
               return new Promise((resolve) => {
                 resolve(axios(config));
@@ -112,7 +113,7 @@ export const actions = {
 
         async function main() {
           try {
-            retryWrapper(axios, { retry_time: 3 });
+            retryWrapper(axios, { retryTime: 3 });
             await axios.get('/conf/domain').then(() => {
               window.location.reload();
             });

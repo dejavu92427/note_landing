@@ -1,13 +1,13 @@
 import { Action, Getter } from 'vuex-class';
 import { EncryptInfo, InitClipboardInfo } from '../../lib/install';
 import { IAgentChannel, ICommonConfig, IDownloadConfig, ISiteConfig } from '../interface';
+import { Options, Vue } from 'vue-class-component';
 // import { Mixins, Watch } from 'vue-property-decorator';
 import Swiper, { Pagination } from 'swiper';
 import { isAndroid, isIOS, isMobile, isSafari } from '../../lib/isMobile';
 
 import ProgressBar from 'progressbar.js';
 import { SwiperOptions } from 'swiper';
-import { Vue } from 'vue-class-component';
 
 interface DownloadItem {
   text: string;
@@ -15,6 +15,13 @@ interface DownloadItem {
   platform: string;
 }
 
+@Options({
+  watch: {
+    // agentChannel: (val) => {
+    // console.log(val);
+    // },
+  },
+})
 export default class DownloadMixin extends Vue {
   @Action('getPlayer') getPlayer!: Function;
   @Action('getLCFSystemConfig') getLCFSystemConfig!: Function;

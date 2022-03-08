@@ -1,5 +1,6 @@
 ---
 kind: pipeline
+type: kubernetes
 name: AllPipeline(QA)
 
 platform:
@@ -110,6 +111,7 @@ trigger:
 
 ---
 kind: pipeline
+type: kubernetes
 name: AllPipeline(Beta)
 
 platform:
@@ -164,7 +166,7 @@ steps:
       imageName: gcr.io/rd7-project/yaboxxx-landingpage:${DRONE_TAG}
       k8sNginxConfigMap: sigua-landingpage-nginx-beta
       nodePool: env
-      nodePoolName: qa
+      nodePoolName: prod
     zone: asia-east1-b
   environment:
     TOKEN:
@@ -180,6 +182,7 @@ trigger:
 
 ---
 kind: pipeline
+type: kubernetes
 name: AllPipeline(Prod)
 
 platform:
@@ -370,6 +373,7 @@ trigger:
 
 ---
 kind: pipeline
+type: kubernetes
 name: yaboLandingPipeline(yaboQA)
 
 platform:
@@ -416,6 +420,7 @@ trigger:
 
 ---
 kind: pipeline
+type: kubernetes
 name: yaboLandingPipeline(yaboBeta)
 
 platform:
@@ -462,6 +467,7 @@ trigger:
 
 ---
 kind: pipeline
+type: kubernetes
 name: yaboLandingPipeline(yaboDemo)
 
 platform:
@@ -512,6 +518,7 @@ trigger:
 
 ---
 kind: pipeline
+type: kubernetes
 name: yaboLandingPipeline(yaboProd)
 
 platform:
@@ -562,6 +569,7 @@ trigger:
 
 ---
 kind: pipeline
+type: kubernetes
 name: yaboLandingPipeline(auboQA)
 
 platform:
@@ -608,6 +616,7 @@ trigger:
 
 ---
 kind: pipeline
+type: kubernetes
 name: yaboLandingPipeline(auboDemo)
 
 platform:
@@ -658,6 +667,7 @@ trigger:
 
 ---
 kind: pipeline
+type: kubernetes
 name: yaboLandingPipeline(auboProd)
 
 platform:
@@ -708,6 +718,7 @@ trigger:
 
 ---
 kind: pipeline
+type: kubernetes
 name: yaboLandingPipeline(sp51QA)
 
 platform:
@@ -754,6 +765,7 @@ trigger:
 
 ---
 kind: pipeline
+type: kubernetes
 name: yaboLandingPipeline(sp51Demo)
 
 platform:
@@ -804,6 +816,7 @@ trigger:
 
 ---
 kind: pipeline
+type: kubernetes
 name: yaboLandingPipeline(sp51Prod)
 
 platform:
@@ -854,6 +867,7 @@ trigger:
 
 ---
 kind: pipeline
+type: kubernetes
 name: yaboLandingPipeline(siguaQA)
 
 platform:
@@ -900,6 +914,7 @@ trigger:
 
 ---
 kind: pipeline
+type: kubernetes
 name: yaboLandingPipeline(siguaBeta)
 
 platform:
@@ -946,6 +961,7 @@ trigger:
 
 ---
 kind: pipeline
+type: kubernetes
 name: yaboLandingPipeline(siguaDemo)
 
 platform:
@@ -996,6 +1012,7 @@ trigger:
 
 ---
 kind: pipeline
+type: kubernetes
 name: yaboLandingPipeline(siguaProd)
 
 platform:

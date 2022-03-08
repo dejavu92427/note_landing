@@ -34,9 +34,9 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
 import { Getter, Action } from 'vuex-class';
 import { ISiteConfig } from '../../lib/interface';
+import { Options, Vue } from 'vue-class-component';
 
 @Options({})
 export default class Upup extends Vue {
@@ -63,7 +63,6 @@ export default class Upup extends Vue {
           this.getCommonList();
 
           this.isInit = true;
-
           if (res && res.status !== '000' && res.data.extra) {
             const text =
               res.data.extra.start_at && res.data.extra.end_at
@@ -82,7 +81,7 @@ export default class Upup extends Vue {
     })();
   }
 
-  linkTo(): void {
+  linkTo() {
     this.actionLinkTo('clientService');
   }
 

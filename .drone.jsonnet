@@ -35,6 +35,7 @@ local Pipeline(name="QA",cluster="xbb-common",zone="asia-east1-a",
 env="qa",deployName="yaboxxx-landing-page-qa",nginxConfig="yaboxxx-landing-page-nginx"
 ,imageName="yaboxxx-landingpage",shortProduct="yb",nodePool="",nodePoolName="") = {
     kind: "pipeline",
+    type: "kubernetes",
     name: "yaboLandingPipeline("+ shortProduct + name +")",
     steps:[
         {
@@ -120,6 +121,7 @@ local onlyGKE(name="QA",cluster="xbb-common",zone="asia-east1-a"
 
 local buildall(name="QA",shortProduct="yb")={
     kind: "pipeline",
+    type: "kubernetes",
     name: "AllPipeline("+ name +")",
     steps:[
     
@@ -164,7 +166,7 @@ local buildall(name="QA",shortProduct="yb")={
 
         onlyGKE("Beta","yaboxxx-test","asia-east1-b"
         ,"beta","sigua-landingpage-beta","sigua-landingpage-nginx-beta"
-        ,"yaboxxx-landingpage","sigua","env","qa"),
+        ,"yaboxxx-landingpage","sigua","env","prod"),
             
     ]else if name=="Prod" then [
         # yabo
