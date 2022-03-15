@@ -268,6 +268,7 @@ export const actions = {
           const a = document.createElement('a');
           a.download = fileName;
           a.href = window.URL.createObjectURL(blob);
+          document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
 
@@ -275,6 +276,7 @@ export const actions = {
         })
         .catch((err) => {
           const response = err && err.response;
+          console.log(err);
           return response;
         });
     }
