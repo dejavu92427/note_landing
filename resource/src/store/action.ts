@@ -29,7 +29,7 @@ declare global {
 export const actions = {
   // 網站初始化
   // /conf/domain nginx proxy
-  initSiteInfo({ commit }: { commit: Function; dispatch: Function }): any {
+  initSiteInfo({ commit, dispatch }: { commit: Function; dispatch: Function }): any {
     return axios
       .get('/conf/domain')
       .then((res) => {
@@ -433,7 +433,9 @@ export const actions = {
       case 'clientService':
         if (state.clientDomain) {
           window.location.href = `${
-            state.clientDomain.startsWith('http') ? `${state.clientDomain}/custom/service` : `https://${state.clientDomain}/custom/service`
+            state.clientDomain.startsWith('http')
+              ? `${state.clientDomain}/custom/service`
+              : `https://${state.clientDomain}/custom/service`
           }`;
         }
         break;

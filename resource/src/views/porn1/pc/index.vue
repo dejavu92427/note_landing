@@ -8,26 +8,53 @@
       </div>
       <div class="layout-center">
         <div class="layout-title">
-          <div class="title-1 pic" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/title_01.png')})` }"></div>
-          <div class="title-2 pic" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/title_02.png')})` }"></div>
+          <div
+            class="title-1 pic"
+            :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/title_01.png')})` }"
+          ></div>
+          <div
+            class="title-2 pic"
+            :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/title_02.png')})` }"
+          ></div>
         </div>
         <div class="layout-text">
-          <div class="logo pic" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/logo_cover.png')})` }"></div>
-          <div class="title pic" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/title_03.png')})` }"></div>
+          <div
+            class="logo pic"
+            :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/logo_cover.png')})` }"
+          ></div>
+          <div
+            class="title pic"
+            :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/title_03.png')})` }"
+          ></div>
 
           <div class="enter-pc-wrap"><a id="visitPC" :href="pcUrl" target="_blank">进入PC网页版</a></div>
         </div>
         <div class="layout-mobile">
-          <div class="phone-1 pic" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/phone_img01.png')})` }"></div>
-          <div class="phone-2 pic" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/phone_img02.png')})` }">
+          <div
+            class="phone-1 pic"
+            :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/phone_img01.png')})` }"
+          ></div>
+          <div
+            class="phone-2 pic"
+            :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/phone_img02.png')})` }"
+          >
             <qrcode-vue id="qrcode" :value="qrcodeOpt.value" :size="qrcodeOpt.size"></qrcode-vue>
           </div>
-          <div class="shadow-1 pic-t" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/phone_shadow01.png')})` }"></div>
-          <div class="shadow-2 pic-t" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/phone_shadow02.png')})` }"></div>
+          <div
+            class="shadow-1 pic-t"
+            :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/phone_shadow01.png')})` }"
+          ></div>
+          <div
+            class="shadow-2 pic-t"
+            :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/phone_shadow02.png')})` }"
+          ></div>
         </div>
       </div>
       <div class="layout-player">
-        <div class="cover pic-t" :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/player.png')})` }"></div>
+        <div
+          class="cover pic-t"
+          :style="{ 'background-image': `url(${cdnPath}${require('@/assets/img/porn1/player.png')})` }"
+        ></div>
       </div>
     </div>
     <div class="android-container" id="intro">
@@ -37,7 +64,13 @@
           android问题排除
         </div>
         <div class="desc">
-          <span class="test" v-for="tab in tabItem" :key="tab.id" :class="{ active: currentTab == tab.id }" @click="setActive(tab.id)">
+          <span
+            class="test"
+            v-for="tab in tabItem"
+            :key="tab.id"
+            :class="{ active: currentTab == tab.id }"
+            @click="setActive(tab.id)"
+          >
             {{ tab.desc }}
           </span>
         </div>
@@ -72,16 +105,40 @@
               </div>
               <div class="ans">
                 <div class="col">
-                  <img class="logo" :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/logo1_2.png')}`" alt="" />
-                  <img class="pic" :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/Install_ans01.jpg')}`" alt="" />
+                  <img
+                    class="logo"
+                    :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/logo1_2.png')}`"
+                    alt=""
+                  />
+                  <img
+                    class="pic"
+                    :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/Install_ans01.jpg')}`"
+                    alt=""
+                  />
                 </div>
                 <div class="col">
-                  <img class="logo" :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/logo2_2.png')}`" alt="" />
-                  <img class="pic" :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/Install_ans02.jpg')}`" alt="" />
+                  <img
+                    class="logo"
+                    :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/logo2_2.png')}`"
+                    alt=""
+                  />
+                  <img
+                    class="pic"
+                    :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/Install_ans02.jpg')}`"
+                    alt=""
+                  />
                 </div>
                 <div class="col">
-                  <img class="logo" :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/logo3_2.png')}`" alt="" />
-                  <img class="pic" :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/Install_ans03.jpg')}`" alt="" />
+                  <img
+                    class="logo"
+                    :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/logo3_2.png')}`"
+                    alt=""
+                  />
+                  <img
+                    class="pic"
+                    :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/Install_ans03.jpg')}`"
+                    alt=""
+                  />
                 </div>
               </div>
             </div>
@@ -128,11 +185,18 @@
               <div class="ans">
                 <div class="top">
                   <h4>操作步骤</h4>
-                  <div v-if="currentButton == 'oppo'"><h5>请至【手机管家 > 支付保护】 将使用的支付应用【关闭检测】，即可正常使用。</h5></div>
-                  <div v-if="currentButton == 'vivo'">
-                    <h5>请至【i 管家(更多) > 公用程式工具 > 支付保险箱 > 管理应用程式】将使用的支付应用【关闭检测】，即可正常使用。</h5>
+                  <div v-if="currentButton == 'oppo'">
+                    <h5>请至【手机管家 > 支付保护】 将使用的支付应用【关闭检测】，即可正常使用。</h5>
                   </div>
-                  <div v-if="currentButton == 'huawei'"><h5>请至【设置 > 安全 > 支付保护中心】将使用的支付应用【关闭检测】，即可正常使用。</h5></div>
+                  <div v-if="currentButton == 'vivo'">
+                    <h5>
+                      请至【i 管家(更多) > 公用程式工具 > 支付保险箱 >
+                      管理应用程式】将使用的支付应用【关闭检测】，即可正常使用。
+                    </h5>
+                  </div>
+                  <div v-if="currentButton == 'huawei'">
+                    <h5>请至【设置 > 安全 > 支付保护中心】将使用的支付应用【关闭检测】，即可正常使用。</h5>
+                  </div>
                 </div>
                 <div class="bottom" v-if="currentButton == 'oppo'">
                   <div class="col">
