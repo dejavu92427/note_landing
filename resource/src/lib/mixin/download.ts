@@ -2,7 +2,6 @@ import { Action, Getter } from 'vuex-class';
 import { EncryptInfo, InitClipboardInfo } from '../../lib/install';
 import { IAgentChannel, ICommonConfig, IDownloadConfig, ISiteConfig } from '../interface';
 import { Options, Vue } from 'vue-class-component';
-// import { Mixins, Watch } from 'vue-property-decorator';
 import Swiper, { Pagination } from 'swiper';
 import { isAndroid, isIOS, isMobile, isSafari } from '../../lib/isMobile';
 
@@ -15,12 +14,14 @@ interface DownloadItem {
   platform: string;
 }
 
-@Options({
-  watch: {
-    // agentChannel: (val) => {
-    // console.log(val);
-    // },
-  },
+@Options<DownloadMixin>({
+  // watch: {
+  //   agentChannel(val) {
+  //     // https://class-component.vuejs.org/guide/annotate-component-type-in-decorator.html
+  //     // console.log(this.onChangeAgent);
+  //     // this.onChangeAgent(val);
+  //   },
+  // },
 })
 export default class DownloadMixin extends Vue {
   @Action('getPlayer') getPlayer!: Function;
@@ -122,8 +123,7 @@ export default class DownloadMixin extends Vue {
 
   isInit = false;
 
-  // @Watch('isInit')
-  // getIsInit(value) {
+  // onChangeAgent(value) {
   //   console.log(value);
   // }
 
@@ -235,7 +235,10 @@ export default class DownloadMixin extends Vue {
   }
 
   handleDownloadClick(target: DownloadItem, actionDownload = false) {
-    if (!actionDownload && (this.isDownloading || !this.downloadConfig[target.platform as keyof IDownloadConfig].show)) {
+    if (
+      !actionDownload &&
+      (this.isDownloading || !this.downloadConfig[target.platform as keyof IDownloadConfig].show)
+    ) {
       return;
     }
 
@@ -419,7 +422,11 @@ export default class DownloadMixin extends Vue {
     //   return false;
     // }
 
-    if ((isAndroid() && target.platform === 'android') || (isIOS() && target.platform === 'pwa') || (isIOS() && target.platform === 'ios')) {
+    if (
+      (isAndroid() && target.platform === 'android') ||
+      (isIOS() && target.platform === 'pwa') ||
+      (isIOS() && target.platform === 'ios')
+    ) {
       return this.downloadConfig[target.platform as keyof IDownloadConfig].show;
     }
 
@@ -437,10 +444,14 @@ export default class DownloadMixin extends Vue {
 
     if (this.isAndroidMobile) {
       document.getElementById('startApp')?.setAttribute('target', '_blank');
-      document.getElementById('startApp')?.setAttribute('href', `${this.siteConfig.andAppSchema}?code=${localStorage.getItem('b') || ''}`);
+      document
+        .getElementById('startApp')
+        ?.setAttribute('href', `${this.siteConfig.andAppSchema}?code=${localStorage.getItem('b') || ''}`);
       this.androidSchemaUri = `${this.siteConfig.andAppSchema}?code=${localStorage.getItem('b') || ''}`;
     } else {
-      document.getElementById('startApp')?.setAttribute('href', `${this.siteConfig.iosAppSchema}open?code=${localStorage.getItem('b') || ''}`);
+      document
+        .getElementById('startApp')
+        ?.setAttribute('href', `${this.siteConfig.iosAppSchema}open?code=${localStorage.getItem('b') || ''}`);
     }
   }
 }

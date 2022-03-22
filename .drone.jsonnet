@@ -164,7 +164,7 @@ local buildall(name="QA",shortProduct="yb")={
         "beta","yabo-landingpage-beta","yabo-landingpage-nginx-beta"
         ,"yaboxxx-landingpage","yabo","env","prod"),
 
-        onlyGKE("Beta","yaboxxx-test","asia-east1-b"
+        onlyGKE("Beta","yaboxxx-prod","asia-east1-b"
         ,"beta","sigua-landingpage-beta","sigua-landingpage-nginx-beta"
         ,"yaboxxx-landingpage","sigua","env","prod"),
             

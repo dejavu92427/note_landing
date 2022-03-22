@@ -157,7 +157,7 @@ steps:
 - name: siguaGKE-Beta
   image: nytimes/drone-gke
   settings:
-    cluster: yaboxxx-test
+    cluster: yaboxxx-prod
     project: rd7-project
     template: configs/sigua/.istio-kube.yml
     vars:
