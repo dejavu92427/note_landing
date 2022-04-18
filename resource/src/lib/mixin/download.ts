@@ -1,12 +1,13 @@
 import { Action, Getter } from 'vuex-class';
 import { EncryptInfo, InitClipboardInfo } from '../../lib/install';
 import { IAgentChannel, ICommonConfig, IDownloadConfig, ISiteConfig } from '../interface';
-import { Options, Vue } from 'vue-class-component';
+// import { Mixins, Watch } from 'vue-property-decorator';
 import Swiper, { Pagination } from 'swiper';
 import { isAndroid, isIOS, isMobile, isSafari } from '../../lib/isMobile';
 
 import ProgressBar from 'progressbar.js';
 import { SwiperOptions } from 'swiper';
+import { Vue } from 'vue-class-component';
 
 interface DownloadItem {
   text: string;
@@ -14,15 +15,6 @@ interface DownloadItem {
   platform: string;
 }
 
-@Options<DownloadMixin>({
-  // watch: {
-  //   agentChannel(val) {
-  //     // https://class-component.vuejs.org/guide/annotate-component-type-in-decorator.html
-  //     // console.log(this.onChangeAgent);
-  //     // this.onChangeAgent(val);
-  //   },
-  // },
-})
 export default class DownloadMixin extends Vue {
   @Action('getPlayer') getPlayer!: Function;
   @Action('getLCFSystemConfig') getLCFSystemConfig!: Function;
@@ -123,7 +115,8 @@ export default class DownloadMixin extends Vue {
 
   isInit = false;
 
-  // onChangeAgent(value) {
+  // @Watch('isInit')
+  // getIsInit(value) {
   //   console.log(value);
   // }
 
@@ -235,10 +228,7 @@ export default class DownloadMixin extends Vue {
   }
 
   handleDownloadClick(target: DownloadItem, actionDownload = false) {
-    if (
-      !actionDownload &&
-      (this.isDownloading || !this.downloadConfig[target.platform as keyof IDownloadConfig].show)
-    ) {
+    if (!actionDownload && (this.isDownloading || !this.downloadConfig[target.platform as keyof IDownloadConfig].show)) {
       return;
     }
 
@@ -287,19 +277,21 @@ export default class DownloadMixin extends Vue {
   }
 
   handleDownload(target: DownloadItem): void {
-    const bundleID = this.downloadConfig[target.platform as keyof IDownloadConfig].bundleID;
-    const deviceInfoRSA = InitClipboardInfo(this.agentChannel);
+    const bundleID = this.downloadConfig[target.platform as keyof IDownloadConfig].bundleID; //as keyof IDownloadConfig 約束target.platform要為IDownloadConfig的key //#pwa,ios...
+    const deviceInfoRSA = InitClipboardInfo(this.agentChannel); //1.回傳加密downloadInfo 2.download分類的物件轉成base64存進local('b) 3.剪貼簿複製<img>｜<a>標籤(帶base64Info資料)
 
     let platform = '';
     this.initAppschema();
-    this.setDownloadRSA(deviceInfoRSA);
+    this.setDownloadRSA(deviceInfoRSA); //將加密downloadInfo放進api，回傳data:true
+    document.getElementById('startApp')?.setAttribute('href', '1');
 
     const getDownloadUri = (platformType) => {
       this.getDownloadUri({ bundleID: bundleID, platform: platformType }).then((result: string) => {
         if (this.agentChannel && target.platform === 'pwa') {
           this.$nextTick(() => {
-            this.downloadPubMobile(false);
+            this.downloadPubMobile(false); //下載pub.mobileprovision
           });
+
           return;
         }
 
@@ -308,7 +300,7 @@ export default class DownloadMixin extends Vue {
           const a = document.createElement('a');
           a.href = result;
           a.onclick = () => {
-            InitClipboardInfo(this.agentChannel);
+            InitClipboardInfo(this.agentChannel); // 上面有InitClipboardInfo一次了????
           };
           document.body.appendChild(a);
           a.click();
@@ -353,7 +345,7 @@ export default class DownloadMixin extends Vue {
           setTimeout(function () {
             getDownloadUri(platform);
           }, 500);
-          document.getElementById('startApp')?.click();
+          document.getElementById('startApp')?.click(); //ts語法 不加?判定可能是null
         }
         break;
 
@@ -394,12 +386,12 @@ export default class DownloadMixin extends Vue {
 
   downloadPubMobile(isIOS = true) {
     if (isIOS) {
-      window.location.href = './pub.mobileprovision';
+      window.location.href = './pub.mobileprovision'; //跳轉至描述檔????
     } else {
       const focusHandler = () => {
         if (this.isDownloadPub) return;
         this.isDownloadPub = true;
-        window.location.href = './pub.mobileprovision';
+        window.location.href = './pub.mobileprovision'; // 下載檔案 herf到loaclhost:8880/pub.mobileprovision  (這個檔案在伺服器回應html時就產生了跟著靜態圖片一起)(可以看網頁上隨便一張圖片都是存在loaclhost:8000底下)
         window.removeEventListener('focus', focusHandler);
       };
 
@@ -422,11 +414,7 @@ export default class DownloadMixin extends Vue {
     //   return false;
     // }
 
-    if (
-      (isAndroid() && target.platform === 'android') ||
-      (isIOS() && target.platform === 'pwa') ||
-      (isIOS() && target.platform === 'ios')
-    ) {
+    if ((isAndroid() && target.platform === 'android') || (isIOS() && target.platform === 'pwa') || (isIOS() && target.platform === 'ios')) {
       return this.downloadConfig[target.platform as keyof IDownloadConfig].show;
     }
 
@@ -444,14 +432,10 @@ export default class DownloadMixin extends Vue {
 
     if (this.isAndroidMobile) {
       document.getElementById('startApp')?.setAttribute('target', '_blank');
-      document
-        .getElementById('startApp')
-        ?.setAttribute('href', `${this.siteConfig.andAppSchema}?code=${localStorage.getItem('b') || ''}`);
+      document.getElementById('startApp')?.setAttribute('href', `${this.siteConfig.andAppSchema}?code=${localStorage.getItem('b') || ''}`);
       this.androidSchemaUri = `${this.siteConfig.andAppSchema}?code=${localStorage.getItem('b') || ''}`;
     } else {
-      document
-        .getElementById('startApp')
-        ?.setAttribute('href', `${this.siteConfig.iosAppSchema}open?code=${localStorage.getItem('b') || ''}`);
+      document.getElementById('startApp')?.setAttribute('href', `${this.siteConfig.iosAppSchema}open?code=${localStorage.getItem('b') || ''}`);
     }
   }
 }

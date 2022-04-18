@@ -427,7 +427,6 @@ $min_font_size: 10px;
   min-height: 0;
   padding: 0;
   position: sticky;
-  position: -webkit-sticky;
   width: 100%;
   z-index: 20;
 

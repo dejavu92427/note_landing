@@ -1,161 +1,156 @@
 <template>
-  <div>
-    <div class="wrap">
-      <div class="and-help">
-        <a href="#intro"><img :src="`${require('@/assets/img/andorid_virus_help/btn_androidhelp.png')}`" alt="" /></a>
+  <div class="wrap">
+    <div class="and-help"><a href="#intro">Android帮助</a></div>
+    <img class="logo-corner" :src="`${cdnPath}${require('@/assets/img/aobo1/logo_corner.png')}`" />
+    <div class="main-header">
+      <qrcode-vue id="qrcode" :value="qrcodeOpt.value" :size="qrcodeOpt.size"></qrcode-vue>
+      <img class="code-tips" :src="`${cdnPath}${require('@/assets/img/aobo1/code_tip.png')}`" />
+    </div>
+    <div class="cover-image">
+      <img :src="`${cdnPath}${require('@/assets/img/aobo1/appdown_sports.png')}`" />
+    </div>
+  </div>
+  <div class="android-container" id="intro">
+    <div class="header">
+      <div class="logo">
+        <img :src="`${require('@/assets/img/andorid_virus_help/logo_android_w.png')}`" alt="" />
+        android问题排除
       </div>
-      <img class="logo-corner" :src="`${cdnPath}${require('@/assets/img/aobo1/logo_corner.png')}`" />
-      <div class="main-header">
-        <qrcode-vue id="qrcode" :value="qrcodeOpt.value" :size="qrcodeOpt.size"></qrcode-vue>
-        <!-- 4kb -->
-        <img class="code-tips" :src="`${require('@/assets/img/aobo1/code_tip.png')}`" />
-      </div>
-      <div class="cover-image">
-        <img :src="`${cdnPath}${require('@/assets/img/aobo1/appdown_sports.png')}`" />
+      <div class="desc">
+        <span class="test" v-for="tab in tabItem" :key="tab.id" :class="{ active: currentTab == tab.id }" @click="setActive(tab.id)">
+          {{ tab.desc }}
+        </span>
       </div>
     </div>
-    <div class="android-container" id="intro">
-      <div class="header">
-        <div class="logo">
-          <img :src="`${require('@/assets/img/andorid_virus_help/logo_android_w.png')}`" alt="" />
-          android问题排除
+    <div class="content">
+      <div
+        v-show="currentTab === 1"
+        class="tab-1"
+        :style="{ 'background-image': `url(${cdnPath}${require(`@/assets/img/andorid_virus_help/bg.jpg`)})` }"
+      >
+        <div class="left">
+          <h1>安装威胁</h1>
+          <div class="q-wrap">
+            <div class="title-wrap">
+              <span>Q</span>
+              <h2>我的问题</h2>
+            </div>
+            <p>安装软体时，遇到内建防护软体报毒。</p>
+            <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/Install_que.jpg')}`" alt="" />
+          </div>
         </div>
-        <div class="desc">
-          <span class="test" v-for="tab in tabItem" :key="tab.id" :class="{ active: currentTab == tab.id }" @click="setActive(tab.id)">
-            {{ tab.desc }}
-          </span>
+        <div class="right">
+          <p class="top-warning">
+            本软体为最高安全等级，请安心下载畅游
+            <img class="icon-heart" :src="`${require('@/assets/img/andorid_virus_help/icon_heart.png')}`" alt="" />
+          </p>
+          <div class="a-wrap">
+            <div class="title-wrap">
+              <span>A</span>
+              <h2>问题排除</h2>
+              <p>请点击【继续安装】或【无视风险安装】，即可完成安装。</p>
+            </div>
+            <div class="ans">
+              <div class="col">
+                <img class="logo" :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/logo1_2.png')}`" alt="" />
+                <img class="pic" :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/Install_ans01.jpg')}`" alt="" />
+              </div>
+              <div class="col">
+                <img class="logo" :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/logo2_2.png')}`" alt="" />
+                <img class="pic" :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/Install_ans02.jpg')}`" alt="" />
+              </div>
+              <div class="col">
+                <img class="logo" :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/logo3_2.png')}`" alt="" />
+                <img class="pic" :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/Install_ans03.jpg')}`" alt="" />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="content">
-        <div
-          v-show="currentTab === 1"
-          class="tab-1"
-          :style="{ 'background-image': `url(${cdnPath}${require(`@/assets/img/andorid_virus_help/bg.jpg`)})` }"
-        >
-          <div class="left">
-            <h1>安装威胁</h1>
-            <div class="q-wrap">
-              <div class="title-wrap">
-                <span>Q</span>
-                <h2>我的问题</h2>
-              </div>
-              <p>安装软体时，遇到内建防护软体报毒。</p>
-              <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/Install_que.jpg')}`" alt="" />
+
+      <div
+        v-show="currentTab === 2"
+        class="tab-2"
+        :style="{ 'background-image': `url(${cdnPath}${require(`@/assets/img/andorid_virus_help/bg.jpg`)})` }"
+      >
+        <div class="left">
+          <h1>支付软体报毒</h1>
+          <div class="q-wrap">
+            <div class="title-wrap">
+              <span>Q</span>
+              <h2>我的问题</h2>
             </div>
-          </div>
-          <div class="right">
-            <p class="top-warning">
-              本软体为最高安全等级，请安心下载畅游
-              <img class="icon-heart" :src="`${require('@/assets/img/andorid_virus_help/icon_heart.png')}`" alt="" />
-            </p>
-            <div class="a-wrap">
-              <div class="title-wrap">
-                <span>A</span>
-                <h2>问题排除</h2>
-                <p>请点击【继续安装】或【无视风险安装】，即可完成安装。</p>
-              </div>
-              <div class="ans">
-                <div class="col">
-                  <img class="logo" :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/logo1_2.png')}`" alt="" />
-                  <img class="pic" :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/Install_ans01.jpg')}`" alt="" />
-                </div>
-                <div class="col">
-                  <img class="logo" :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/logo2_2.png')}`" alt="" />
-                  <img class="pic" :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/Install_ans02.jpg')}`" alt="" />
-                </div>
-                <div class="col">
-                  <img class="logo" :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/logo3_2.png')}`" alt="" />
-                  <img class="pic" :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/Install_ans03.jpg')}`" alt="" />
-                </div>
-              </div>
-            </div>
+            <p>开启支付软体，出现本软体为病毒危险 提示。</p>
+            <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/way_que.png')}`" alt="" />
           </div>
         </div>
+        <div class="right">
+          <p class="top-warning">
+            本软体为最高安全等级，请安心下载畅游
+            <img class="icon-heart" :src="`${require('@/assets/img/andorid_virus_help/icon_heart.png')}`" alt="" />
+          </p>
 
-        <div
-          v-show="currentTab === 2"
-          class="tab-2"
-          :style="{ 'background-image': `url(${cdnPath}${require(`@/assets/img/andorid_virus_help/bg.jpg`)})` }"
-        >
-          <div class="left">
-            <h1>支付软体报毒</h1>
-            <div class="q-wrap">
-              <div class="title-wrap">
-                <span>Q</span>
-                <h2>我的问题</h2>
-              </div>
-              <p>开启支付软体，出现本软体为病毒危险 提示。</p>
-              <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/way_que.png')}`" alt="" />
+          <div class="a-wrap">
+            <div class="title-wrap">
+              <span>A</span>
+              <h2>问题排除</h2>
             </div>
-          </div>
-          <div class="right">
-            <p class="top-warning">
-              本软体为最高安全等级，请安心下载畅游
-              <img class="icon-heart" :src="`${require('@/assets/img/andorid_virus_help/icon_heart.png')}`" alt="" />
-            </p>
+            <div class="button-wrap">
+              <button
+                v-for="item in buttonList"
+                :key="item.name"
+                :class="[`${item.name.toLowerCase()}`, { active: currentButton == `${item.name.toLowerCase()}` }]"
+                @click="setBtnActive(item.name)"
+              >
+                {{ item.name }}
+              </button>
+            </div>
 
-            <div class="a-wrap">
-              <div class="title-wrap">
-                <span>A</span>
-                <h2>问题排除</h2>
+            <div class="ans">
+              <div class="top">
+                <h4>操作步骤</h4>
+                <div v-if="currentButton == 'oppo'"><h5>请至【手机管家 > 支付保护】 将使用的支付应用【关闭检测】，即可正常使用。</h5></div>
+                <div v-if="currentButton == 'vivo'">
+                  <h5>请至【i 管家(更多) > 公用程式工具 > 支付保险箱 > 管理应用程式】将使用的支付应用【关闭检测】，即可正常使用。</h5>
+                </div>
+                <div v-if="currentButton == 'huawei'"><h5>请至【设置 > 安全 > 支付保护中心】将使用的支付应用【关闭检测】，即可正常使用。</h5></div>
               </div>
-              <div class="button-wrap">
-                <button
-                  v-for="item in buttonList"
-                  :key="item.name"
-                  :class="[`${item.name.toLowerCase()}`, { active: currentButton == `${item.name.toLowerCase()}` }]"
-                  @click="setBtnActive(item.name)"
-                >
-                  {{ item.name }}
-                </button>
+              <div class="bottom" v-if="currentButton == 'oppo'">
+                <div class="col">
+                  <span>步骤 1</span>
+                  <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/oppo_ans01.jpg')}`" alt="" />
+                </div>
+                <div class="col">
+                  <span>步骤 2</span>
+                  <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/oppo_ans02.jpg')}`" alt="" />
+                </div>
               </div>
-
-              <div class="ans">
-                <div class="top">
-                  <h4>操作步骤</h4>
-                  <div v-if="currentButton == 'oppo'"><h5>请至【手机管家 > 支付保护】 将使用的支付应用【关闭检测】，即可正常使用。</h5></div>
-                  <div v-if="currentButton == 'vivo'">
-                    <h5>请至【i 管家(更多) > 公用程式工具 > 支付保险箱 > 管理应用程式】将使用的支付应用【关闭检测】，即可正常使用。</h5>
-                  </div>
-                  <div v-if="currentButton == 'huawei'"><h5>请至【设置 > 安全 > 支付保护中心】将使用的支付应用【关闭检测】，即可正常使用。</h5></div>
+              <div class="bottom" v-if="currentButton == 'vivo'">
+                <div class="col">
+                  <span>步骤 1</span>
+                  <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/vivo_ans01.jpg')}`" alt="" />
                 </div>
-                <div class="bottom" v-if="currentButton == 'oppo'">
-                  <div class="col">
-                    <span>步骤 1</span>
-                    <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/oppo_ans01.jpg')}`" alt="" />
-                  </div>
-                  <div class="col">
-                    <span>步骤 2</span>
-                    <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/oppo_ans02.jpg')}`" alt="" />
-                  </div>
+                <div class="col">
+                  <span>步骤 2</span>
+                  <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/vivo_ans02.jpg')}`" alt="" />
                 </div>
-                <div class="bottom" v-if="currentButton == 'vivo'">
-                  <div class="col">
-                    <span>步骤 1</span>
-                    <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/vivo_ans01.jpg')}`" alt="" />
-                  </div>
-                  <div class="col">
-                    <span>步骤 2</span>
-                    <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/vivo_ans02.jpg')}`" alt="" />
-                  </div>
-                  <div class="col">
-                    <span>步骤 3</span>
-                    <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/vivo_ans03.jpg')}`" alt="" />
-                  </div>
+                <div class="col">
+                  <span>步骤 3</span>
+                  <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/vivo_ans03.jpg')}`" alt="" />
                 </div>
-                <div class="bottom" v-if="currentButton == 'huawei'">
-                  <div class="col">
-                    <span>步骤 1</span>
-                    <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/huawei_ans01.jpg')}`" alt="" />
-                  </div>
-                  <div class="col">
-                    <span>步骤 2</span>
-                    <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/huawei_ans02.jpg')}`" alt="" />
-                  </div>
-                  <div class="col">
-                    <span>步骤 3</span>
-                    <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/huawei_ans03.jpg')}`" alt="" />
-                  </div>
+              </div>
+              <div class="bottom" v-if="currentButton == 'huawei'">
+                <div class="col">
+                  <span>步骤 1</span>
+                  <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/huawei_ans01.jpg')}`" alt="" />
+                </div>
+                <div class="col">
+                  <span>步骤 2</span>
+                  <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/huawei_ans02.jpg')}`" alt="" />
+                </div>
+                <div class="col">
+                  <span>步骤 3</span>
+                  <img :src="`${cdnPath}${require('@/assets/img/andorid_virus_help/huawei_ans03.jpg')}`" alt="" />
                 </div>
               </div>
             </div>
@@ -280,7 +275,7 @@ body {
   height: auto;
   width: 80vw;
   margin: 0 auto;
-  bottom: -3.8px;
+  bottom: 0;
   left: calc(50% - 40vw);
 
   > img {
@@ -292,13 +287,12 @@ body {
 .and-help {
   position: absolute;
   right: 20px;
-  bottom: -3.8px;
-  z-index: 20;
+  bottom: 5px;
   a {
     text-decoration: none;
-    // background: #000000;
-    // color: #fff;
-    // padding: 5px 10px;
+    background: #000000;
+    color: #fff;
+    padding: 5px 10px;
   }
 }
 

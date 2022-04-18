@@ -8,5 +8,5 @@ export const store = createStore({
   actions,
   getters,
   mutations,
-  state
+  state,
 });

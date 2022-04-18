@@ -1,7 +1,7 @@
 /* eslint-disable */
 import JSEncrypt from 'jsencrypt';
 import { isAndroid } from './isMobile';
-const pubkey =
+const pubkey = //公鑰（當初不知道是誰給的????）
   'MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAvjQox5Om5gNOmynn8WaSv/s8dyWTSVvLCmdiV+W9r1iUs/wHhBg6EVYCQn9pBJPfdXsCjln+EStlDow6JJtcoYekM0O0yhKsbH7Y6a54N50lTqGzSYUPRDg4W6PrERn6udLAqeVELy6s+giFYIUeoAkYCLESPnTno/mQb5IDlc8kcq63hbNEOzMfCd/tp7217WpuKR4Lve0rI4ooQhdO/GbxDrzfsrGLlpJT8inhQd7mzjdwiCAOXV/H/UKkvkmIvL1R+qrIr14ZDjX28NRKSkNXtZxl6ZoaqN5wlJHj8/Qxb+ME6d1yRU6I3k/dS4uH08fKAol34nvDmrzD8i3VH2ShXjmqcmMzRWQHSMTle3gchAnUeVeCpdYLVQtGU2DqQSGmQFkyETMxqH4AEnI/6+IlDClMj2/PixGbU9wybK5BnCZETjf1D/V9jW/l4RxFn4mk7+z9s7cOKvlYdpPIORkhCTJRHfkC04JBYnEj+f7uMz6Zuj6H6nX9Ve9ldCnBXb9Tp6CS39/P7XcGR0PIbAeFJU14RCzusA0Z80TFzVraK6NE8Y768jcM/sWs1+wL8I5KnQ1E7Mfu39GQgxoHNJX/JZ9/1hSLoDwUBmHiFXLuYeGOcx7rcE4CcIXULKxNT5AQawnlo3h2KoTu5ou73xhKXdvS4RYJMw1C5o+c4pECAwEAAQ==';
 const isDev = process.env.NODE_ENV === 'development';
 let gpuVendor = '';
@@ -9,12 +9,17 @@ export const InitClipboardInfo = (data) => {
   localStorage.removeItem('addr');
 
   const info = JSON.stringify({
-    ...data,
+    ...data, //text: '极速版下载',type: 'downloadPWA',platform: 'pwa',
     timestamp: new Date().toGMTString(),
   });
 
   // console.log('paste: ', info);
+
   let base64Info = Buffer.from(info).toString('base64');
+  //var a = buffer.from(x) 將字串編碼為預設ascii(請查表)並放進buffer陣列中(Buffer['48','6c'...]) 以16進制表示('H'-> 48)("l" -> 6c)
+  //若a.length為1 means 1 byte(00000000) 範圍00-ff對應到 00000000-11111111
+  //a.toString('2') 將buffer的值，編譯為2進制  ('48'->0100_1000->01001000)
+  //這邊為轉base64//ex. console.log(Buffer.from("Hello World").toString('base64'));//#SGVsbG8gV29ybGQ=
   localStorage.setItem('b', base64Info);
 
   if (isDev) {
@@ -49,7 +54,7 @@ export const InitClipboardInfo = (data) => {
     container.style.pointerEvents = 'none';
     container.style.opacity = '0';
     document.body.appendChild(container);
-    execCopy(container);
+    execCopy(container); //把container選起來複製，然後刪掉 剪貼板????
   }
 
   const setDonwloadInfo = {
@@ -61,6 +66,7 @@ export const InitClipboardInfo = (data) => {
 
   console.log(setDonwloadInfo);
 
+  //取得以公鑰加密的資料，對downloadInfo轉成的json加密(後端在用私鑰打開????)
   const jsonString = JSON.stringify(setDonwloadInfo);
   const encrypt = new JSEncrypt();
   encrypt.setPublicKey(pubkey);
@@ -185,13 +191,13 @@ export const EncryptInfo = (domain, site) => {
 
 function execCopy(el) {
   try {
-    window.getSelection().removeAllRanges();
+    window.getSelection().removeAllRanges(); //得到一個selection對象，並且如果有光標選取範圍，則取消
 
-    let range = document.createRange();
-    range.selectNode(el);
-    window.getSelection().addRange(range);
+    let range = document.createRange(); //創一個range(範圍對象)
+    range.selectNode(el); //選取整個節點（ex.按下極速版產生的<img>）
+    window.getSelection().addRange(range); //指定selection的範圍為range
 
-    const result = document.execCommand('copy');
+    const result = document.execCommand('copy'); //複製選取的部分
     console.log('result:', result);
     window.getSelection().removeAllRanges();
 

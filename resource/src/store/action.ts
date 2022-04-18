@@ -29,9 +29,10 @@ declare global {
 export const actions = {
   // 網站初始化
   // /conf/domain nginx proxy
-  initSiteInfo({ commit, dispatch }: { commit: Function; dispatch: Function }): any {
+  //1.取得domain並對應到site.config.json的資料去設定 SET_CDN，SET_SITE_CONFIG，網站標題，icon
+  initSiteInfo: ({ commit }: { commit: Function; dispatch: Function }) => {
     return axios
-      .get('/conf/domain')
+      .get('conf/domain')
       .then((res) => {
         if (res && res.data && res.status === 200) {
           const result = res.data;
@@ -53,22 +54,20 @@ export const actions = {
             appleTouchIcon.rel = 'apple-touch-icon';
             link.href = `/img/${targetSite.ROUTER_TPL}/icon-192x192.png`;
             link.setAttribute('sizes', '192x192');
+            // document.head.appendChild(appleTouchIcon);//=
+            // appleTouchIcon.rel = 'apple-touch-icon';//=
+            // appleTouchIcon.href = `/img/${targetSite.ROUTER_TPL}/icon-192x192.png`;//=
+            // appleTouchIcon.setAttribute('sizes', '192x192');//=上面怪怪的????(apple-touch-icon為iphone的safari-分享-新增網頁至桌面的圖示)
 
             commit(Types.SET_VERSION, versionJson.VERSION);
 
-            const qrUrl = new URL(`https://${window.location.host}`);
-
+            //這段是要讓進入落地頁時是pc網頁會顯示qrcode讓用戶拿起手機掃
+            //會串code,channelID
+            const qrUrl = new URL(`https://${window.location.host}`); //localhost:8880//轉成URL物件可以讓query自動判斷?&去添加
             const refCode = localStorage.getItem('code'); // 推廣代碼
             const channelid = Number(localStorage.getItem('channelid')) || 0;
-
-            if (refCode) {
-              qrUrl.searchParams.append('code', refCode);
-            }
-
-            if (channelid) {
-              qrUrl.searchParams.append('channelid', channelid.toString());
-            }
-
+            if (refCode) qrUrl.searchParams.append('code', refCode);
+            if (channelid) qrUrl.searchParams.append('channelid', channelid.toString());
             localStorage.setItem('referral-link', qrUrl.toString());
 
             // gtag 友盟
@@ -91,44 +90,9 @@ export const actions = {
         }
       })
       .catch((err) => {
-        console.log({ ...err });
-
-        const retryWrapper = (axios, options) => {
-          const maxTime = options.retryTime;
-          // const retry_status_code = options.retry_status_code;
-
-          let counter = 0;
-          axios.interceptors.response.use(null, (error) => {
-            /** @type {import("axios").AxiosRequestConfig} */
-            const config = error.config;
-            if (counter < maxTime && error.isAxiosError) {
-              counter++;
-              return new Promise((resolve) => {
-                resolve(axios(config));
-              });
-            }
-            return Promise.reject(error);
-          });
-        };
-
-        async function main() {
-          try {
-            retryWrapper(axios, { retryTime: 3 });
-            await axios.get('/conf/domain').then(() => {
-              window.location.reload();
-            });
-          } catch {
-            alert('网路连线异常,请尝试重新连线');
-            window.location.reload();
-          }
-        }
-        if (err.isAxiosError) {
-          setTimeout(() => {
-            console.log('retry0');
-            main();
-            console.log('retry1');
-          }, 500);
-        }
+        alert('domain error');
+        console.log(err);
+        window.location.href = '/404';
       });
   },
 
@@ -216,6 +180,7 @@ export const actions = {
   },
 
   setDownloadRSA({ state }: { state: State }, data: string): any {
+    //研究要怎麼轉碼????
     const buffer = Buffer.from(data, 'base64');
     const bufString = buffer.toString('hex');
 
@@ -237,8 +202,9 @@ export const actions = {
   getDownloadUri({ state }: { state: State }, params: { bundleID: string; platform: string }): any {
     const agentChannel = state.agentChannel;
 
-    // pwa
     if (agentChannel && params.platform === '2') {
+      //如果是pwa 這支api Content-Type: application/octet-stream  回應二進制檔案
+      //把api的回應放入一個a連結，js操控click觸發連結，下載檔案(沒有實際appendchild，形成按下急速版下載，就下載的假象)
       return axios({
         method: 'post',
         url: `${state.siteConfig.channelApiDomain}/cxbb/AgentChannel/getMobileConfig`,
@@ -257,31 +223,34 @@ export const actions = {
         },
       })
         .then((res) => {
-          const url = window.URL.createObjectURL(new Blob([res.data]));
+          const url = window.URL.createObjectURL(new Blob([res.data])); //#blob:http://localhost:8880/1fa557c3-56c4-4c67-8680-21cfcae55420
+          //1.new Blob(array,option) array為buffer[](上述提到的octet-stream為此格式),option{type: 定義資料的MIME格式
+          //2.window.URL.createObjectURL(Blob)產生blob url (以靜態(存在瀏覽器)方式佔用內存，並可供下訪問下載)
+          //???? 1.URL.revokeObjectURL()， 2.有空可以一下原理
 
-          let fileName = `${agentChannel.code}.mobileconfig`;
+          let fileName = `${agentChannel.code}.mobileconfig`; //取blob連結的字串作為檔名(1fa557c3-56c4-4c67-8680-21cfcae55420)
           if (url && url.split('/') && url.split('/')[3]) {
             fileName = `${url.split('/')[3]}.mobileconfig`;
           }
 
-          const blob = new Blob([res.data], { type: 'application/x-apple-aspen-config' });
-          const a = document.createElement('a');
-          a.download = fileName;
-          a.href = window.URL.createObjectURL(blob);
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
+          const blob = new Blob([res.data], { type: 'application/x-apple-aspen-config' }); //指定type可以略過"是否下載？"的alert
 
-          return Promise.resolve('agentPWA');
+          const a = document.createElement('a');
+          a.download = fileName; //download屬性(a.herf="圖片"會在新視窗開啟圖片，加了download則為直接下載 若有給download="x"則以x命名)//這邊好像不加也沒差????
+          a.href = window.URL.createObjectURL(blob);
+          a.click();
+
+          document.body.removeChild(a); //沒有appendchild為什麼要remove  ，還導致l:246沒回傳
+
+          return Promise.resolve('agentPWA'); //回傳promise狀態為完成的物件 Promise{<fulfilled> 'agentPWA'}
         })
         .catch((err) => {
           const response = err && err.response;
-          console.log(err);
           return response;
         });
     }
 
-    return axios
+    return axios //ios/android app 下載 取得 .mobileconfig / .apk
       .get(`${state.siteConfig.golangApiDomain}/xbb/App/Download`, {
         headers: {
           'x-domain': state.siteConfig.domain,
@@ -433,9 +402,7 @@ export const actions = {
       case 'clientService':
         if (state.clientDomain) {
           window.location.href = `${
-            state.clientDomain.startsWith('http')
-              ? `${state.clientDomain}/custom/service`
-              : `https://${state.clientDomain}/custom/service`
+            state.clientDomain.startsWith('http') ? `${state.clientDomain}/custom/service` : `https://${state.clientDomain}/custom/service`
           }`;
         }
         break;
