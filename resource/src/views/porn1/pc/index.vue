@@ -253,8 +253,8 @@ import qrcodeVue from 'qrcode.vue';
 
 @Options({
   components: {
-    qrcodeVue,
-  },
+    qrcodeVue
+  }
 })
 export default class PcPorn1 extends Vue {
   @Action('getHostnames') getHostnames!: Function;
@@ -265,7 +265,7 @@ export default class PcPorn1 extends Vue {
 
   qrcodeOpt = {
     value: '',
-    size: 170,
+    size: 170
   };
 
   currentTab = 1;
@@ -273,23 +273,23 @@ export default class PcPorn1 extends Vue {
   tabItem = [
     {
       id: 1,
-      desc: '安装威胁',
+      desc: '安装威胁'
     },
     {
       id: 2,
-      desc: '支付软体报毒',
-    },
+      desc: '支付软体报毒'
+    }
   ];
   buttonList = [
     {
-      name: 'OPPO',
+      name: 'OPPO'
     },
     {
-      name: 'VIVO',
+      name: 'VIVO'
     },
     {
-      name: 'Huawei',
-    },
+      name: 'Huawei'
+    }
   ];
 
   pcUrl = '';
@@ -298,14 +298,14 @@ export default class PcPorn1 extends Vue {
     if (isMobile()) {
       this.$router.push({
         name: 'download',
-        query: { ...this.$route.query },
+        query: { ...this.$route.query }
       });
       return;
     }
 
     this.qrcodeOpt.value = `${localStorage.getItem('referral-link')}`;
     this.getHostnames({ clientType: 13 }).then(() => {
-      this.actionLinkTo('visitPC').then((result) => {
+      this.actionLinkTo('visitPC').then(result => {
         this.pcUrl = result;
       });
     });
@@ -373,7 +373,7 @@ body {
     position: absolute;
     top: 0;
     left: 128px;
-    width: 537px;
+    width: 654px;
     height: 104px;
     -webkit-animation-delay: 0.25s;
     animation-delay: 0.25s;
