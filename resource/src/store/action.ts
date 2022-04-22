@@ -32,10 +32,10 @@ export const actions = {
   initSiteInfo({ commit, dispatch }: { commit: Function; dispatch: Function }): any {
     return axios
       .get('/conf/domain')
-      .then((res) => {
+      .then(res => {
         if (res && res.data && res.status === 200) {
           const result = res.data;
-          const targetSite = sitConfigJson.find((i) => i.DOMAIN === result.domain);
+          const targetSite = sitConfigJson.find(i => i.DOMAIN === result.domain);
           if (targetSite) {
             commit(Types.SET_SITE_CONFIG, targetSite);
 
@@ -90,7 +90,7 @@ export const actions = {
           return;
         }
       })
-      .catch((err) => {
+      .catch(err => {
         console.log({ ...err });
 
         const retryWrapper = (axios, options) => {
@@ -98,12 +98,12 @@ export const actions = {
           // const retry_status_code = options.retry_status_code;
 
           let counter = 0;
-          axios.interceptors.response.use(null, (error) => {
+          axios.interceptors.response.use(null, error => {
             /** @type {import("axios").AxiosRequestConfig} */
             const config = error.config;
             if (counter < maxTime && error.isAxiosError) {
               counter++;
-              return new Promise((resolve) => {
+              return new Promise(resolve => {
                 resolve(axios(config));
               });
             }
@@ -138,18 +138,18 @@ export const actions = {
       url: `${state.siteConfig.golangApiDomain}/xbb/Player`,
       headers: {
         'x-domain': state.siteConfig.domain,
-        kind: 'h',
+        kind: 'h'
       },
       params: {
-        lang: 'zh-cn',
-      },
+        lang: 'zh-cn'
+      }
     })
-      .then((res) => {
+      .then(res => {
         const result = res.data.data;
         commit(Types.SET_MEM_INFO, result);
         return res;
       })
-      .catch((err) => {
+      .catch(err => {
         const response = err && err.response;
         console.log(err);
         return response;
@@ -172,21 +172,21 @@ export const actions = {
       .get(`${state.siteConfig.golangApiDomain}/xbb/Domain/Hostnames/V2`, {
         headers: {
           'x-domain': state.siteConfig.domain,
-          kind: 'h',
+          kind: 'h'
         },
         params: {
           lang: 'zh-cn',
           clientType: clientType,
-          withLevelHostname: true,
-        },
+          withLevelHostname: true
+        }
       })
-      .then((res) => {
+      .then(res => {
         if (res && res.data && res.data.data && res.data.status === '000') {
           const result = res.data.data;
           commit(Types.SET_HOSTNAME, { clientType: clientType, result: result });
         }
       })
-      .catch((err) => {
+      .catch(err => {
         const response = err && err.response;
         return response;
       });
@@ -197,19 +197,19 @@ export const actions = {
       .get(`${state.siteConfig.golangApiDomain}/xbb/Common/List`, {
         headers: {
           'x-domain': state.siteConfig.domain,
-          kind: 'h',
+          kind: 'h'
         },
         params: {
-          lang: 'zh-cn',
-        },
+          lang: 'zh-cn'
+        }
       })
-      .then((res) => {
+      .then(res => {
         if (res && res.data && res.data.data && res.data.status === '000') {
           const result = res.data.data;
           commit(Types.SET_COMMON_LIST, result);
         }
       })
-      .catch((err) => {
+      .catch(err => {
         const response = err && err.response;
         return response;
       });
@@ -224,12 +224,12 @@ export const actions = {
       url: `${state.siteConfig.channelApiDomain}/cxbb/AgentChannel/setDownload`,
       headers: {
         'x-domain': state.siteConfig.domain,
-        kind: 'h',
+        kind: 'h'
       },
       data: {
-        rsa: bufString,
-      },
-    }).catch((err) => {
+        rsa: bufString
+      }
+    }).catch(err => {
       console.log(err);
     });
   },
@@ -245,7 +245,7 @@ export const actions = {
         responseType: 'blob',
         headers: {
           'x-domain': state.siteConfig.domain,
-          kind: 'h',
+          kind: 'h'
         },
         data: {
           lang: 'zh-cn',
@@ -253,10 +253,10 @@ export const actions = {
           platform: params.platform,
           channelid: +agentChannel.channelid,
           uuid: agentChannel.uuid,
-          code: agentChannel.code,
-        },
+          code: agentChannel.code
+        }
       })
-        .then((res) => {
+        .then(res => {
           const url = window.URL.createObjectURL(new Blob([res.data]));
 
           let fileName = `${agentChannel.code}.mobileconfig`;
@@ -274,31 +274,33 @@ export const actions = {
 
           return Promise.resolve('agentPWA');
         })
-        .catch((err) => {
+        .catch(err => {
           const response = err && err.response;
           console.log(err);
           return response;
         });
     }
 
+    let download_link = state.siteConfig.prod ? '/xbb/App/Download' : '/xbb/Service/In/App/Download/V2';
+
     return axios
-      .get(`${state.siteConfig.golangApiDomain}/xbb/App/Download`, {
+      .get(state.siteConfig.golangApiDomain + download_link, {
         headers: {
           'x-domain': state.siteConfig.domain,
-          kind: 'h',
+          kind: 'h'
         },
         params: {
           lang: 'zh-cn',
           bundleID: params.bundleID,
-          platform: params.platform,
-        },
+          platform: params.platform
+        }
       })
-      .then((res) => {
+      .then(res => {
         if (res && res.data && res.data.data && res.data.status === '000') {
           return res.data.data.url;
         }
       })
-      .catch((err) => {
+      .catch(err => {
         const response = err && err.response;
         return response;
       });
@@ -309,19 +311,19 @@ export const actions = {
       .get(`${state.siteConfig.golangApiDomain}/cxbb/System/clientDomain`, {
         headers: {
           'x-domain': state.siteConfig.domain,
-          kind: 'h',
+          kind: 'h'
         },
         params: {
-          lang: 'zh-cn',
-        },
+          lang: 'zh-cn'
+        }
       })
-      .then((res) => {
+      .then(res => {
         if (res && res.data && res.data.data && res.data.status === '000') {
           const result = res.data?.data[0]?.value || '';
           commit(Types.SET_CLIENTDOMIAN, result);
         }
       })
-      .catch((err) => {
+      .catch(err => {
         const response = err && err.response;
         return response;
       });
@@ -333,13 +335,13 @@ export const actions = {
         .get(`${state.siteConfig.golangApiDomain}/cxbb/System/config/${data}`, {
           headers: {
             'x-domain': state.siteConfig.domain,
-            kind: 'h',
+            kind: 'h'
           },
           params: {
-            lang: 'zh-cn',
-          },
+            lang: 'zh-cn'
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res && res.data && res.data.data && res.data.status === '000') {
             const result: any[] = res.data.data;
 
@@ -347,48 +349,48 @@ export const actions = {
               h5: {
                 show: false,
                 uri: '',
-                bundleID: '',
+                bundleID: ''
               },
               pwa: {
                 show: false,
                 uri: '',
-                bundleID: '',
+                bundleID: ''
               },
               hide: {
                 show: false,
                 uri: '',
-                bundleID: '',
+                bundleID: ''
               },
               ios: {
                 show: false,
                 uri: '',
-                bundleID: '',
+                bundleID: ''
               },
               android: {
                 show: false,
                 uri: '',
-                bundleID: '',
-              },
+                bundleID: ''
+              }
             };
             downloadConfig.ios.show =
-              result.find((i) => {
+              result.find(i => {
                 return i.name === 'showIPADownload';
               }).value === 'true';
 
-            downloadConfig.ios.bundleID = result.find((item) => {
+            downloadConfig.ios.bundleID = result.find(item => {
               return item.name === 'bbosApiIOSBundleID';
             }).value;
 
             downloadConfig.pwa.show =
-              result.find((item) => {
+              result.find(item => {
                 return item.name === 'showPWADownload';
               }).value === 'true';
 
-            downloadConfig.pwa.bundleID = result.find((item) => {
+            downloadConfig.pwa.bundleID = result.find(item => {
               return item.name === 'bbosApiPWABundleID';
             }).value;
 
-            const showVisit = (downloadConfig.h5.show = result.find((item) => {
+            const showVisit = (downloadConfig.h5.show = result.find(item => {
               return item.name === 'showVisit';
             }));
 
@@ -397,27 +399,27 @@ export const actions = {
             }
 
             downloadConfig.android.show =
-              result.find((item) => {
+              result.find(item => {
                 return item.name === 'showAPKDownload';
               }).value === 'true';
 
-            downloadConfig.android.bundleID = result.find((item) => {
+            downloadConfig.android.bundleID = result.find(item => {
               return item.name === 'bbosApiAndBundleID';
             }).value;
 
             downloadConfig.hide.show =
-              result.find((item) => {
+              result.find(item => {
                 return item.name === 'showStoreDownload';
               }).value === 'true';
 
-            downloadConfig.hide.bundleID = result.find((item) => {
+            downloadConfig.hide.bundleID = result.find(item => {
               return item.name === 'bbosApiMajaLink';
             }).value;
 
             commit(Types.SET_DOWNLOAD_CONIFG, downloadConfig);
           }
         })
-        .catch((err) => {
+        .catch(err => {
           const response = err && err.response;
           console.log(err);
           return response;
@@ -507,7 +509,7 @@ export const actions = {
       return;
     }
     // gtag
-    Object.keys(gTagList).some((key) => {
+    Object.keys(gTagList).some(key => {
       if (key === state.siteConfig.routerTpl) {
         const gtagItem: IGTagItem = gTagList[key];
         window.SENT_GTAG(gtagItem[eventType]);
@@ -516,7 +518,7 @@ export const actions = {
     });
 
     // ym
-    Object.keys(aplusQueueList).some((key) => {
+    Object.keys(aplusQueueList).some(key => {
       if (key === state.siteConfig.routerTpl) {
         const aplusQueueItem: IAplusQueueItem = aplusQueueList[key];
         window.SENT_YM(aplusQueueItem[eventType]);
@@ -540,22 +542,22 @@ export const actions = {
       .put(
         `${state.siteConfig.channelApiDomain}/cxbb/AgentChannel/AgentDeviceInfo`,
         {
-          rsa: bufString,
+          rsa: bufString
         },
         {
           headers: {
             'x-domain': state.siteConfig.domain,
             kind: 'h',
-            'Content-Type': 'application/json',
-          },
+            'Content-Type': 'application/json'
+          }
         }
       )
-      .then((res) => {
+      .then(res => {
         const result: IAgentChannel = {
           uuid: '',
           channelid: 0,
           code: '',
-          appkey: state.siteConfig.domain,
+          appkey: state.siteConfig.domain
         };
 
         if (res && res.data && res.data.data && res.data.status === '000') {
@@ -570,9 +572,9 @@ export const actions = {
 
         commit(Types.SET_AGENT_CHANNEL, result);
       })
-      .catch((err) => {
+      .catch(err => {
         const response = err && err.response;
         return response;
       });
-  },
+  }
 };
