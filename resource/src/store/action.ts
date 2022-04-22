@@ -241,7 +241,9 @@ export const actions = {
     if (agentChannel && params.platform === '2') {
       return axios({
         method: 'post',
-        url: `${state.siteConfig.channelApiDomain}/cxbb/AgentChannel/getMobileConfig`,
+        url: `${state.siteConfig.channelApiDomain}/cxbb/AgentChannel/getMobileConfig${
+          state.siteConfig.prod ? '' : 'V2'
+        }`,
         responseType: 'blob',
         headers: {
           'x-domain': state.siteConfig.domain,
