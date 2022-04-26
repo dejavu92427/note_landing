@@ -250,7 +250,7 @@ export const actions = {
           kind: 'h'
         },
         data: {
-          lang: 'zh-cn',
+          lang: navigator.language || navigator.userLanguage,
           bundleID: params.bundleID,
           platform: params.platform,
           channelid: +agentChannel.channelid,
