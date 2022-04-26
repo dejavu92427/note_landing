@@ -29,7 +29,7 @@ declare global {
 export const actions = {
   // 網站初始化
   // /conf/domain nginx proxy
-  initSiteInfo({ commit, dispatch }: { commit: Function; dispatch: Function }): any {
+  initSiteInfo({ commit }: { commit: Function; dispatch: Function }): any {
     return axios
       .get('/conf/domain')
       .then(res => {
@@ -138,11 +138,11 @@ export const actions = {
       url: `${state.siteConfig.golangApiDomain}/xbb/Player`,
       headers: {
         'x-domain': state.siteConfig.domain,
-        kind: 'h'
+        kind: 'h',
       },
       params: {
-        lang: 'zh-cn'
-      }
+        lang: 'zh-cn',
+      },
     })
       .then(res => {
         const result = res.data.data;
@@ -172,13 +172,13 @@ export const actions = {
       .get(`${state.siteConfig.golangApiDomain}/xbb/Domain/Hostnames/V2`, {
         headers: {
           'x-domain': state.siteConfig.domain,
-          kind: 'h'
+          kind: 'h',
         },
         params: {
           lang: 'zh-cn',
           clientType: clientType,
-          withLevelHostname: true
-        }
+          withLevelHostname: true,
+        },
       })
       .then(res => {
         if (res && res.data && res.data.data && res.data.status === '000') {
@@ -197,11 +197,11 @@ export const actions = {
       .get(`${state.siteConfig.golangApiDomain}/xbb/Common/List`, {
         headers: {
           'x-domain': state.siteConfig.domain,
-          kind: 'h'
+          kind: 'h',
         },
         params: {
-          lang: 'zh-cn'
-        }
+          lang: 'zh-cn',
+        },
       })
       .then(res => {
         if (res && res.data && res.data.data && res.data.status === '000') {
@@ -224,11 +224,11 @@ export const actions = {
       url: `${state.siteConfig.channelApiDomain}/cxbb/AgentChannel/setDownload`,
       headers: {
         'x-domain': state.siteConfig.domain,
-        kind: 'h'
+        kind: 'h',
       },
       data: {
-        rsa: bufString
-      }
+        rsa: bufString,
+      },
     }).catch(err => {
       console.log(err);
     });
@@ -247,7 +247,7 @@ export const actions = {
         responseType: 'blob',
         headers: {
           'x-domain': state.siteConfig.domain,
-          kind: 'h'
+          kind: 'h',
         },
         data: {
           lang: navigator.language,
@@ -255,8 +255,8 @@ export const actions = {
           platform: params.platform,
           channelid: +agentChannel.channelid,
           uuid: agentChannel.uuid,
-          code: agentChannel.code
-        }
+          code: agentChannel.code,
+        },
       })
         .then(res => {
           const url = window.URL.createObjectURL(new Blob([res.data]));
@@ -283,19 +283,19 @@ export const actions = {
         });
     }
 
-    let download_link = state.siteConfig.prod ? '/xbb/App/Download' : '/xbb/Service/In/App/Download/V2';
+    const downloadLink = state.siteConfig.prod ? '/xbb/App/Download' : '/xbb/Service/In/App/Download/V2';
 
     return axios
-      .get(state.siteConfig.golangApiDomain + download_link, {
+      .get(`${state.siteConfig.golangApiDomain}/${downloadLink}`, {
         headers: {
           'x-domain': state.siteConfig.domain,
-          kind: 'h'
+          kind: 'h',
         },
         params: {
           lang: 'zh-cn',
           bundleID: params.bundleID,
-          platform: params.platform
-        }
+          platform: params.platform,
+        },
       })
       .then(res => {
         if (res && res.data && res.data.data && res.data.status === '000') {
@@ -313,11 +313,11 @@ export const actions = {
       .get(`${state.siteConfig.golangApiDomain}/cxbb/System/clientDomain`, {
         headers: {
           'x-domain': state.siteConfig.domain,
-          kind: 'h'
+          kind: 'h',
         },
         params: {
-          lang: 'zh-cn'
-        }
+          lang: 'zh-cn',
+        },
       })
       .then(res => {
         if (res && res.data && res.data.data && res.data.status === '000') {
@@ -337,11 +337,11 @@ export const actions = {
         .get(`${state.siteConfig.golangApiDomain}/cxbb/System/config/${data}`, {
           headers: {
             'x-domain': state.siteConfig.domain,
-            kind: 'h'
+            kind: 'h',
           },
           params: {
-            lang: 'zh-cn'
-          }
+            lang: 'zh-cn',
+          },
         })
         .then(res => {
           if (res && res.data && res.data.data && res.data.status === '000') {
@@ -351,28 +351,28 @@ export const actions = {
               h5: {
                 show: false,
                 uri: '',
-                bundleID: ''
+                bundleID: '',
               },
               pwa: {
                 show: false,
                 uri: '',
-                bundleID: ''
+                bundleID: '',
               },
               hide: {
                 show: false,
                 uri: '',
-                bundleID: ''
+                bundleID: '',
               },
               ios: {
                 show: false,
                 uri: '',
-                bundleID: ''
+                bundleID: '',
               },
               android: {
                 show: false,
                 uri: '',
-                bundleID: ''
-              }
+                bundleID: '',
+              },
             };
             downloadConfig.ios.show =
               result.find(i => {
@@ -544,14 +544,14 @@ export const actions = {
       .put(
         `${state.siteConfig.channelApiDomain}/cxbb/AgentChannel/AgentDeviceInfo`,
         {
-          rsa: bufString
+          rsa: bufString,
         },
         {
           headers: {
             'x-domain': state.siteConfig.domain,
             kind: 'h',
-            'Content-Type': 'application/json'
-          }
+            'Content-Type': 'application/json',
+          },
         }
       )
       .then(res => {
@@ -559,7 +559,7 @@ export const actions = {
           uuid: '',
           channelid: 0,
           code: '',
-          appkey: state.siteConfig.domain
+          appkey: state.siteConfig.domain,
         };
 
         if (res && res.data && res.data.data && res.data.status === '000') {
@@ -578,5 +578,5 @@ export const actions = {
         const response = err && err.response;
         return response;
       });
-  }
+  },
 };
