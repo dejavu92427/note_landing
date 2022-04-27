@@ -294,7 +294,7 @@ export default class DownloadMixin extends Vue {
     this.initAppschema();
     this.setDownloadRSA(deviceInfoRSA);
 
-    const getDownloadUri = (platformType) => {
+    const getDownloadUri = platformType => {
       this.getDownloadUri({ bundleID: bundleID, platform: platformType }).then((result: string) => {
         if (this.agentChannel && target.platform === 'pwa') {
           this.$nextTick(() => {
@@ -303,16 +303,31 @@ export default class DownloadMixin extends Vue {
           return;
         }
 
-        // vipsign app:android,ios
-        if (result && result.length > 0) {
-          const a = document.createElement('a');
-          a.href = result;
-          a.onclick = () => {
-            InitClipboardInfo(this.agentChannel);
-          };
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
+        const appendDownload = () => {
+          // vipsign app:android,ios
+          if (result && result.length > 0) {
+            const a = document.createElement('a');
+            a.href = result;
+            a.onclick = () => {
+              InitClipboardInfo(this.agentChannel);
+            };
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+          }
+        };
+
+        if (platform === '3') {
+          const newWindow = window.open(this.androidSchemaUri, '_blank');
+          console.log(newWindow);
+          setTimeout(() => {
+            if (newWindow) {
+              newWindow.close();
+            }
+            appendDownload();
+          }, 1000);
+        } else {
+          appendDownload();
         }
       });
     };
@@ -365,17 +380,7 @@ export default class DownloadMixin extends Vue {
       case 'android':
         {
           platform = '3';
-
-          setTimeout(function () {
-            getDownloadUri(platform);
-          }, 500);
-          const newWindow = window.open(this.androidSchemaUri, '_blank');
-
-          setTimeout(() => {
-            if (newWindow) {
-              newWindow.close();
-            }
-          }, 1000);
+          getDownloadUri(platform);
 
           // document.getElementById('startApp')?.click();
         }
