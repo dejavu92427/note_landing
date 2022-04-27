@@ -283,7 +283,7 @@ export const actions = {
         });
     }
 
-    const downloadLink = state.siteConfig.prod ? '/xbb/App/Download' : '/xbb/Service/In/App/Download/V2';
+    const downloadLink = state.siteConfig.prod ? 'xbb/App/Download' : 'xbb/Service/In/App/Download/V2';
 
     return axios
       .get(`${state.siteConfig.golangApiDomain}/${downloadLink}`, {
