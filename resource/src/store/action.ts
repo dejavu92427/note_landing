@@ -29,14 +29,15 @@ declare global {
 export const actions = {
   // 網站初始化
   // /conf/domain nginx proxy
-  //1.取得domain並對應到site.config.json的資料去設定 SET_CDN，SET_SITE_CONFIG，網站標題，icon
-  initSiteInfo: ({ commit }: { commit: Function; dispatch: Function }) => {
+  initSiteInfo({ commit }: { commit: Function; dispatch: Function }): any {
+    //1.取得domain並對應到site.config.json的資料去設定 SET_CDN，SET_SITE_CONFIG，網站標題，icon
+
     return axios
-      .get('conf/domain')
-      .then((res) => {
+      .get('/conf/domain')
+      .then(res => {
         if (res && res.data && res.status === 200) {
           const result = res.data;
-          const targetSite = sitConfigJson.find((i) => i.DOMAIN === result.domain);
+          const targetSite = sitConfigJson.find(i => i.DOMAIN === result.domain);
           if (targetSite) {
             commit(Types.SET_SITE_CONFIG, targetSite);
 
@@ -89,10 +90,45 @@ export const actions = {
           return;
         }
       })
-      .catch((err) => {
-        alert('domain error');
-        console.log(err);
-        window.location.href = '/404';
+      .catch(err => {
+        console.log({ ...err });
+
+        const retryWrapper = (axios, options) => {
+          const maxTime = options.retryTime;
+          // const retry_status_code = options.retry_status_code;
+
+          let counter = 0;
+          axios.interceptors.response.use(null, error => {
+            /** @type {import("axios").AxiosRequestConfig} */
+            const config = error.config;
+            if (counter < maxTime && error.isAxiosError) {
+              counter++;
+              return new Promise(resolve => {
+                resolve(axios(config));
+              });
+            }
+            return Promise.reject(error);
+          });
+        };
+
+        async function main() {
+          try {
+            retryWrapper(axios, { retryTime: 3 });
+            await axios.get('/conf/domain').then(() => {
+              window.location.reload();
+            });
+          } catch {
+            alert('网路连线异常,请尝试重新连线');
+            window.location.reload();
+          }
+        }
+        if (err.isAxiosError) {
+          setTimeout(() => {
+            console.log('retry0');
+            main();
+            console.log('retry1');
+          }, 500);
+        }
       });
   },
 
@@ -102,18 +138,18 @@ export const actions = {
       url: `${state.siteConfig.golangApiDomain}/xbb/Player`,
       headers: {
         'x-domain': state.siteConfig.domain,
-        kind: 'h',
+        kind: 'h'
       },
       params: {
-        lang: 'zh-cn',
-      },
+        lang: 'zh-cn'
+      }
     })
-      .then((res) => {
+      .then(res => {
         const result = res.data.data;
         commit(Types.SET_MEM_INFO, result);
         return res;
       })
-      .catch((err) => {
+      .catch(err => {
         const response = err && err.response;
         console.log(err);
         return response;
@@ -136,21 +172,21 @@ export const actions = {
       .get(`${state.siteConfig.golangApiDomain}/xbb/Domain/Hostnames/V2`, {
         headers: {
           'x-domain': state.siteConfig.domain,
-          kind: 'h',
+          kind: 'h'
         },
         params: {
           lang: 'zh-cn',
           clientType: clientType,
-          withLevelHostname: true,
-        },
+          withLevelHostname: true
+        }
       })
-      .then((res) => {
+      .then(res => {
         if (res && res.data && res.data.data && res.data.status === '000') {
           const result = res.data.data;
           commit(Types.SET_HOSTNAME, { clientType: clientType, result: result });
         }
       })
-      .catch((err) => {
+      .catch(err => {
         const response = err && err.response;
         return response;
       });
@@ -161,19 +197,19 @@ export const actions = {
       .get(`${state.siteConfig.golangApiDomain}/xbb/Common/List`, {
         headers: {
           'x-domain': state.siteConfig.domain,
-          kind: 'h',
+          kind: 'h'
         },
         params: {
-          lang: 'zh-cn',
-        },
+          lang: 'zh-cn'
+        }
       })
-      .then((res) => {
+      .then(res => {
         if (res && res.data && res.data.data && res.data.status === '000') {
           const result = res.data.data;
           commit(Types.SET_COMMON_LIST, result);
         }
       })
-      .catch((err) => {
+      .catch(err => {
         const response = err && err.response;
         return response;
       });
@@ -189,12 +225,12 @@ export const actions = {
       url: `${state.siteConfig.channelApiDomain}/cxbb/AgentChannel/setDownload`,
       headers: {
         'x-domain': state.siteConfig.domain,
-        kind: 'h',
+        kind: 'h'
       },
       data: {
-        rsa: bufString,
-      },
-    }).catch((err) => {
+        rsa: bufString
+      }
+    }).catch(err => {
       console.log(err);
     });
   },
@@ -207,22 +243,24 @@ export const actions = {
       //把api的回應放入一個a連結，js操控click觸發連結，下載檔案(沒有實際appendchild，形成按下急速版下載，就下載的假象)
       return axios({
         method: 'post',
-        url: `${state.siteConfig.channelApiDomain}/cxbb/AgentChannel/getMobileConfig`,
+        url: `${state.siteConfig.channelApiDomain}/cxbb/AgentChannel/getMobileConfig${
+          state.siteConfig.prod ? '' : 'V2'
+        }`,
         responseType: 'blob',
         headers: {
           'x-domain': state.siteConfig.domain,
-          kind: 'h',
+          kind: 'h'
         },
         data: {
-          lang: 'zh-cn',
+          lang: navigator.language,
           bundleID: params.bundleID,
           platform: params.platform,
           channelid: +agentChannel.channelid,
           uuid: agentChannel.uuid,
-          code: agentChannel.code,
-        },
+          code: agentChannel.code
+        }
       })
-        .then((res) => {
+        .then(res => {
           const url = window.URL.createObjectURL(new Blob([res.data])); //#blob:http://localhost:8880/1fa557c3-56c4-4c67-8680-21cfcae55420
           //1.new Blob(array,option) array為buffer[](上述提到的octet-stream為此格式),option{type: 定義資料的MIME格式
           //2.window.URL.createObjectURL(Blob)產生blob url (以靜態(存在瀏覽器)方式佔用內存，並可供下訪問下載)
@@ -244,30 +282,32 @@ export const actions = {
 
           return Promise.resolve('agentPWA'); //回傳promise狀態為完成的物件 Promise{<fulfilled> 'agentPWA'}
         })
-        .catch((err) => {
+        .catch(err => {
           const response = err && err.response;
           return response;
         });
     }
 
+    const downloadLink = state.siteConfig.prod ? 'xbb/App/Download' : 'xbb/Service/In/App/Download/V2';
+
     return axios //ios/android app 下載 取得 .mobileconfig / .apk
-      .get(`${state.siteConfig.golangApiDomain}/xbb/App/Download`, {
+      .get(`${state.siteConfig.golangApiDomain}/${downloadLink}`, {
         headers: {
           'x-domain': state.siteConfig.domain,
-          kind: 'h',
+          kind: 'h'
         },
         params: {
           lang: 'zh-cn',
           bundleID: params.bundleID,
-          platform: params.platform,
-        },
+          platform: params.platform
+        }
       })
-      .then((res) => {
+      .then(res => {
         if (res && res.data && res.data.data && res.data.status === '000') {
           return res.data.data.url;
         }
       })
-      .catch((err) => {
+      .catch(err => {
         const response = err && err.response;
         return response;
       });
@@ -278,19 +318,19 @@ export const actions = {
       .get(`${state.siteConfig.golangApiDomain}/cxbb/System/clientDomain`, {
         headers: {
           'x-domain': state.siteConfig.domain,
-          kind: 'h',
+          kind: 'h'
         },
         params: {
-          lang: 'zh-cn',
-        },
+          lang: 'zh-cn'
+        }
       })
-      .then((res) => {
+      .then(res => {
         if (res && res.data && res.data.data && res.data.status === '000') {
           const result = res.data?.data[0]?.value || '';
           commit(Types.SET_CLIENTDOMIAN, result);
         }
       })
-      .catch((err) => {
+      .catch(err => {
         const response = err && err.response;
         return response;
       });
@@ -302,13 +342,13 @@ export const actions = {
         .get(`${state.siteConfig.golangApiDomain}/cxbb/System/config/${data}`, {
           headers: {
             'x-domain': state.siteConfig.domain,
-            kind: 'h',
+            kind: 'h'
           },
           params: {
-            lang: 'zh-cn',
-          },
+            lang: 'zh-cn'
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res && res.data && res.data.data && res.data.status === '000') {
             const result: any[] = res.data.data;
 
@@ -316,48 +356,48 @@ export const actions = {
               h5: {
                 show: false,
                 uri: '',
-                bundleID: '',
+                bundleID: ''
               },
               pwa: {
                 show: false,
                 uri: '',
-                bundleID: '',
+                bundleID: ''
               },
               hide: {
                 show: false,
                 uri: '',
-                bundleID: '',
+                bundleID: ''
               },
               ios: {
                 show: false,
                 uri: '',
-                bundleID: '',
+                bundleID: ''
               },
               android: {
                 show: false,
                 uri: '',
-                bundleID: '',
-              },
+                bundleID: ''
+              }
             };
             downloadConfig.ios.show =
-              result.find((i) => {
+              result.find(i => {
                 return i.name === 'showIPADownload';
               }).value === 'true';
 
-            downloadConfig.ios.bundleID = result.find((item) => {
+            downloadConfig.ios.bundleID = result.find(item => {
               return item.name === 'bbosApiIOSBundleID';
             }).value;
 
             downloadConfig.pwa.show =
-              result.find((item) => {
+              result.find(item => {
                 return item.name === 'showPWADownload';
               }).value === 'true';
 
-            downloadConfig.pwa.bundleID = result.find((item) => {
+            downloadConfig.pwa.bundleID = result.find(item => {
               return item.name === 'bbosApiPWABundleID';
             }).value;
 
-            const showVisit = (downloadConfig.h5.show = result.find((item) => {
+            const showVisit = (downloadConfig.h5.show = result.find(item => {
               return item.name === 'showVisit';
             }));
 
@@ -366,27 +406,27 @@ export const actions = {
             }
 
             downloadConfig.android.show =
-              result.find((item) => {
+              result.find(item => {
                 return item.name === 'showAPKDownload';
               }).value === 'true';
 
-            downloadConfig.android.bundleID = result.find((item) => {
+            downloadConfig.android.bundleID = result.find(item => {
               return item.name === 'bbosApiAndBundleID';
             }).value;
 
             downloadConfig.hide.show =
-              result.find((item) => {
+              result.find(item => {
                 return item.name === 'showStoreDownload';
               }).value === 'true';
 
-            downloadConfig.hide.bundleID = result.find((item) => {
+            downloadConfig.hide.bundleID = result.find(item => {
               return item.name === 'bbosApiMajaLink';
             }).value;
 
             commit(Types.SET_DOWNLOAD_CONIFG, downloadConfig);
           }
         })
-        .catch((err) => {
+        .catch(err => {
           const response = err && err.response;
           console.log(err);
           return response;
@@ -402,7 +442,9 @@ export const actions = {
       case 'clientService':
         if (state.clientDomain) {
           window.location.href = `${
-            state.clientDomain.startsWith('http') ? `${state.clientDomain}/custom/service` : `https://${state.clientDomain}/custom/service`
+            state.clientDomain.startsWith('http')
+              ? `${state.clientDomain}/custom/service`
+              : `https://${state.clientDomain}/custom/service`
           }`;
         }
         break;
@@ -474,7 +516,7 @@ export const actions = {
       return;
     }
     // gtag
-    Object.keys(gTagList).some((key) => {
+    Object.keys(gTagList).some(key => {
       if (key === state.siteConfig.routerTpl) {
         const gtagItem: IGTagItem = gTagList[key];
         window.SENT_GTAG(gtagItem[eventType]);
@@ -483,7 +525,7 @@ export const actions = {
     });
 
     // ym
-    Object.keys(aplusQueueList).some((key) => {
+    Object.keys(aplusQueueList).some(key => {
       if (key === state.siteConfig.routerTpl) {
         const aplusQueueItem: IAplusQueueItem = aplusQueueList[key];
         window.SENT_YM(aplusQueueItem[eventType]);
@@ -507,22 +549,22 @@ export const actions = {
       .put(
         `${state.siteConfig.channelApiDomain}/cxbb/AgentChannel/AgentDeviceInfo`,
         {
-          rsa: bufString,
+          rsa: bufString
         },
         {
           headers: {
             'x-domain': state.siteConfig.domain,
             kind: 'h',
-            'Content-Type': 'application/json',
-          },
+            'Content-Type': 'application/json'
+          }
         }
       )
-      .then((res) => {
+      .then(res => {
         const result: IAgentChannel = {
           uuid: '',
           channelid: 0,
           code: '',
-          appkey: state.siteConfig.domain,
+          appkey: state.siteConfig.domain
         };
 
         if (res && res.data && res.data.data && res.data.status === '000') {
@@ -537,9 +579,9 @@ export const actions = {
 
         commit(Types.SET_AGENT_CHANNEL, result);
       })
-      .catch((err) => {
+      .catch(err => {
         const response = err && err.response;
         return response;
       });
-  },
+  }
 };

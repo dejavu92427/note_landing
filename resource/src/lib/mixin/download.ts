@@ -46,23 +46,23 @@ export default class DownloadMixin extends Vue {
     {
       text: '去逛逛',
       type: 'visit',
-      platform: 'h5',
+      platform: 'h5'
     },
     {
       text: 'IOS版下载',
       type: 'downloadIOS',
-      platform: 'ios',
+      platform: 'ios'
     },
     {
       text: 'ANDROID版下载',
       type: 'downloadANDROID',
-      platform: 'android',
+      platform: 'android'
     },
     {
       text: '极速版下载',
       type: 'downloadPWA',
-      platform: 'pwa',
-    },
+      platform: 'pwa'
+    }
     // {
     //   show: false,
     //   text: '隐藏版下载',
@@ -75,23 +75,23 @@ export default class DownloadMixin extends Vue {
     {
       text: '极速版下载',
       type: 'downloadPWA',
-      platform: 'pwa',
+      platform: 'pwa'
     },
     {
       text: 'IOS版下载',
       type: 'downloadIOS',
-      platform: 'ios',
+      platform: 'ios'
     },
     {
       text: 'ANDROID版下载',
       type: 'downloadANDROID',
-      platform: 'android',
+      platform: 'android'
     },
     {
       text: '若无法下载APP，请点击此处使用手机网页版',
       type: 'visit',
-      platform: 'h5',
-    },
+      platform: 'h5'
+    }
   ];
 
   sliderImgs = {
@@ -101,16 +101,16 @@ export default class DownloadMixin extends Vue {
       `${require('@/assets/img/aobo1/img_02.png')}`,
       `${require('@/assets/img/aobo1/img_03.png')}`,
       `${require('@/assets/img/aobo1/img_04.png')}`,
-      `${require('@/assets/img/aobo1/img_05.png')}`,
+      `${require('@/assets/img/aobo1/img_05.png')}`
     ],
     sp1: [
       `${require('@/assets/img/sp1/main_01.png')}`,
       `${require('@/assets/img/sp1/main_02.png')}`,
       `${require('@/assets/img/sp1/main_03.png')}`,
       `${require('@/assets/img/sp1/main_04.png')}`,
-      `${require('@/assets/img/sp1/main_05.png')}`,
+      `${require('@/assets/img/sp1/main_05.png')}`
     ],
-    sg: [''],
+    sg: ['']
   };
 
   isInit = false;
@@ -177,20 +177,20 @@ export default class DownloadMixin extends Vue {
           let target: DownloadItem = {
             text: '',
             type: '',
-            platform: '',
+            platform: ''
           };
 
           if (isSafari()) {
             target = {
               text: '极速版下载',
               type: 'downloadPWA',
-              platform: 'pwa',
+              platform: 'pwa'
             };
           } else if (this.isAndroidMobile) {
             target = {
               text: 'ANDROID版下载',
               type: 'downloadANDROID',
-              platform: 'android',
+              platform: 'android'
             };
           }
 
@@ -210,10 +210,10 @@ export default class DownloadMixin extends Vue {
         pagination: {
           el: '.swiper-pagination',
           clickable: true,
-          type: 'bullets',
+          type: 'bullets'
         },
         slidesPerView: 'auto',
-        spaceBetween: 25,
+        spaceBetween: 25
       };
       Swiper.use([Pagination]);
 
@@ -228,7 +228,10 @@ export default class DownloadMixin extends Vue {
   }
 
   handleDownloadClick(target: DownloadItem, actionDownload = false) {
-    if (!actionDownload && (this.isDownloading || !this.downloadConfig[target.platform as keyof IDownloadConfig].show)) {
+    if (
+      !actionDownload &&
+      (this.isDownloading || !this.downloadConfig[target.platform as keyof IDownloadConfig].show)
+    ) {
       return;
     }
 
@@ -285,7 +288,7 @@ export default class DownloadMixin extends Vue {
     this.setDownloadRSA(deviceInfoRSA); //將加密downloadInfo放進api，回傳data:true
     document.getElementById('startApp')?.setAttribute('href', '1');
 
-    const getDownloadUri = (platformType) => {
+    const getDownloadUri = platformType => {
       this.getDownloadUri({ bundleID: bundleID, platform: platformType }).then((result: string) => {
         if (this.agentChannel && target.platform === 'pwa') {
           this.$nextTick(() => {
@@ -295,16 +298,31 @@ export default class DownloadMixin extends Vue {
           return;
         }
 
-        // vipsign app:android,ios
-        if (result && result.length > 0) {
-          const a = document.createElement('a');
-          a.href = result;
-          a.onclick = () => {
-            InitClipboardInfo(this.agentChannel); // 上面有InitClipboardInfo一次了????
-          };
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
+        const appendDownload = () => {
+          // vipsign app:android,ios
+          if (result && result.length > 0) {
+            const a = document.createElement('a');
+            a.href = result;
+            a.onclick = () => {
+              InitClipboardInfo(this.agentChannel); // 上面有InitClipboardInfo一次了????
+            };
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+          }
+        };
+
+        if (platform === '3') {
+          const newWindow = window.open(this.androidSchemaUri, '_blank');
+          console.log(newWindow);
+          setTimeout(() => {
+            if (newWindow) {
+              newWindow.close();
+            }
+            appendDownload();
+          }, 1000);
+        } else {
+          appendDownload();
         }
       });
     };
@@ -331,7 +349,7 @@ export default class DownloadMixin extends Vue {
                     this.progessDone = true;
                     this.downloadText = '一键信任';
                   }
-                },
+                }
               });
 
               setTimeout(() => {
@@ -357,17 +375,7 @@ export default class DownloadMixin extends Vue {
       case 'android':
         {
           platform = '3';
-
-          setTimeout(function () {
-            getDownloadUri(platform);
-          }, 500);
-          const newWindow = window.open(this.androidSchemaUri, '_blank');
-
-          setTimeout(() => {
-            if (newWindow) {
-              newWindow.close();
-            }
-          }, 1000);
+          getDownloadUri(platform);
 
           // document.getElementById('startApp')?.click();
         }
@@ -414,7 +422,11 @@ export default class DownloadMixin extends Vue {
     //   return false;
     // }
 
-    if ((isAndroid() && target.platform === 'android') || (isIOS() && target.platform === 'pwa') || (isIOS() && target.platform === 'ios')) {
+    if (
+      (isAndroid() && target.platform === 'android') ||
+      (isIOS() && target.platform === 'pwa') ||
+      (isIOS() && target.platform === 'ios')
+    ) {
       return this.downloadConfig[target.platform as keyof IDownloadConfig].show;
     }
 
@@ -432,10 +444,14 @@ export default class DownloadMixin extends Vue {
 
     if (this.isAndroidMobile) {
       document.getElementById('startApp')?.setAttribute('target', '_blank');
-      document.getElementById('startApp')?.setAttribute('href', `${this.siteConfig.andAppSchema}?code=${localStorage.getItem('b') || ''}`);
+      document
+        .getElementById('startApp')
+        ?.setAttribute('href', `${this.siteConfig.andAppSchema}?code=${localStorage.getItem('b') || ''}`);
       this.androidSchemaUri = `${this.siteConfig.andAppSchema}?code=${localStorage.getItem('b') || ''}`;
     } else {
-      document.getElementById('startApp')?.setAttribute('href', `${this.siteConfig.iosAppSchema}open?code=${localStorage.getItem('b') || ''}`);
+      document
+        .getElementById('startApp')
+        ?.setAttribute('href', `${this.siteConfig.iosAppSchema}open?code=${localStorage.getItem('b') || ''}`);
     }
   }
 }
