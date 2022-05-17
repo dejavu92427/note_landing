@@ -170,8 +170,12 @@ export default class DownloadMixin extends Vue {
       // 2. 註冊裝置資訊uuid
       this.setAgentDeviceInfo({ data: this.deviceInfoEncrypted }).then(() => {
         this.isInit = true;
-
+        //1.把uuid,channelid,code,裝置資訊 轉成rsa
+        //2.axios.put /cxbb/AgentChannel/AgentDeviceInfo 把rsa帶進去
+        //目的是驗證帶入的資訊是否正確
+        //若沒有channelid，就沒有uuid
         if (localStorage.getItem('action') === 'download' || this.$route.query.action === 'download') {
+          //渠道包在開落地頁時會帶action=download，進落地頁會直接下載
           localStorage.removeItem('action');
 
           let target: DownloadItem = {
@@ -282,7 +286,7 @@ export default class DownloadMixin extends Vue {
   handleDownload(target: DownloadItem): void {
     const bundleID = this.downloadConfig[target.platform as keyof IDownloadConfig].bundleID; //as keyof IDownloadConfig 約束target.platform要為IDownloadConfig的key //#pwa,ios...
     const deviceInfoRSA = InitClipboardInfo(this.agentChannel); //1.回傳加密downloadInfo 2.download分類的物件轉成base64存進local('b) 3.剪貼簿複製<img>｜<a>標籤(帶base64Info資料)
-
+    //downloadInfo=/AgentDeviceInfo.res+appkey (agentChannel:{uuid:"",channelid:0,code:"",appkey:"500015")
     let platform = '';
     this.initAppschema();
     this.setDownloadRSA(deviceInfoRSA); //將加密downloadInfo放進api，回傳data:true

@@ -337,6 +337,7 @@ export const actions = {
   },
 
   getLCFSystemConfig({ state, commit }: { state: State; commit: Function }, data = 'lcf'): any {
+    //取得bundleID and 要不要顯示下載按鈕
     if (state && state.siteConfig && state.siteConfig.golangApiDomain) {
       return axios
         .get(`${state.siteConfig.golangApiDomain}/cxbb/System/config/${data}`, {

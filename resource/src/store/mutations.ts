@@ -8,7 +8,7 @@ export const mutations = {
   [Types.SET_SITE_CONFIG](state: State, payload: any) {
     let result: any = {};
     // ROUTER_TPL > routerTpl
-    Object.keys(payload).forEach((key) => {
+    Object.keys(payload).forEach(key => {
       result[camelCase(key)] = payload[key];
     });
 
@@ -30,8 +30,8 @@ export const mutations = {
   [Types.SET_COMMON_LIST](state: State, payload: any) {
     let result: any = {};
 
-    Object.keys(payload).forEach((key) => {
-      result[camelCase(key)] = payload[key];
+    Object.keys(payload).forEach(key => {
+      result[camelCase(key)] = payload[key]; //把call "api-v2/xbb/Common/List"的結果轉成駝峰式(cdn_domain -> cdnDomain)
     });
 
     state.commonList = result;
@@ -52,7 +52,7 @@ export const mutations = {
 
     const mapping = {
       0: 'visit',
-      13: 'visitPC',
+      13: 'visitPC'
     };
 
     if (!mapping[payload.clientType]) {
@@ -66,5 +66,5 @@ export const mutations = {
   },
   [Types.SET_AGENT_CHANNEL](state: State, payload: any) {
     state.agentChannel = payload;
-  },
+  }
 };
